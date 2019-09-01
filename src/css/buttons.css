@@ -1,0 +1,15 @@
+.accent-button {
+    background: var(--accent-color);
+    box-shadow: 0 0.5em 0.5em rgba(0, 0, 0, 0.25);
+    border-radius: 2em;
+    padding-left: 1em;
+    padding-right: 1em;
+    border-color: var(--accent-color);
+}
+
+.accent-button:hover, .accent-button:active, .accent-button.focus {
+    background: var(--accent-color-dark);
+    border-color: var(--accent-color-dark);
+    outline: none !important;
+    box-shadow: none;
+}
