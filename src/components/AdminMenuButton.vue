@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-row class="menu-button">
+        <b-row class="menu-button" v-bind:class="{ 'menu-button-active' : isActive}">
             <i class="material-icons icon md-24" >
                 {{ image }}
             </i>
@@ -10,12 +10,14 @@
 </template>
 
 <script>
+
     export default {
         name: "AdminMenuButton",
         props: {
             buttonText: String,
-            image : String
-        }
+            image : String,
+            isActive : Boolean
+        },
     }
 </script>
 
@@ -40,6 +42,11 @@
     }
 
     .menu-button:hover {
+        background-color: #212121;
+        border-radius: 1em;
+    }
+
+    .menu-button-active {
         background-color: #212121;
         border-radius: 1em;
     }

@@ -1,29 +1,31 @@
 import Vue from 'vue'
 import BootstrapVue from 'bootstrap-vue'
 import VueRouter from 'vue-router'
-//import VueFire from 'vuefire'
 import firebase from "firebase/app";
 import VueMaterial from 'vue-material'
-import 'vue-material/dist/vue-material.min.css'
 
+import 'vue-material/dist/vue-material.min.css'
+import 'vue-material/dist/theme/default-dark.css' // This line here
 import 'firebase/firestore'
 import 'firebase/storage'
 import 'firebase/auth'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 import App from './App.vue'
 import LandingMain from "@/components/LandingMain";
 import AdminTeams from "@/components/AdminTeams";
 import AdminAuth from "@/components/AdminAuth";
+import AdminTeamAddEdit from "@/components/AdminTeamAddEdit";
 
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
+
 
 Vue.config.productionTip = false;
 
 Vue.use(BootstrapVue);
 Vue.use(VueRouter);
 Vue.use(VueMaterial);
-//Vue.use(VueFire);
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyBA0i4H8m7xJA4QdjxjS0gfIojm4vnZ6fw",
@@ -41,7 +43,9 @@ const routes = [
   { path: '/', component: LandingMain },
   { path: '/admin/teams', component: AdminTeams },
   { path: '/auth', component: AdminAuth },
-  { path: '/admin', redirect: '/auth'}
+  { path: '/admin/teams/add', component: AdminTeamAddEdit },
+  { path: '/admin/teams/edit', component: AdminTeamAddEdit },
+  { path: '/admin', redirect: '/auth' }
 ];
 
 const router = new VueRouter({

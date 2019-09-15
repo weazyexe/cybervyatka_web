@@ -1,5 +1,5 @@
 <template>
-    <md-dialog class="team-dialog" :md-active.sync="showDialog">
+    <md-dialog class="team-dialog" :md-active.sync="showTeamDialog">
 
         <div class="horizontal-center">
             <b-row>
@@ -31,7 +31,7 @@
         </div>
 
         <md-dialog-actions>
-            <md-button class="md-primary dialog-button" @click="showDialog = false">OK</md-button>
+            <md-button class="md-primary dialog-button" @click="showTeamDialog = false">OK</md-button>
         </md-dialog-actions>
     </md-dialog>
 </template>
@@ -41,7 +41,7 @@
         name: "TeamModalWindow",
         props: {
             team: Object,
-            showDialog: Boolean
+            showTeamDialog: Boolean
         }
     }
 </script>
