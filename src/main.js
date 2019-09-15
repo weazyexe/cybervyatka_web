@@ -17,6 +17,7 @@ import LandingMain from "@/components/LandingMain";
 import AdminTeams from "@/components/AdminTeams";
 import AdminAuth from "@/components/AdminAuth";
 import AdminTeamAddEdit from "@/components/AdminTeamAddEdit";
+import LandingTeams from "@/components/LandingTeams";
 
 
 
@@ -28,35 +29,35 @@ Vue.use(VueMaterial);
 
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBA0i4H8m7xJA4QdjxjS0gfIojm4vnZ6fw",
-  authDomain: "cybervyatka.firebaseapp.com",
-  databaseURL: "https://cybervyatka.firebaseio.com",
-  projectId: "cybervyatka",
-  storageBucket: "cybervyatka.appspot.com",
-  messagingSenderId: "339048167856",
-  appId: "1:339048167856:web:bd592eefdae06bfe99fe75"
+    apiKey: "AIzaSyBA0i4H8m7xJA4QdjxjS0gfIojm4vnZ6fw",
+    authDomain: "cybervyatka.firebaseapp.com",
+    databaseURL: "https://cybervyatka.firebaseio.com",
+    projectId: "cybervyatka",
+    storageBucket: "cybervyatka.appspot.com",
+    messagingSenderId: "339048167856",
+    appId: "1:339048167856:web:bd592eefdae06bfe99fe75"
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
 const routes = [
-  { path: '/', component: LandingMain },
-  { path: '/admin/teams', component: AdminTeams },
-  { path: '/auth', component: AdminAuth },
-  { path: '/admin/teams/add', component: AdminTeamAddEdit },
-  { path: '/admin/teams/edit', component: AdminTeamAddEdit },
-  { path: '/admin', redirect: '/auth' }
+    { path: '/', component: LandingMain },
+    { path: '/admin/teams', component: AdminTeams },
+    { path: '/auth', component: AdminAuth },
+    { path: '/admin/teams/add', component: AdminTeamAddEdit },
+    { path: '/admin/teams/edit', component: AdminTeamAddEdit },
+    { path: '/teams', component: LandingTeams },
+    { path: '/admin', redirect: '/auth' }
 ];
 
 const router = new VueRouter({
-  routes: routes,
-  mode: 'history'
+    routes: routes,
+    mode: 'history'
 });
 
 firebase.auth().onAuthStateChanged(() => {
-  new Vue({
-    router,
-    render: h => h(App),
-  }).$mount('#app');
+    new Vue({
+        router,
+        render: h => h(App),
+    }).$mount('#app');
 });
-
