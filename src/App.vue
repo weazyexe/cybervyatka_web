@@ -52,13 +52,15 @@ export default {
     padding-top: 5em;
     margin-right: auto;
     margin-left: 20em;
+      padding-bottom: 2em;
   }
 
   .rect {
     background-color: #282828;
     border-radius: 1em;
     padding-top: 2em;
-    margin: 2em;
+    margin-left: 2em;
+    margin-right: 2em;
     box-shadow: 0 0.2em 1em rgba(0, 0, 0, 0.18);
   }
 

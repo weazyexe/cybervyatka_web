@@ -3,6 +3,8 @@ import BootstrapVue from 'bootstrap-vue'
 import VueRouter from 'vue-router'
 import firebase from "firebase/app";
 import VueMaterial from 'vue-material'
+import Vuelidate from 'vuelidate'
+
 
 import 'vue-material/dist/vue-material.min.css'
 import 'vue-material/dist/theme/default-dark.css' // This line here
@@ -26,6 +28,7 @@ Vue.config.productionTip = false;
 Vue.use(BootstrapVue);
 Vue.use(VueRouter);
 Vue.use(VueMaterial);
+Vue.use(Vuelidate)
 
 
 const firebaseConfig = {

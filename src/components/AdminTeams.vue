@@ -2,6 +2,7 @@
     <div class="container-fluid all">
 
         <team-modal-window v-bind:team="currentTeam" v-bind:show-team-dialog="showTeamDialog"></team-modal-window>
+        <admin-team-delete-dialog v-bind:team="currentTeam" v-bind:show-delete-dialog="showDeleteDialog" v-bind:on-confirm="onDeleteConfirm"></admin-team-delete-dialog>
 
         <router-link to="/admin/teams/add">
             <md-button class="md-fab md-primary add-fab">
@@ -98,17 +99,18 @@
     import firebase from 'firebase/app';
     import TeamModalWindow from "@/components/TeamModalWindow";
     import AdminTeamEntry from "@/components/AdminTeamEntry";
+    import AdminTeamDeleteDialog from "@/components/AdminTeamDeleteDialog";
 
     export default {
         name: "AdminTeams",
         components: {
+            AdminTeamDeleteDialog,
             AdminTeamEntry,
             TeamModalWindow,
             AdminMenuButton
         },
         created() {
             let db = firebase.firestore();
-            let storage = firebase.storage().ref();
 
             db.collection("teams").get().then((response) => {
 
@@ -117,33 +119,17 @@
 
                     if (team.logo == null) {
                         team.logo = "";
-
-                        if (team.status === 'REQUESTED') {
-                            this.requestedTeams.push(team);
-                        } else if (team.status === 'CONFIRMED') {
-                            this.confirmedTeams.push(team);
-                        } else {
-                            this.cancelledTeams.push(team);
-                        }
-
-                        this.teams.push(doc.data());
-                    } else {
-                        let ref = storage.child(team.logo);
-
-                        ref.getDownloadURL().then((url) => {
-                            team.logo = url;
-
-                            if (team.status === 'REQUESTED') {
-                                this.requestedTeams.push(team);
-                            } else if (team.status === 'CONFIRMED') {
-                                this.confirmedTeams.push(team);
-                            } else {
-                                this.cancelledTeams.push(team);
-                            }
-
-                            this.teams.push(doc.data());
-                        });
                     }
+
+                    if (team.status === 'REQUESTED') {
+                        this.requestedTeams.push(team);
+                    } else if (team.status === 'CONFIRMED') {
+                        this.confirmedTeams.push(team);
+                    } else {
+                        this.cancelledTeams.push(team);
+                    }
+
+                    this.teams.push(team);
                 });
             });
         },
@@ -171,11 +157,13 @@
             },
             editTeam(team) {
                 this.currentTeam = team;
-                this.$router.push({ path: '/admin/teams/edit',  query : { title: team.title, discipline: team.discipline } });
+                this.$router.push({ path: '/admin/teams/edit',  query : { uid: team.uid } });
             },
             deleteTeam(team) {
+                this.currentTeam = team;
+                this.showDeleteDialog = true;
                 // eslint-disable-next-line no-console
-                console.log(team);
+                console.log('delete');
             },
             confirmTeam(team) {
                 // eslint-disable-next-line no-console
@@ -184,6 +172,15 @@
             cancelTeam(team) {
                 // eslint-disable-next-line no-console
                 console.log(team);
+            },
+            onDeleteConfirm() {
+                this.showDeleteDialog = false;
+                let db = firebase.firestore();
+
+                db.doc("teams/" + this.currentTeam.uid).delete();
+                this.teams.filter((value) => {
+                    return value === this.currentTeam;
+                });
             }
         }
     }
