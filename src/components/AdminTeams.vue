@@ -1,8 +1,8 @@
 <template>
     <div class="container-fluid all">
 
-        <team-modal-window v-bind:team="currentTeam" v-bind:show-team-dialog="showTeamDialog"></team-modal-window>
-        <admin-team-delete-dialog v-bind:team="currentTeam" v-bind:show-delete-dialog="showDeleteDialog" v-bind:on-confirm="onDeleteConfirm"></admin-team-delete-dialog>
+        <team-modal-window v-bind:team="currentTeam" v-bind:show-team-dialog="showTeamDialog" v-bind:on-confirm="onShowConfirm"></team-modal-window>
+        <admin-team-delete-dialog v-bind:team="currentTeam" v-bind:show-delete-dialog="showDeleteDialog" v-bind:on-confirm="onDeleteConfirm" v-bind:on-cancel="onDeleteCancel"></admin-team-delete-dialog>
 
         <router-link to="/admin/teams/add">
             <md-button class="md-fab md-primary add-fab">
@@ -35,7 +35,10 @@
         <div class="right-side">
             <div class="content">
                 <template v-if="teams.length === 0">
-                    <md-progress-spinner class="main-color" md-mode="indeterminate"></md-progress-spinner>
+                    <b-container class="text-center">
+                        <md-progress-spinner class="main-color" md-mode="indeterminate"></md-progress-spinner>
+                    </b-container>
+
                 </template>
                 <template v-else>
                     <template v-if="requestedTeams.length !== 0">
@@ -154,6 +157,7 @@
             showInfo(team) {
                 this.currentTeam = team;
                 this.showTeamDialog = true;
+                this.showDeleteDialog = false;
             },
             editTeam(team) {
                 this.currentTeam = team;
@@ -162,25 +166,40 @@
             deleteTeam(team) {
                 this.currentTeam = team;
                 this.showDeleteDialog = true;
-                // eslint-disable-next-line no-console
-                console.log('delete');
+                this.showTeamDialog = false;
             },
             confirmTeam(team) {
-                // eslint-disable-next-line no-console
-                console.log(team);
+                let db = firebase.firestore();
+                team.status = 'CONFIRMED';
+                db.doc('teams/' + team.uid).update(team);
+
+                this.requestedTeams = this.requestedTeams.filter((it) => it !== team);
+                this.confirmedTeams.push(team);
             },
             cancelTeam(team) {
-                // eslint-disable-next-line no-console
-                console.log(team);
+                let db = firebase.firestore();
+                team.status = 'CANCELLED';
+                db.doc('teams/' + team.uid).update(team);
+
+                this.requestedTeams = this.requestedTeams.filter((it) => it !== team);
+                this.cancelledTeams.push(team);
             },
             onDeleteConfirm() {
                 this.showDeleteDialog = false;
                 let db = firebase.firestore();
 
                 db.doc("teams/" + this.currentTeam.uid).delete();
-                this.teams.filter((value) => {
-                    return value === this.currentTeam;
-                });
+
+                this.teams = this.teams.filter((it) => it !== this.currentTeam);
+                this.requestedTeams = this.requestedTeams.filter((it) => it !== this.currentTeam);
+                this.cancelledTeams = this.cancelledTeams.filter((it) => it !== this.currentTeam);
+                this.confirmedTeams = this.confirmedTeams.filter((it) => it !== this.currentTeam);
+            },
+            onDeleteCancel() {
+                this.showDeleteDialog = false;
+            },
+            onShowConfirm() {
+                this.showTeamDialog = false;
             }
         }
     }

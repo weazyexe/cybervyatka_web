@@ -1,11 +1,12 @@
 <template>
     <div>
         <md-dialog-confirm
-                :md-active.sync="showDeleteDialog"
+                :md-active="showDeleteDialog"
                 md-title="Удаление команды"
-                :md-content="'Вы уверены, что хотите удалить команду <strong class=\'negative\'>' + team.title + '</strong>?'"
+                :md-content="'Вы уверены, что хотите удалить команду <strong>' + team.title + '</strong>?'"
                 md-confirm-text='Да'
                 md-cancel-text="Нет"
+                @md-cancel="onCancel"
                 @md-confirm="onConfirm" />
     </div>
 </template>
@@ -15,13 +16,12 @@
         props: {
             team : Object,
             showDeleteDialog: Boolean,
-            onConfirm: Function
+            onConfirm: Function,
+            onCancel: Function
         }
     }
 </script>
 
 <style scoped>
-    .negative {
-        color: #ed5732;
-    }
+
 </style>

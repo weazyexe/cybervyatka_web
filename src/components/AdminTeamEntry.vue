@@ -67,6 +67,10 @@
          height: 4em;
      }
 
+    .team-logo:hover {
+        cursor: pointer;
+    }
+
     .team-text {
         color: #FFFFFF;
         font-size: 1.5em;
@@ -74,6 +78,7 @@
 
     .team-text:hover {
         color: #a8a8a8;
+        cursor: pointer;
     }
 
     .vertical-center {
@@ -87,13 +92,27 @@
         font-size: 1.5em;
     }
 
+    .game-text:hover {
+        cursor: pointer;
+    }
+
     .done-button {
         color: #7cbc62;
         font-weight: 700;
     }
 
+    .done-button:hover {
+        color: #588f48;
+        cursor: pointer;
+    }
+
     .cancel-button {
         color: #bd3221;
         font-weight: 700;
+    }
+
+    .cancel-button:hover {
+        color: #722011;
+        cursor: pointer;
     }
 </style>

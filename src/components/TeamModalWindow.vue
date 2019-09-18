@@ -31,7 +31,7 @@
         </div>
 
         <md-dialog-actions>
-            <md-button class="md-primary dialog-button" @click="showTeamDialog = false">OK</md-button>
+            <md-button class="md-primary dialog-button" @click="onConfirm">OK</md-button>
         </md-dialog-actions>
     </md-dialog>
 </template>
@@ -41,7 +41,8 @@
         name: "TeamModalWindow",
         props: {
             team: Object,
-            showTeamDialog: Boolean
+            showTeamDialog: Boolean,
+            onConfirm: Function
         }
     }
 </script>
