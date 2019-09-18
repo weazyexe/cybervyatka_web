@@ -1,20 +1,10 @@
 <template>
     <div>
-        <div class="field">
-            <b-navbar type="dark">
-                <b-navbar-brand>
-                    <img class="logo" src="../assets/logo_clear.png" alt="CV Logo">
-                </b-navbar-brand>
-                <b-navbar-nav class="ml-auto">
-                    <b-nav-item class="menu-item" to="/teams">Команды</b-nav-item> 
-                    <b-nav-item class="menu-item" href="#">Расписание</b-nav-item>
-                    <b-nav-item class="menu-item" href="#">Группы</b-nav-item>
-                    <b-nav-item class="menu-item" href="#">Плей-офф</b-nav-item>
-                    <b-nav-item class="menu-item" href="#">Прошлые сезоны</b-nav-item>
-                    <b-button class="menu-item accent-button shadow-none">Участвовать</b-button>
-                </b-navbar-nav>
-            </b-navbar>
 
+        <team-modal-window :team="currentTeam" :show-contacts="false" :on-confirm="onShowConfirm" :show-team-dialog="showTeamDialog"></team-modal-window>
+
+        <div class="field">
+            <landing-header></landing-header>
 
             <div>
                 <b-row class="header">
@@ -25,7 +15,6 @@
                             <md-option value="CSGO">CS:GO</md-option>
                             <md-option value="DOTA2">Dota 2</md-option>                     
                         </md-select>
-                        <!-- <span class="md-error" v-if="!validateTitle">Некорректный ввод</span> -->
                     </md-field>
                 </b-row>
 
@@ -36,26 +25,63 @@
             </div>
         </div>
 
-        <div class="all">
-        <div class="info">
-            <div class="content">
-               
-            </div>
-        </div>
-    </div>
-
+        <b-container fluid id="teams-content">
+            <b-row class="text-center">
+                <template v-for="(team, index) in teams">
+                    <template v-if="team.discipline === game">
+                        <div :key="index" class="team-button">
+                            <b-row @click="showTeam(team)">
+                                <img :src="team.logo" alt="team logo" class="team-logo rounded-circle">
+                                <p class="team-title">{{ team.title }}</p>
+                            </b-row>
+                        </div>
+                    </template>
+                </template>
+            </b-row>
+        </b-container>
     </div>
 
 </template>
 
 <script>
-export default {
-  name: 'LandingTeams',
-  data: function() {
-      return {
-          game : 'CSGO'
-      }
-  }
+
+    import firebase from 'firebase';
+    import TeamModalWindow from "@/components/TeamModalWindow";
+    import LandingHeader from "@/components/LandingHeader";
+
+    export default {
+
+        name: 'LandingTeams',
+        components: {LandingHeader, TeamModalWindow},
+        data: function() {
+            return {
+                game : 'CSGO',
+                teams : [],
+                showTeamDialog : false,
+                currentTeam : {}
+            }
+        },
+        created() {
+            let db = firebase.firestore();
+
+            db.collection("teams").get().then((response) => {
+
+                response.forEach((doc) => {
+                    let team = doc.data();
+
+                    if (team.status === 'CONFIRMED') this.teams.push(team);
+                });
+            });
+        },
+        methods: {
+            showTeam(team) {
+                this.currentTeam = team;
+                this.showTeamDialog = true;
+            },
+            onShowConfirm() {
+                this.showTeamDialog = false;
+            }
+        }
 }
 </script>
 
@@ -81,34 +107,10 @@ export default {
         margin-left: 0;
     }
 
-    .logos-evo {
-        width: 50%;
-    }
-
-    .content {
-        padding-left: 20%;
-        padding-right: 20%;
-    }
-
-    .description-text {
-        font-size: 1.5em;
-        color: #FFFFFF;
-        margin-bottom: 3.4em;
-    }
-
-    .info {
-        background: url("../assets/players_background.jpg") center no-repeat;
-        background-size: cover;
-        margin-top: -2em;
-    }
-
-    .accent-button-big {
-        font-size: 1.5em;
-    }
-
     .field {
         background: url("../assets/main_background.png") center no-repeat;
         background-size: cover;
+        max-height: 45em;
     }
 
     .prerect {
@@ -123,10 +125,11 @@ export default {
     .rectangle {
         background-color: #101010;
         min-width: 110%;
-        min-height: 20em;
+        min-height: 10em;
         transform: rotate(-3deg);
         margin-left: -7em;
         transform-origin: 103%;
+        z-index: 1;
     }
 
     .biggest-text {
@@ -138,58 +141,41 @@ export default {
         margin-left: 3.5em;
     }
 
-    .bigger-text {
-        color: #FFFFFF;
-        font-size: 1.5em;
-        text-align: center;
-        margin-left: auto;
-        margin-right: auto;
-        margin-bottom: 2em;
-    }
-
     :root {
         --accent-color-dark: #aa7d64;
         --accent-color: #D68956;
     }
 
-    .logo {
+    #teams-content {
+        background-color: #101010;
+        z-index: 2;
+        margin-top: -10em;
+        padding: 7em 5% 10% 8%;
+    }
+
+    .team-title {
+        color: #FFFFFF;
+        font-size: 1.5em;
+        margin-top: auto;
+        margin-left: 1em;
+    }
+
+    .team-logo {
         width: 4em;
         height: 4em;
-        margin-left: 3em;
-        margin-top: 1em;
+        margin-left: 1em;
     }
 
-    .menu-item {
-        margin-right: 3em;
-        color: #FFF !important;
+    .team-button {
+        margin-left: 5em;
+        width: 20em;
+        margin-bottom: 2em;
+        padding: 1em;
     }
 
-    .menu-item:hover {
-        color: #000;
-    }
-
-    .accent-button, .accent-button-big {
-        background: var(--accent-color);
-        box-shadow: 0 0.5em 0.5em rgba(0, 0, 0, 0.25);
-        border-radius: 2em;
-        padding-left: 1em;
-        padding-right: 1em;
-        border-color: var(--accent-color);
-    }
-
-    .accent-button:hover, .accent-button:active, .accent-button.focus,
-    .accent-button-big:hover, .accent-button-big:active, .accent-button-big:focus {
-        background: var(--accent-color-dark);
-        border-color: var(--accent-color-dark);
-        outline: none !important;
-        box-shadow: none;
-    }
-
-    .navbar-dark .navbar-nav .nav-link{
-        color:white !important
-    }
-
-    .navbar-dark:hover .navbar-nav:hover .nav-link:hover{
-        color: #bcbcbc !important
+    .team-button:hover {
+        cursor: pointer;
+        border-radius: 1em;
+        background-color: #303030;
     }
 </style>

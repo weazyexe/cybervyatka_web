@@ -1,19 +1,7 @@
 <template>
     <div>
         <div class="field">
-            <b-navbar type="dark">
-                <b-navbar-brand>
-                    <img class="logo" src="../assets/logo_clear.png" alt="CV Logo">
-                </b-navbar-brand>
-                <b-navbar-nav class="ml-auto">                 
-                    <b-nav-item class="menu-item" to="/teams">Команды</b-nav-item> 
-                    <b-nav-item class="menu-item" href="#">Расписание</b-nav-item>
-                    <b-nav-item class="menu-item" href="#">Группы</b-nav-item>
-                    <b-nav-item class="menu-item" href="#">Плей-офф</b-nav-item>
-                    <b-nav-item class="menu-item" href="#">Прошлые сезоны</b-nav-item>
-                    <b-button class="menu-item accent-button shadow-none">Участвовать</b-button>
-                </b-navbar-nav>
-            </b-navbar>
+            <landing-header></landing-header>
 
             <b-container>
                 <b-row>
@@ -58,8 +46,10 @@
 </template>
 
 <script>
+import LandingHeader from "@/components/LandingHeader";
 export default {
-  name: 'Header'
+  name: 'Header',
+    components: {LandingHeader}
 }
 </script>
 
@@ -139,13 +129,6 @@ export default {
         --accent-color: #D68956;
     }
 
-    .logo {
-        width: 4em;
-        height: 4em;
-        margin-left: 3em;
-        margin-top: 1em;
-    }
-
     .menu-item {
         margin-right: 3em;
         color: #FFF !important;
@@ -170,13 +153,5 @@ export default {
         border-color: var(--accent-color-dark);
         outline: none !important;
         box-shadow: none;
-    }
-
-    .navbar-dark .navbar-nav .nav-link{
-        color:white !important
-    }
-
-    .navbar-dark:hover .navbar-nav:hover .nav-link:hover{
-        color: #bcbcbc !important
     }
 </style>
