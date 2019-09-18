@@ -1,8 +1,8 @@
 <template>
     <div class="container-fluid all">
 
-        <team-modal-window v-bind:team="currentTeam" v-bind:show-team-dialog="showTeamDialog" v-bind:on-confirm="onShowConfirm"></team-modal-window>
-        <admin-team-delete-dialog v-bind:team="currentTeam" v-bind:show-delete-dialog="showDeleteDialog" v-bind:on-confirm="onDeleteConfirm" v-bind:on-cancel="onDeleteCancel"></admin-team-delete-dialog>
+        <team-modal-window :team="currentTeam" :show-team-dialog="showTeamDialog" :show-contacts="true" :on-confirm="onShowConfirm"></team-modal-window>
+        <admin-team-delete-dialog :team="currentTeam" :show-delete-dialog="showDeleteDialog" :on-confirm="onDeleteConfirm" :on-cancel="onDeleteCancel"></admin-team-delete-dialog>
 
         <router-link to="/admin/teams/add">
             <md-button class="md-fab md-primary add-fab">

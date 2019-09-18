@@ -41,9 +41,10 @@
                                             <img :src="team.logo" alt="team logo" class="team-logo rounded-circle img-fluid">
                                         </b-col>
                                         <b-col md="3">
-                                            <md-field>
+                                            <md-field :class="getValidationClass('logo')">
                                                 <label>Загрузить логотип</label>
-                                                <md-file @input="onSelectFile" ref="file" id="load-logo-button" v-model="team.logo" accept="image/jpeg,image/png" placeholder="Выберите изображение"/>
+                                                <md-file @input="onSelectFile" ref="file" id="load-logo-button" v-model="team.logo" accept="image/jpeg,image/png" placeholder="Выберите изображение" :disabled="sending"/>
+                                                <span class="md-error" v-if="!$v.team.logo.required">Логотип обязателен</span>
                                             </md-field>
                                         </b-col>
                                     </b-row>
@@ -94,6 +95,37 @@
                                                 <md-input name="loses" id="loses" v-model="team.loses" :disabled="sending"/>
                                                 <span id="loses-error" class="md-error" v-if="!$v.team.loses.required">Обязательное поле</span>
                                                 <span class="md-error" v-else-if="!$v.team.loses.maxLength">Че совсем что ли?</span>
+                                            </md-field>
+                                        </b-col>
+                                    </b-row>
+                                    <p id="contacts-header" class="rect-header">Контактные данные</p>
+                                    <b-row class="fields-row">
+                                        <b-col md="3">
+                                            <md-field class="field" :class="getValidationClass('email')">
+                                                <label for="email">E-mail</label>
+                                                <md-input name="email" id="email" v-model="team.contacts.email" :disabled="sending" />
+                                                <span class="md-error" v-if="!$v.team.contacts.email.email">Адрес электронной почты некорректен</span>
+                                                <span class="md-error" v-if="!$v.team.contacts.email.required">Адрес электронной почты обязателен</span>
+                                            </md-field>
+                                        </b-col>
+                                        <b-col md="3">
+                                            <md-field class="field" :class="getValidationClass('phone')">
+                                                <label for="phone">Номер телефона</label>
+                                                <md-input name="phone" id="phone" v-model="team.contacts.phone" :disabled="sending" />
+                                                <span class="md-error" v-if="!$v.team.contacts.phone.required">Номер телефона обязателен</span>
+                                            </md-field>
+                                        </b-col>
+                                        <b-col md="3">
+                                            <md-field class="field" :class="getValidationClass('vk')">
+                                                <label for="phone">Страница VK</label>
+                                                <md-input name="vk" id="vk" v-model="team.contacts.vk" :disabled="sending" />
+                                                <span class="md-error" v-if="!$v.team.contacts.vk.url">Некорректный URL</span>
+                                            </md-field>
+                                        </b-col>
+                                        <b-col md="3">
+                                            <md-field class="field" :class="getValidationClass('telegram')">
+                                                <label for="phone">Telegram</label>
+                                                <md-input name="telegram" id="telegram" v-model="team.contacts.telegram" :disabled="sending" />
                                             </md-field>
                                         </b-col>
                                     </b-row>
@@ -186,7 +218,9 @@
     import {
         required,
         minLength,
-        maxLength
+        maxLength,
+        url,
+        email
     } from 'vuelidate/lib/validators';
 
     export default {
@@ -209,7 +243,7 @@
                 this.$router.replace('/admin/teams/add');
 
                 let team = {};
-                let standins = [], players = [];
+                let standins = [], players = [],  contacts = { email: '', vk: '', phone: '', telegram: ''};
 
                 let len = 0;
 
@@ -226,6 +260,7 @@
 
                 team.standins = standins;
                 team.players = players;
+                team.contacts = contacts;
 
                 let date = Math.round(Date.now() / 1000);
                 team.uid = date.toString(16).toUpperCase();
@@ -239,6 +274,12 @@
                 db.doc("teams/" + uid).get().then((response) => {
 
                     let team = response.data();
+
+                    let contacts = { email: '', vk: '', phone: '', telegram: ''};
+
+                    if (!team.contacts) {
+                        team.contacts = contacts;
+                    }
 
                     if (team.logo == null) {
                         team.logo = "";
@@ -295,12 +336,19 @@
             },
             getValidationClass (fieldName) {
                 let field = this.$v.team[fieldName];
+                let fieldContacts = this.$v.team.contacts[fieldName];
 
-                if (!field) field = fieldName;
+                if (!field && !fieldContacts) field = fieldName;
 
                 if (field) {
                     return {
                         'md-invalid': field.$invalid && field.$dirty
+                    }
+                }
+
+                if (fieldContacts) {
+                    return {
+                        'md-invalid': fieldContacts.$invalid && fieldContacts.$dirty
                     }
                 }
             },
@@ -363,6 +411,9 @@
                 discipline: {
                     required
                 },
+                logo: {
+                    required
+                },
                 status: {
                     required
                 },
@@ -373,6 +424,18 @@
                 loses: {
                     required,
                     maxLength: maxLength(3)
+                },
+                contacts: {
+                    email: {
+                        required,
+                        email: email
+                    },
+                    phone: {
+                        required
+                    },
+                    vk: {
+                        url: url
+                    }
                 },
                 players: {
                     required,
@@ -481,5 +544,11 @@
 
     #add-edit-loader {
         padding-bottom: 1.5em;
+    }
+
+    #contacts-header {
+        margin-left: -1em;
+        margin-top: 2em;
+        margin-bottom: -2em;
     }
 </style>

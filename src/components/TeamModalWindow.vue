@@ -12,6 +12,16 @@
                     <p class="game-text-small" v-if="team.discipline === 'CSGO'">CS:GO</p>
                     <p class="game-text-small" v-else>Dota 2</p>
 
+                    <div v-if="showContacts" class="players-list">
+                        <p class="player-name">E-mail: <a :href="'mailto:' + team.contacts.email" target="_blank">{{ team.contacts.email }}</a></p>
+                        <p class="player-name">Телефон: <a :href="'callto:' + team.contacts.phone" target="_blank">{{ team.contacts.phone }}</a></p>
+                        <template v-if="team.contacts.vk !== ''">
+                            <p class="player-name">VK: <a :href="team.contacts.vk" target="_blank">{{ team.contacts.vk }}</a></p>
+                        </template>
+                        <template v-if="team.contacts.telegram !== ''">
+                            <p class="player-name">Telegram: <a :href="'https://teleg.one/' + team.contacts.telegram" target="_blank">{{ team.contacts.telegram }}</a></p>
+                        </template>
+                    </div>
 
                     <div class="players-list">
                         <p class="list-header">Игроки:</p>
@@ -42,7 +52,8 @@
         props: {
             team: Object,
             showTeamDialog: Boolean,
-            onConfirm: Function
+            onConfirm: Function,
+            showContacts : Boolean
         }
     }
 </script>
