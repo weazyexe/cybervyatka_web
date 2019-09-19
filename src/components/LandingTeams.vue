@@ -25,7 +25,7 @@
             </div>
         </div>
 
-        <b-container fluid id="teams-content">
+        <b-container fluid id="teams-content" :class="game === 'CSGO' ? 'csgo-back' : 'dota2-back'">
             <b-row class="text-center">
                 <template v-for="(team, index) in teams">
                     <template v-if="team.discipline === game">
@@ -178,4 +178,13 @@
         border-radius: 1em;
         background-color: #303030;
     }
+
+    .csgo-back {
+        background: url("../assets/csgo.svg") center no-repeat;
+    }
+
+    .dota2-back {
+        background: url("../assets/dota2.png") center no-repeat;
+    }
+
 </style>

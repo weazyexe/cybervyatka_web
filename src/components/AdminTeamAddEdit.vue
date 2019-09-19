@@ -1,28 +1,7 @@
 <template>
     <div class="container-fluid all">
 
-        <div class="hamburger-menu fixed-top">
-            <b-col class="horizontal-center" md="12">
-                <b-row>
-                    <img class="admin-menu-logo" src="../assets/logo_clear.png" alt="Logo">
-                </b-row>
-                <router-link to="/admin/teams">
-                    <admin-menu-button button-text="Команды" image="people" v-bind:is-active="true"></admin-menu-button>
-                </router-link>
-
-                <router-link to="/admin/games">
-                    <admin-menu-button button-text="Игры" image="play_arrow"></admin-menu-button>
-                </router-link>
-
-                <router-link to="/admin/groups">
-                    <admin-menu-button button-text="Групповой этап" image="grid_on"></admin-menu-button>
-                </router-link>
-
-                <router-link to="/admin/playoff">
-                    <admin-menu-button button-text="Плей-офф" image="call_split"></admin-menu-button>
-                </router-link>
-            </b-col>
-        </div>
+        <admin-menu :is-teams-active="true"></admin-menu>
         <div class="right-side">
             <div class="content">
                 <div class="rect">
@@ -212,7 +191,6 @@
 </template>
 
 <script>
-    import AdminMenuButton from "@/components/AdminMenuButton";
     import firebase from "firebase/app";
     import { validationMixin } from 'vuelidate';
     import {
@@ -222,12 +200,13 @@
         url,
         email
     } from 'vuelidate/lib/validators';
+    import AdminMenu from "@/components/AdminMenu";
 
     export default {
         name: "AdminTeamAddEdit",
         mixins: [validationMixin],
         components: {
-            AdminMenuButton
+            AdminMenu
         },
         data: function() {
             return {

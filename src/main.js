@@ -20,6 +20,8 @@ import AdminTeams from "@/components/AdminTeams";
 import AdminAuth from "@/components/AdminAuth";
 import AdminTeamAddEdit from "@/components/AdminTeamAddEdit";
 import LandingTeams from "@/components/LandingTeams";
+import AdminGames from "@/components/AdminGames";
+import AdminGameAddEdit from "@/components/AdminGameAddEdit";
 
 
 
@@ -28,7 +30,7 @@ Vue.config.productionTip = false;
 Vue.use(BootstrapVue);
 Vue.use(VueRouter);
 Vue.use(VueMaterial);
-Vue.use(Vuelidate)
+Vue.use(Vuelidate);
 
 
 const firebaseConfig = {
@@ -45,12 +47,20 @@ firebase.initializeApp(firebaseConfig);
 
 const routes = [
     { path: '/', component: LandingMain },
+    { path: '/teams', component: LandingTeams },
+
     { path: '/admin/teams', component: AdminTeams },
-    { path: '/auth', component: AdminAuth },
     { path: '/admin/teams/add', component: AdminTeamAddEdit },
     { path: '/admin/teams/edit', component: AdminTeamAddEdit },
-    { path: '/teams', component: LandingTeams },
+
+    { path: '/admin/games', component: AdminGames },
+    { path: '/admin/games/add', component: AdminGameAddEdit },
+    { path: '/admin/games/edit', component: AdminGameAddEdit },
+
+    { path: '/auth', component: AdminAuth },
     { path: '/admin', redirect: '/auth' }
+
+
 ];
 
 const router = new VueRouter({
