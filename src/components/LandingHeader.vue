@@ -8,7 +8,7 @@
         </b-navbar-brand>
         <b-navbar-nav class="ml-auto">
             <b-nav-item class="menu-item" to="/teams">Команды</b-nav-item>
-            <b-nav-item class="menu-item" href="#">Расписание</b-nav-item>
+            <b-nav-item class="menu-item" to="/games">Расписание</b-nav-item>
             <b-nav-item class="menu-item" href="#">Группы</b-nav-item>
             <b-nav-item class="menu-item" href="#">Плей-офф</b-nav-item>
             <b-nav-item class="menu-item" href="#">Прошлые сезоны</b-nav-item>

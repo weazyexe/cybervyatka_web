@@ -22,6 +22,7 @@ import AdminTeamAddEdit from "@/components/AdminTeamAddEdit";
 import LandingTeams from "@/components/LandingTeams";
 import AdminGames from "@/components/AdminGames";
 import AdminGameAddEdit from "@/components/AdminGameAddEdit";
+import LandingGames from "@/components/LandingGames";
 
 
 
@@ -46,8 +47,15 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 const routes = [
-    { path: '/', component: LandingMain },
+    {
+        path: '/',
+        meta: {
+            title: 'CYBERVYATKA - Главная страница'
+        },
+        component: LandingMain
+    },
     { path: '/teams', component: LandingTeams },
+    { path: '/games', component: LandingGames },
 
     { path: '/admin/teams', component: AdminTeams },
     { path: '/admin/teams/add', component: AdminTeamAddEdit },

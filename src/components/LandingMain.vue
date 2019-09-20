@@ -49,7 +49,10 @@
 import LandingHeader from "@/components/LandingHeader";
 export default {
   name: 'Header',
-    components: {LandingHeader}
+    components: {LandingHeader},
+    created() {
+      document.title = this.$route.meta.title;
+    }
 }
 </script>
 

@@ -1,6 +1,5 @@
 <template>
     <div>
-
         <team-modal-window :team="currentTeam" :show-contacts="false" :on-confirm="onShowConfirm" :show-team-dialog="showTeamDialog"></team-modal-window>
 
         <div class="field">
@@ -28,7 +27,7 @@
         <b-container fluid id="teams-content" :class="game === 'CSGO' ? 'csgo-back' : 'dota2-back'">
             <b-row class="text-center">
                 <template v-for="(team, index) in teams">
-                    <template v-if="team.discipline === game">
+                    <template v-if="team.discipline === game && team.status === 'CONFIRMED'">
                         <div :key="index" class="team-button">
                             <b-row @click="showTeam(team)">
                                 <img :src="team.logo" alt="team logo" class="team-logo rounded-circle">
