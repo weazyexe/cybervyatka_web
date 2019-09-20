@@ -16,110 +16,116 @@
                                 <b-col>
                                     <p class="rect-header">Основная информация</p>
                                     <b-row class="fields-row">
-                                        <b-col md="3">
-                                            <md-field class="field" :class="getValidationClass('bestOf')">
-                                                <label for="best-of">Best of</label>
-                                                <md-select name="best-of" id="best-of" v-model="bestOf" md-dense :disabled="sending">
-                                                    <md-option :value="1">Best of 1</md-option>
-                                                    <md-option :value="3">Best of 3</md-option>
-                                                    <md-option :value="5">Best of 5</md-option>
-                                                </md-select>
-                                                <span class="md-error" v-if="!$v.bestOf.required">Выберите количество матчей</span>
-                                            </md-field>
-                                        </b-col>
-                                        <b-col md="3">
-                                            <md-datepicker id="datetime" class="field" :class="getValidationClass('datetime')" v-model="dateNumber"/>
-                                            <span class="md-error" v-if="!$v.game.datetime.required">Выберите дату начала матча</span>
-                                        </b-col>
-                                        <b-col md="3">
-                                            <md-field class="field" :class="getValidationClass('discipline')">
-                                                <label for="discipline">Дисциплина</label>
-                                                <md-select name="discipline" id="discipline" v-model="game.discipline" md-dense :disabled="sending">
-                                                    <md-option value="CSGO">CS:GO</md-option>
-                                                    <md-option value="DOTA2">Dota 2</md-option>
-                                                </md-select>
-                                                <span class="md-error" v-if="!$v.game.discipline.required">Дисциплина обязательна</span>
-                                            </md-field>
-                                        </b-col>
-                                        <b-col md="3">
-                                            <md-field class="field" :class="getValidationClass('is_ended')">
-                                                <label for="best-of">Статус игры</label>
-                                                <md-select name="best-of" id="best-of" v-model="game.is_ended" md-dense :disabled="sending">
-                                                    <md-option value="true">Игра окончена</md-option>
-                                                    <md-option value="false">Игра не началась</md-option>
-                                                </md-select>
-                                                <span class="md-error" v-if="!$v.game.is_ended.required">Статус игры не выбран</span>
-                                            </md-field>
-                                        </b-col>
+
+                                        <md-field class="field" :class="getValidationClass('bestOf')">
+                                            <label for="best-of">Best of</label>
+                                            <md-select name="best-of" id="best-of" v-model="bestOf" md-dense :disabled="sending">
+                                                <md-option :value="1">Best of 1</md-option>
+                                                <md-option :value="3">Best of 3</md-option>
+                                                <md-option :value="5">Best of 5</md-option>
+                                            </md-select>
+                                            <span class="md-error" v-if="!$v.bestOf.required">Выберите количество матчей</span>
+                                        </md-field>
+
+                                        <md-datepicker id="datetime" class="field" :class="getValidationClass('dateNumber')" v-model="dateNumber">
+                                            <label>Начало матча</label>
+                                            <span class="md-error" v-if="!$v.dateNumber.required">Выберите дату начала матча</span>
+                                        </md-datepicker>
+
+                                        <md-field class="field" :class="getValidationClass('discipline')">
+                                            <label for="discipline">Дисциплина</label>
+                                            <md-select name="discipline" id="discipline" v-model="game.discipline" md-dense :disabled="sending">
+                                                <md-option value="CSGO">CS:GO</md-option>
+                                                <md-option value="DOTA2">Dota 2</md-option>
+                                            </md-select>
+                                            <span class="md-error" v-if="!$v.game.discipline.required">Дисциплина обязательна</span>
+                                        </md-field>
+
+                                        <md-field class="field" :class="getValidationClass('is_ended')">
+                                            <label for="best-of">Статус игры</label>
+                                            <md-select name="best-of" id="best-of" v-model="game.is_ended" md-dense :disabled="sending">
+                                                <md-option value="true">Игра окончена</md-option>
+                                                <md-option value="false">Игра не началась</md-option>
+                                            </md-select>
+                                            <span class="md-error" v-if="!$v.game.is_ended.required">Статус игры не выбран</span>
+                                        </md-field>
                                     </b-row>
                                     <p class="rect-header">Команды</p>
                                     <b-row class="fields-row">
-                                        <b-col md="3">
-                                            <md-field class="field" :class="getValidationClass('first_team')">
-                                                <label for="team-first">Первая команда</label>
-                                                <md-select name="team-first" id="team-first" v-model="firstTeam" md-dense :disabled="sending">
-                                                    <template v-for="(team, index) in teams">
+                                        <md-field class="field" :class="getValidationClass('firstTeam')">
+                                            <label for="team-first">Первая команда</label>
+                                            <md-select name="team-first" id="team-first" v-model="firstTeam" md-dense :disabled="sending">
+                                                <template v-for="(team, index) in teams">
+                                                    <template v-if="team.discipline === game.discipline">
                                                         <md-option v-if="team.uid !== secondTeam.uid" :value="team.uid" :key="index">
                                                             {{ team.title }}
                                                         </md-option>
                                                     </template>
-                                                </md-select>
-                                                <span class="md-error" v-if="!$v.firstTeam.required">Первая команда не выбрана</span>
-                                            </md-field>
-                                        </b-col>
-                                        <b-col md="3">
-                                            <md-field class="field" :class="getValidationClass('second_team')">
-                                                <label for="team-second">Вторая команда</label>
-                                                <md-select name="team-second" id="team-second" v-model="secondTeam" md-dense :disabled="sending">
-                                                    <template v-for="(team, index) in teams">
+                                                </template>
+                                            </md-select>
+                                            <span class="md-error" v-if="!$v.firstTeam.required">Первая команда не выбрана</span>
+                                        </md-field>
+                                        <md-field class="field" :class="getValidationClass('secondTeam')">
+                                            <label for="team-second">Вторая команда</label>
+                                            <md-select name="team-second" id="team-second" v-model="secondTeam" md-dense :disabled="sending">
+                                                <template v-for="(team, index) in teams">
+                                                    <template v-if="team.discipline === game.discipline">
                                                         <md-option v-if="team.uid !== firstTeam.uid" :value="team.uid" :key="index">
                                                             {{ team.title }}
                                                         </md-option>
                                                     </template>
-                                                </md-select>
-                                                <span class="md-error" v-if="!$v.secondTeam.required">Вторая команда не выбрана</span>
-                                            </md-field>
-                                        </b-col>
+                                                </template>
+                                            </md-select>
+                                            <span class="md-error" v-if="!$v.secondTeam.required">Вторая команда не выбрана</span>
+                                        </md-field>
                                     </b-row>
                                     <p class="rect-header">Игры</p>
                                     <b-row class="fields-row">
                                         <template v-for="n in bestOf">
-                                            <b-col md="2" class="mr-4" :key="n">
-                                                <b-row>
-                                                    <b-col>
-                                                        <b-row>
-                                                            <md-field class="field ml-0">
-                                                                <label for="map">Карта</label>
-                                                                <md-select name="map" id="map" v-model="results[n - 1].map" md-dense :disabled="sending">
-                                                                    <template v-for="(map, index) in maps">
-                                                                        <md-option v-if="!containsMap(map)" :value="map" :key="index">
+                                            <div class="field" :key="n">
+                                                <template v-if="game.discipline === 'CSGO'">
+                                                    <b-col class="p-0">
+                                                        <md-field class="ml-0">
+                                                            <label for="map">Карта</label>
+                                                            <md-select name="map" id="map" v-model="results[n - 1].map" md-dense :disabled="sending">
+                                                                <template v-for="(map, index) in maps">
+                                                                    <template v-if="!containsMap(map)" >
+                                                                        <md-option :value="map" :key="index">
                                                                             {{ map }}
                                                                         </md-option>
                                                                     </template>
-                                                                </md-select>
-                                                            </md-field>
-                                                        </b-row>
+                                                                </template>
+                                                            </md-select>
+                                                        </md-field>
                                                     </b-col>
-                                                </b-row>
-                                                <b-row class="m-minus">
+                                                </template>
+                                                <template v-else>
+                                                    <p class="player-name">{{ n }} игра</p>
+                                                </template>
+                                                <b-row :key="n">
                                                     <b-col md="6">
-                                                        <md-field class="field ml-0">
+                                                        <md-field class="ml-0">
                                                             <label for="count-1">Счёт 1</label>
                                                             <md-input name="count-1" id="count-1" v-model="results[n - 1].firstCount"/>
                                                         </md-field>
                                                     </b-col>
                                                     <b-col md="6">
-                                                        <md-field class="field ml-0">
+                                                        <md-field class="ml-0">
                                                             <label for="count-2">Счёт 2</label>
                                                             <md-input name="count-2" id="count-2" v-model="results[n - 1].secondCount"/>
                                                         </md-field>
                                                     </b-col>
                                                 </b-row>
-                                            </b-col>
+                                            </div>
                                         </template>
                                     </b-row>
                                 </b-col>
                             </div>
+
+                            <md-button @click="saveChanges" type="submit" class="md-fab md-primary done-fab">
+                                <i class="material-icons icon-fab">done</i>
+                            </md-button>
+
                         </form>
                     </template>
                 </div>
@@ -145,7 +151,7 @@
         data: function() {
             return {
                 game : {},
-                bestOf: 0,
+                bestOf: 1,
                 dateNumber: {},
                 sending: false,
                 teams: [],
@@ -170,8 +176,13 @@
                 let date = Math.round(Date.now() / 1000);
                 game.uid = date.toString(16).toUpperCase();
 
-                this.bestOf = 1;
                 game.is_ended = false;
+                game.discipline = 'CSGO';
+
+                let results = [];
+                results.push({map: '', firstCount: '0', secondCount: '0'});
+                game.results = results;
+                this.results = results;
 
                 this.game = game;
             } else {
@@ -182,6 +193,26 @@
 
                     let fRef = game.team_first;
                     let sRef = game.team_second;
+
+                    let results = [];
+
+                    if (game.results !== null) {
+                        game.results.forEach((it) => {
+                            let counts = it.split(":");
+                            if (game.discipline === 'CSGO') {
+                                results.push({map: counts[0], firstCount: counts[1], secondCount: counts[2]});
+                            } else {
+                                results.push({map: '', firstCount: counts[0], secondCount: counts[1]});
+                            }
+                        });
+                    } else {
+                        for (let i = 0; i < game.best_of; i++) {
+                            results.push({map: '', firstCount: 0, secondCount: 0});
+                        }
+                    }
+
+                    game.results = results;
+                    this.results = results;
 
                     fRef.get().then((firstTeam) => {
                         this.firstTeam = firstTeam.data().uid;
@@ -220,15 +251,50 @@
                 });
                 return false;
             },
-            saveTeam() {
+            saveGame() {
+                let game = this.game;
+                let db = firebase.firestore();
 
+                game.datetime = new firebase.firestore.Timestamp(this.dateNumber / 1000, 0);
+                game.best_of = parseInt(this.bestOf, 10);
+                game.team_first = db.doc(`teams/${this.firstTeam}`);
+                game.team_second = db.doc(`teams/${this.secondTeam}`);
+                game.is_ended = game.is_ended === "true";
+
+                let countOfZeros = 0;
+                let results = [];
+                this.results.forEach((it) => {
+                    if (game.discipline === 'CSGO') {
+                        if (it.map === "") {
+                            countOfZeros++;
+                        } else {
+                            results.push(`${it.map}:${it.firstCount}:${it.secondCount}`);
+                        }
+                    } else {
+                        if (it.firstCount === 0 && it.secondCount === 0) {
+                            countOfZeros++;
+                        } else {
+                            results.push(`${it.firstCount}:${it.secondCount}`);
+                        }
+                    }
+                });
+
+                if (countOfZeros === game.best_of) {
+                    game.results = null;
+                } else {
+                    game.results = results;
+                }
+
+                db.doc(`games/${game.uid}`).set(game).then(() => {
+                    this.$router.push('/admin/games');
+                });
             },
             saveChanges() {
                 this.$v.$touch();
 
                 if (!this.$v.$invalid) {
                     this.sending = true;
-                    this.saveTeam();
+                    this.saveGame();
                 }
             }
         },
@@ -236,7 +302,11 @@
             bestOf: function (val) {
                 let res = [];
                 for (let i = 0; i < val; i++) {
-                    res.push({ map: '', firstCount: 0, secondCount: 0 });
+                    if (i >= this.game.results.length) {
+                        res.push({map: '', firstCount: '0', secondCount: '0'});
+                    } else {
+                        res.push(this.game.results[i]);
+                    }
                 }
 
                 this.results = res;
@@ -244,22 +314,10 @@
         },
         validations: {
             game: {
-                best_of: {
-                    required
-                },
-                datetime: {
-                    required
-                },
                 discipline: {
                     required
                 },
                 is_ended: {
-                    required
-                },
-                team_first: {
-                    required
-                },
-                team_second: {
                     required
                 }
             },
@@ -271,12 +329,20 @@
             },
             bestOf: {
                 required
+            },
+            dateNumber: {
+                required
             }
         },
     }
 </script>
 
 <style scoped>
+    .player-name {
+        margin-bottom: 0;
+        color: #FFFFFF;
+    }
+
     .team-logo {
         width: 7em;
         height: 7em;
@@ -304,7 +370,8 @@
 
     .field {
         color: #D68956;
-        margin-left: -1em;
+        margin-right: 2em;
+        width: 20em;
     }
 
     #title {
@@ -354,7 +421,6 @@
     }
 
     .m-minus {
-        margin-left: -2em;
-        margin-right: -2em;
+        margin-left: -1em;
     }
 </style>

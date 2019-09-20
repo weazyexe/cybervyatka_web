@@ -2,11 +2,11 @@
     <div class="container-fluid all">
 
         <team-modal-window :team="currentTeam" :show-team-dialog="showTeamDialog" :show-contacts="true" :on-confirm="onShowConfirm"></team-modal-window>
-        <admin-team-delete-dialog :team="currentTeam" :show-delete-dialog="showDeleteDialog" :on-confirm="onDeleteConfirm" :on-cancel="onDeleteCancel"></admin-team-delete-dialog>
+        <admin-delete-dialog :deletee="currentTeam.title" :show-delete-dialog="showDeleteDialog" :on-confirm="onDeleteConfirm" :on-cancel="onDeleteCancel" type="team"></admin-delete-dialog>
 
         <router-link to="/admin/teams/add">
             <md-button class="md-fab md-primary add-fab">
-                <md-icon>add</md-icon>
+                <i class="material-icons icon-fab">add</i>
             </md-button>
         </router-link>
 
@@ -80,14 +80,14 @@
     import firebase from 'firebase/app';
     import TeamModalWindow from "@/components/TeamModalWindow";
     import AdminTeamEntry from "@/components/AdminTeamEntry";
-    import AdminTeamDeleteDialog from "@/components/AdminTeamDeleteDialog";
+    import AdminDeleteDialog from "@/components/AdminDeleteDialog";
     import AdminMenu from "@/components/AdminMenu";
 
     export default {
         name: "AdminTeams",
         components: {
             AdminMenu,
-            AdminTeamDeleteDialog,
+            AdminDeleteDialog,
             AdminTeamEntry,
             TeamModalWindow
         },
@@ -235,4 +235,8 @@
         color: #D68956;
     }
 
+    .icon-fab {
+        color: #FFFFFF;
+        margin-top: 0.2em;
+    }
 </style>
