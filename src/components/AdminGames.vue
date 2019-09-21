@@ -74,7 +74,7 @@
                         <div class="rect">
                             <p class="rect-header">Прошедшие игры</p>
                             <template v-for="(game, index) in games">
-                                <template v-if="game.is_ended (filter.team === game.team_first.uid
+                                <template v-if="game.is_ended && (filter.team === game.team_first.uid
                                             || filter.team === game.team_second.uid || filter.team === '')
                                             && (filter.discipline === game.discipline || filter.discipline === '')
                                             && (isDatesEquals(game) || !(filter.date instanceof Date))">

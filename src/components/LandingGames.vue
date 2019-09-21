@@ -40,17 +40,24 @@
                         </md-select>
                     </md-field>
 
+                    <md-field class="field">
+                        <md-icon>done_all</md-icon>
+                        <label for="is-ended">Статус матча</label>
+                        <md-select name="is-ended" id="is-ended" v-model="filter.is_ended" md-dense>
+                            <md-option value="false">Предстоящие матчи</md-option>
+                            <md-option value="true">Оконченные матчи</md-option>
+                        </md-select>
+                    </md-field>
+
                     <md-datepicker class="field" v-model="filter.date">
                         <label>Дата</label>
                     </md-datepicker>
                 </b-row>
-                <b-row v-if="isLoading">
-                    <b-container class="text-center">
+                <b-row>
+                    <b-container v-if="isLoading" class="text-center">
                         <md-progress-spinner class="main-color" md-mode="indeterminate"></md-progress-spinner>
                     </b-container>
-                </b-row>
-                <b-row>
-                    <template v-if="isZeroTeams">
+                    <template v-else-if="isZeroTeams">
                         <b-container class="text-center">
                             <b-col>
                                 <i class="material-icons sad-face">sentiment_dissatisfied</i>
@@ -59,7 +66,7 @@
                         </b-container>
                     </template>
                     <template v-else v-for="(game, index) in games">
-                        <template v-if="game.discipline === discipline && !game.is_ended
+                        <template v-if="game.discipline === discipline && (game.is_ended.toString() === filter.is_ended)
                                                     && (isDatesEquals(game) || !(filter.date instanceof Date))
                                                     && (game.team_first.uid === filter.team || game.team_second.uid === filter.team || filter.team === '')">
                             <div :key="index" class="team-button" @click="showGame(game)">
@@ -125,7 +132,8 @@
                 currentGame : {},
                 filter: {
                     team : "",
-                    date : {}
+                    date : {},
+                    is_ended: "false"
                 },
                 isLoading: true
             }
@@ -162,6 +170,7 @@
             discipline: function () {
                 this.filter.team = '';
                 this.filter.date = {};
+                this.filter.is_ended = "false";
             }
         },
         created() {
@@ -252,7 +261,7 @@
     .field {
         color: #D68956;
         margin-right: 2em;
-        width: 20em;
+        width: 15em;
     }
 
     .prerect {
@@ -362,5 +371,37 @@
         font-size: 0.5em;
         margin-top: 0.7em;
         margin-bottom: 0.7em;
+    }
+
+    .md-field:after {
+        height: 0;
+    }
+
+    .md-field > .md-icon::after {
+        width: 0;
+        height: 0;
+    }
+
+    .md-field>.md-icon:after {
+        content: none;
+    }
+
+    /*.md-field>.md-icon:after {
+        width: 0;
+        height: 0;
+        display: none;
+    }
+
+    .md-field>.md-date-icon:after {
+        width: 0;
+        height: 0;
+    }*/
+
+    .md-icon.md-icon-font.md-icon-image.md-date-icon.md-theme-default::after {
+        width: 0;
+    }
+
+    .md-icon {
+        margin-right: 0.5em;
     }
 </style>

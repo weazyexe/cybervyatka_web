@@ -23,6 +23,9 @@ import LandingTeams from "@/components/LandingTeams";
 import AdminGames from "@/components/AdminGames";
 import AdminGameAddEdit from "@/components/AdminGameAddEdit";
 import LandingGames from "@/components/LandingGames";
+import AdminGroups from "@/components/AdminGroups";
+import AdminGroupAddEdit from "@/components/AdminGroupAddEdit";
+import LandingGroups from "@/components/LandingGroups";
 
 
 
@@ -56,6 +59,7 @@ const routes = [
     },
     { path: '/teams', component: LandingTeams },
     { path: '/games', component: LandingGames },
+    { path: '/groups', component: LandingGroups },
 
     { path: '/admin/teams', component: AdminTeams },
     { path: '/admin/teams/add', component: AdminTeamAddEdit },
@@ -64,6 +68,10 @@ const routes = [
     { path: '/admin/games', component: AdminGames },
     { path: '/admin/games/add', component: AdminGameAddEdit },
     { path: '/admin/games/edit', component: AdminGameAddEdit },
+
+    { path: '/admin/groups', component: AdminGroups },
+    { path: '/admin/groups/add', component: AdminGroupAddEdit },
+    { path: '/admin/groups/edit', component: AdminGroupAddEdit },
 
     { path: '/auth', component: AdminAuth },
     { path: '/admin', redirect: '/auth' }

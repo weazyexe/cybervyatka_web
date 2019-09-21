@@ -1,7 +1,7 @@
 <template>
     <div class="container-fluid all">
 
-        <team-modal-window :team="currentTeam" :show-team-dialog="showTeamDialog" :show-contacts="true" :on-confirm="onShowConfirm"></team-modal-window>
+        <team-dialog :team="currentTeam" :show="showTeamDialog" :show-contacts="true" :on-confirm="onShowConfirm"></team-dialog>
         <admin-delete-dialog :deletee="currentTeam.title" :show-delete-dialog="showDeleteDialog" :on-confirm="onDeleteConfirm" :on-cancel="onDeleteCancel" type="team"></admin-delete-dialog>
 
         <router-link to="/admin/teams/add">
@@ -78,7 +78,7 @@
 
 <script>
     import firebase from 'firebase/app';
-    import TeamModalWindow from "@/components/TeamModalWindow";
+    import TeamDialog from "@/components/TeamDialog";
     import AdminTeamEntry from "@/components/AdminTeamEntry";
     import AdminDeleteDialog from "@/components/AdminDeleteDialog";
     import AdminMenu from "@/components/AdminMenu";
@@ -89,7 +89,7 @@
             AdminMenu,
             AdminDeleteDialog,
             AdminTeamEntry,
-            TeamModalWindow
+            TeamDialog
         },
         created() {
             let db = firebase.firestore();

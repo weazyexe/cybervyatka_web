@@ -1,7 +1,7 @@
 <template>
     <md-dialog class="game-dialog" :md-active="show">
 
-        <team-modal-window :team="currentTeam" :show-team-dialog="showTeamDialog" :show-contacts="false" :on-confirm="onShowConfirm"></team-modal-window>
+        <team-dialog :team="currentTeam" :show="showTeamDialog" :show-contacts="false" :on-confirm="onShowConfirm"></team-dialog>
 
         <div class="horizontal-center">
             <b-row>
@@ -66,10 +66,10 @@
 </template>
 
 <script>
-    import TeamModalWindow from "@/components/TeamModalWindow";
+    import TeamDialog from "@/components/TeamDialog";
     export default {
         name: "GameDialog",
-        components: {TeamModalWindow},
+        components: {TeamDialog},
         props: {
             show: Boolean,
             game: Object,

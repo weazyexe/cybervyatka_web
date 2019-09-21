@@ -1,6 +1,6 @@
 <template>
     <div>
-        <team-modal-window :team="currentTeam" :show-contacts="false" :on-confirm="onShowConfirm" :show-team-dialog="showTeamDialog"></team-modal-window>
+        <team-dialog :team="currentTeam" :show-contacts="false" :on-confirm="onShowConfirm" :show="showTeamDialog"></team-dialog>
 
         <div class="field">
             <landing-header></landing-header>
@@ -45,13 +45,13 @@
 <script>
 
     import firebase from 'firebase';
-    import TeamModalWindow from "@/components/TeamModalWindow";
+    import TeamDialog from "@/components/TeamDialog";
     import LandingHeader from "@/components/LandingHeader";
 
     export default {
 
         name: 'LandingTeams',
-        components: {LandingHeader, TeamModalWindow},
+        components: {LandingHeader, TeamDialog},
         data: function() {
             return {
                 game : 'CSGO',

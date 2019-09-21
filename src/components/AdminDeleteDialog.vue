@@ -23,7 +23,7 @@
         },
         computed: {
             message : function () {
-                let type = (this.type === 'team') ? 'команду' : ((this.type === 'game') ? 'игру' : 'хуйню');
+                let type = (this.type === 'team') ? 'команду' : ((this.type === 'game') ? 'игру' : ((this.type === 'group') ? 'группу' : ')))'));
                 return `Вы уверены, что хотите удалить ${type} <strong>${this.deletee}</strong>?`;
             }
         }

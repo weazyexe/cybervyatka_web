@@ -1,5 +1,5 @@
 <template>
-    <md-dialog class="team-dialog" :md-active.sync="showTeamDialog">
+    <md-dialog class="team-dialog" :md-active.sync="show">
 
         <div class="horizontal-center">
             <b-row>
@@ -48,10 +48,10 @@
 
 <script>
     export default {
-        name: "TeamModalWindow",
+        name: "TeamDialog",
         props: {
             team: Object,
-            showTeamDialog: Boolean,
+            show: Boolean,
             onConfirm: Function,
             showContacts : Boolean
         }

@@ -343,17 +343,6 @@
         color: #FFFFFF;
     }
 
-    .team-logo {
-        width: 7em;
-        height: 7em;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    .team-logo:hover {
-        cursor: pointer;
-    }
-
     .all-fields {
         padding: 1em 2em;
     }
@@ -362,39 +351,13 @@
         margin-left: -1em;
     }
 
-    #load-logo-button {
-        margin-top: auto;
-        margin-bottom: auto;
-        margin-left: 2em;
-    }
-
     .field {
         color: #D68956;
         margin-right: 2em;
         width: 20em;
     }
 
-    #title {
-        color: #FFFFFF;
-    }
-
     .fields-row {
-        margin-bottom: 2em;
-    }
-
-    #players {
-        margin-left: -2em;
-    }
-
-    #players-header {
-        margin-left: 0;
-    }
-
-    #standins-header {
-        margin-left: 0;
-    }
-
-    .player-field {
         margin-bottom: 2em;
     }
 
@@ -412,15 +375,5 @@
 
     #add-edit-loader {
         padding-bottom: 1.5em;
-    }
-
-    #contacts-header {
-        margin-left: -1em;
-        margin-top: 2em;
-        margin-bottom: -2em;
-    }
-
-    .m-minus {
-        margin-left: -1em;
     }
 </style>
