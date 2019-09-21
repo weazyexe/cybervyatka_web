@@ -4,6 +4,7 @@
             <b-row>
                 <img class="admin-menu-logo" src="../assets/logo_clear.png" alt="Logo">
             </b-row>
+
             <router-link to="/admin/teams">
                 <admin-menu-button button-text="Команды" image="people" :is-active="isTeamsActive"></admin-menu-button>
             </router-link>
@@ -19,11 +20,17 @@
             <router-link to="/admin/playoff">
                 <admin-menu-button button-text="Плей-офф" image="call_split" :is-active="isPlayoffActive"></admin-menu-button>
             </router-link>
+
+            <div id="user-data" class="text-center">
+                <md-button @click="logOut" class="main-color">Log out</md-button>
+                <p class="username">Signed as <strong>{{ user.email }}</strong></p>
+            </div>
         </b-col>
     </div>
 </template>
 
 <script>
+    import firebase from 'firebase';
     import AdminMenuButton from "@/components/AdminMenuButton";
 
     export default {
@@ -36,6 +43,17 @@
             isGamesActive : Boolean,
             isGroupsActive : Boolean,
             isPlayoffActive : Boolean,
+        },
+        data: function () {
+            return {
+                user: firebase.auth().currentUser
+            }
+        },
+        methods: {
+            logOut() {
+                firebase.auth().signOut();
+                this.$router.push('/auth');
+            }
         }
     }
 </script>
@@ -60,5 +78,18 @@
     .horizontal-center {
         margin-left: auto;
         margin-right: auto;
+    }
+
+    #user-data {
+        margin-top: 100%;
+        font-size: 0.7em;
+    }
+
+    .username {
+        color: #606060;
+    }
+
+    .main-color {
+        color: #484848;
     }
 </style>

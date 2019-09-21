@@ -61,17 +61,71 @@ const routes = [
     { path: '/games', component: LandingGames },
     { path: '/groups', component: LandingGroups },
 
-    { path: '/admin/teams', component: AdminTeams },
-    { path: '/admin/teams/add', component: AdminTeamAddEdit },
-    { path: '/admin/teams/edit', component: AdminTeamAddEdit },
+    {
+        path: '/admin/teams',
+        component: AdminTeams,
+        meta: {
+            requiresAuth: true
+        }
+    },
+    {
+        path: '/admin/teams/add',
+        component: AdminTeamAddEdit,
+        meta: {
+            requiresAuth: true
+        }
+    },
+    {
+        path: '/admin/teams/edit',
+        component: AdminTeamAddEdit,
+        meta: {
+            requiresAuth: true
+        }
+    },
 
-    { path: '/admin/games', component: AdminGames },
-    { path: '/admin/games/add', component: AdminGameAddEdit },
-    { path: '/admin/games/edit', component: AdminGameAddEdit },
+    {
+        path: '/admin/games',
+        component: AdminGames,
+        meta: {
+            requiresAuth: true
+        }
+    },
+    {
+        path: '/admin/games/add',
+        component: AdminGameAddEdit,
+        meta: {
+            requiresAuth: true
+        }
+    },
+    {
+        path: '/admin/games/edit',
+        component: AdminGameAddEdit,
+        meta: {
+            requiresAuth: true
+        }
+    },
 
-    { path: '/admin/groups', component: AdminGroups },
-    { path: '/admin/groups/add', component: AdminGroupAddEdit },
-    { path: '/admin/groups/edit', component: AdminGroupAddEdit },
+    {
+        path: '/admin/groups',
+        component: AdminGroups,
+        meta: {
+            requiresAuth: true
+        }
+    },
+    {
+        path: '/admin/groups/add',
+        component: AdminGroupAddEdit,
+        meta: {
+            requiresAuth: true
+        }
+    },
+    {
+        path: '/admin/groups/edit',
+        component: AdminGroupAddEdit,
+        meta: {
+            requiresAuth: true
+        }
+    },
 
     { path: '/auth', component: AdminAuth },
     { path: '/admin', redirect: '/auth' }
@@ -82,6 +136,14 @@ const routes = [
 const router = new VueRouter({
     routes: routes,
     mode: 'history'
+});
+
+router.beforeEach((to, from, next) => {
+    let currentUser = firebase.auth().currentUser;
+    let requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+
+    if (requiresAuth && !currentUser) next('auth');
+    else next();
 });
 
 firebase.auth().onAuthStateChanged(() => {

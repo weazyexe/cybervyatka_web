@@ -1,18 +1,20 @@
 <template>
-    <div>
-        <b-row>
-            <b-col class="form" md="2">
-                <b-row>
-                    <img class="admin-menu-logo" src="../assets/logo_clear.png" alt="Logo">
-                </b-row>
-                <b-form-input class="field" id="login-input" v-model="login" placeholder="Логин"></b-form-input>
-                <b-form-input class="field" id="password-input" v-model="password" placeholder="Пароль"></b-form-input>
-                <b-row>
-                    <b-button class="btn" @click="logIn">Войти</b-button>
-                </b-row>
-            </b-col>
-        </b-row>
-    </div>
+    <b-container fluid class="text-center">
+        <b-col class="form">
+            <img class="admin-menu-logo" src="../assets/logo_clear.png" alt="Logo">
+            <md-field>
+                <label for="login">Логин</label>
+                <md-input name="login" id="login" v-model="login" md-dense :disabled="sending"/>
+            </md-field>
+            <md-field>
+                <label for="password">Пароль</label>npm
+                <md-input type="password" name="password" id="password" v-model="password" md-dense :disabled="sending"/>
+            </md-field>
+
+            <md-button id="login-button" class="md-raised" @click="logIn">Войти</md-button>
+            <p id="main-button" @click="onMain">На главную</p>
+        </b-col>
+    </b-container>
 </template>
 
 <script>
@@ -37,6 +39,9 @@
                     }
                 );
 
+            },
+            onMain() {
+                this.$router.push('/');
             }
         }
     }
@@ -44,7 +49,10 @@
 
 <style scoped>
     .form {
-        margin: auto;
+        width: 40vh;
+        margin-left: auto;
+        margin-right: auto;
+        padding-top: 20vh;
     }
 
     .admin-menu-logo {
@@ -53,26 +61,26 @@
         margin: 2em auto 3em;
     }
 
-    .btn {
-        margin: 1em auto 3em;
+    #login-button {
         background-color: #D68956;
-        border-color: transparent;
+        color: #FFFFFF;
+        margin-left: 30%;
+        margin-right: 30%;
+        margin-top: 2em;
     }
 
-    .field {
-        margin-bottom: 0.5em;
-        background-color: #303030;
-        border-color: transparent;
-        border-radius: 1em;
+    #main-button {
+        margin-top: 1em;
+        color: #FFF;
+        font-size: 0.7em;
     }
 
-    .field:active {
-        background-color: #303030;
+    #main-button:hover {
+        color: #CACACA;
+        cursor: pointer;
     }
 
-    .field:hover, .field:active, .field.focus {
-        background-color: #303030;
-        outline: none !important;
-        box-shadow: none;
+    .md-field {
+        margin-bottom: 0;
     }
 </style>
