@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 import firebase from "firebase/app";
 import VueMaterial from 'vue-material'
 import Vuelidate from 'vuelidate'
+import VueKonva from 'vue-konva'
 
 
 import 'vue-material/dist/vue-material.min.css'
@@ -26,6 +27,7 @@ import LandingGames from "@/components/LandingGames";
 import AdminGroups from "@/components/AdminGroups";
 import AdminGroupAddEdit from "@/components/AdminGroupAddEdit";
 import LandingGroups from "@/components/LandingGroups";
+import AdminPlayoff from "@/components/AdminPlayoff";
 
 
 
@@ -35,6 +37,8 @@ Vue.use(BootstrapVue);
 Vue.use(VueRouter);
 Vue.use(VueMaterial);
 Vue.use(Vuelidate);
+Vue.use(VueKonva);
+
 
 
 const firebaseConfig = {
@@ -122,6 +126,14 @@ const routes = [
     {
         path: '/admin/groups/edit',
         component: AdminGroupAddEdit,
+        meta: {
+            requiresAuth: true
+        }
+    },
+
+    {
+        path: '/admin/playoff',
+        component: AdminPlayoff,
         meta: {
             requiresAuth: true
         }

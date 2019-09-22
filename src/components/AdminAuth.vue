@@ -7,7 +7,7 @@
                 <md-input name="login" id="login" v-model="login" md-dense :disabled="sending"/>
             </md-field>
             <md-field>
-                <label for="password">Пароль</label>npm
+                <label for="password">Пароль</label>
                 <md-input type="password" name="password" id="password" v-model="password" md-dense :disabled="sending"/>
             </md-field>
 

@@ -45,7 +45,7 @@
                                                 <label for="team">Команда</label>
                                                 <md-select name="team" id="team" v-model="currentTeam.$model.uid" md-dense :disabled="sending">
                                                     <template v-for="(team, index2) in allTeams">
-                                                        <template v-if="team.discipline === group.discipline">
+                                                        <template v-if="team.discipline === group.discipline && team.status === 'CONFIRMED'">
                                                             <md-option v-if="team.uid !== currentTeam.uid" :value="team.uid" :key="index2">
                                                                 {{ team.title }}
                                                             </md-option>

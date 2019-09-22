@@ -56,7 +56,7 @@
                                             <label for="team-first">Первая команда</label>
                                             <md-select name="team-first" id="team-first" v-model="firstTeam" md-dense :disabled="sending">
                                                 <template v-for="(team, index) in teams">
-                                                    <template v-if="team.discipline === game.discipline">
+                                                    <template v-if="team.discipline === game.discipline && (team.status === 'CONFIRMED' || team.invisible)">
                                                         <md-option v-if="team.uid !== secondTeam.uid" :value="team.uid" :key="index">
                                                             {{ team.title }}
                                                         </md-option>
@@ -69,7 +69,7 @@
                                             <label for="team-second">Вторая команда</label>
                                             <md-select name="team-second" id="team-second" v-model="secondTeam" md-dense :disabled="sending">
                                                 <template v-for="(team, index) in teams">
-                                                    <template v-if="team.discipline === game.discipline">
+                                                    <template v-if="team.discipline === game.discipline && (team.status === 'CONFIRMED' || team.invisible)">
                                                         <md-option v-if="team.uid !== firstTeam.uid" :value="team.uid" :key="index">
                                                             {{ team.title }}
                                                         </md-option>

@@ -108,7 +108,7 @@
                     } else if (team.status === 'CONFIRMED') {
                         this.confirmedTeams.push(team);
                     } else {
-                        this.cancelledTeams.push(team);
+                        if (!team.invisible) this.cancelledTeams.push(team);
                     }
 
                     this.teams.push(team);
