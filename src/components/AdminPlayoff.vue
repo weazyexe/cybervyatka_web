@@ -1,41 +1,57 @@
 <template>
     <div class="container-fluid all">
 
-        <router-link to="/admin/playoff/add">
-            <md-button class="md-fab md-primary add-fab">
-                <i class="material-icons icon-fab">add</i>
-            </md-button>
-        </router-link>
+        <game-dialog :game="currentGame" :show="showGameDialog" :on-confirm="onShowConfirm"></game-dialog>
+        <game-complete-dialog :game="currentGame" :playoff="currentPlayoff" :show-dialog="showPushDialog" :on-confirm="onConfirmPush"></game-complete-dialog>
 
         <admin-menu :is-playoff-active="true"></admin-menu>
-        <b-container class="content">
-            <v-stage :config="configKonva">
-                <v-layer>
-                    <v-rect :config="configGameCell"></v-rect>
-                    <v-text :config="configTeamText"></v-text>
-                </v-layer>
-            </v-stage>
-            <!--<b-row class="mx-0">
-                <b-col md="2" class="mt-auto mr-5">
-                    <playoff-game-cell :game="playoffs[0].games[8]"></playoff-game-cell>
-                    <playoff-game-cell :game="playoffs[0].games[9]"></playoff-game-cell>
-                </b-col>
-                <b-col md="2" class="mr-5">
-                    <playoff-game-cell :game="playoffs[0].games[3]"></playoff-game-cell>
-                    <playoff-game-cell :game="playoffs[0].games[4]"></playoff-game-cell>
-                    <playoff-game-cell :game="playoffs[0].games[6]"></playoff-game-cell>
-                    <playoff-game-cell :game="playoffs[0].games[7]"></playoff-game-cell>
-                </b-col>
-                <b-col md="2" class="mr-5 mt-auto mb-auto">
-                    <playoff-game-cell :game="playoffs[0].games[1]" class="mb-5 pb-5"></playoff-game-cell>
-                    <playoff-game-cell :game="playoffs[0].games[5]" class="mt-5 pt-5"></playoff-game-cell>
-                </b-col>
-                <b-col md="2" class="mr-5 mt-auto mb-auto">
-                    <playoff-game-cell :game="playoffs[0].games[0]" class="mb-5 pb-5" :is-final="true"></playoff-game-cell>
-                    <playoff-game-cell :game="playoffs[0].games[2]" class="mt-5 pt-5"></playoff-game-cell>
-                </b-col>
-            </b-row>-->
-        </b-container>
+        <div class="content">
+            <div class="playoff-content text-center">
+
+                <div class="games-line bottom-vertical mt-auto mr-5">
+                    <playoff-game-cell :game="playoffs[0].games[8]" :hide-buttons="false"
+                                       :on-show="showGame" :on-edit="editGame"
+                                       :on-push="pushGameNext" :playoff="playoffs[0]"></playoff-game-cell>
+                    <playoff-game-cell :game="playoffs[0].games[9]" :hide-buttons="false"
+                                       :on-show="showGame" :on-edit="editGame"
+                                       :on-push="pushGameNext" :playoff="playoffs[0]"></playoff-game-cell>
+                </div>
+
+                <div class="games-line mr-5">
+                    <playoff-game-cell :game="playoffs[0].games[3]" :hide-buttons="false"
+                                       :on-show="showGame" :on-edit="editGame"
+                                       :on-push="pushGameNext" :playoff="playoffs[0]"></playoff-game-cell>
+                    <playoff-game-cell :game="playoffs[0].games[4]" :hide-buttons="false"
+                                       :on-show="showGame" :on-edit="editGame"
+                                       :on-push="pushGameNext" :playoff="playoffs[0]"></playoff-game-cell>
+                    <playoff-game-cell :game="playoffs[0].games[6]" :hide-buttons="false"
+                                       :on-show="showGame" :on-edit="editGame"
+                                       :on-push="pushGameNext" :playoff="playoffs[0]"></playoff-game-cell>
+                    <playoff-game-cell :game="playoffs[0].games[7]" :hide-buttons="false"
+                                       :on-show="showGame" :on-edit="editGame"
+                                       :on-push="pushGameNext" :playoff="playoffs[0]"></playoff-game-cell>
+                </div>
+
+                <div class="games-line mr-5 mt-auto mb-auto">
+                    <playoff-game-cell :game="playoffs[0].games[1]" :hide-buttons="false" class="mb-5 pb-5"
+                                       :on-show="showGame" :on-edit="editGame"
+                                       :on-push="pushGameNext" :playoff="playoffs[0]"></playoff-game-cell>
+                    <playoff-game-cell :game="playoffs[0].games[5]" :hide-buttons="false" class="mt-5 pt-5"
+                                       :on-show="showGame" :on-edit="editGame"
+                                       :on-push="pushGameNext" :playoff="playoffs[0]"></playoff-game-cell>
+                </div>
+
+                <div class="games-line mr-5 mt-auto mb-auto ml-auto">             
+                    <playoff-game-cell :game="playoffs[0].games[0]" :hide-buttons="false" :on-edit="editGame"
+                                       :on-show="showGame" :on-push="pushGameNext"
+                                       class="mb-5 pb-5" :is-final="true" :playoff="playoffs[0]"></playoff-game-cell>
+                    <playoff-game-cell :game="playoffs[0].games[2]" :hide-buttons="false" :on-edit="editGame"
+                                       :on-show="showGame" :on-push="pushGameNext"
+                                       class="mt-5 pt-0" :playoff="playoffs[0]"></playoff-game-cell>
+                </div>
+
+            </div>
+        </div>
     </div>
 </template>
 
@@ -43,48 +59,46 @@
     import AdminMenu from "@/components/AdminMenu";
     import firebase from 'firebase';
     import PlayoffGameCell from "@/components/PlayoffGameCell";
+    import GameDialog from "@/components/GameDialog";
+    import GameCompleteDialog from "@/components/GameCompleteDialog";
 
     export default {
         name: "AdminGames",
         components: {
+            GameCompleteDialog,
             PlayoffGameCell,
-            AdminMenu
+            AdminMenu,
+            GameDialog
         },
         data: function() {
             return {
                 playoffs: [],
                 teams: [],
                 games: [],
-
-                configKonva: {
-                    width: 1000,
-                    height: 1000
-                },
-                configCircle: {
-                    x: 100,
-                    y: 100,
-                    radius: 70,
-                    fill: "red",
-                    stroke: "black",
-                    strokeWidth: 4
-                },
-                configGameCell: {
-                    x: 100,
-                    y: 100,
-                    width: 300,
-                    height: 100,
-                    cornerRadius: 20,
-                    fill: "#303030",
-                    opacity: 0.7,
-                    shadowBlur: 7
-                },
-                configTeamText: {
-                    text: "pizda",
-                    fontSize: 15,
-                    x: 10,
-                    y: 10,
-                    fill: "#FFF",
-                }
+                currentGame: {},
+                currentPlayoff: {},
+                showGameDialog: false,
+                showPushDialog: false
+            }
+        },
+        methods: {
+            showGame(game) {
+                this.currentGame = game;
+                this.showGameDialog = true;
+            },
+            onShowConfirm() {
+                this.showGameDialog = false;
+            },
+            editGame(game) {
+                this.$router.push({ path: '/admin/games/edit', query: {uid: game.uid} });
+            },
+            pushGameNext(game, playoff) {
+                this.currentGame = game;
+                this.currentPlayoff = playoff;
+                this.showPushDialog = true;
+            },
+            onConfirmPush() {
+                this.showPushDialog = false;
             }
         },
         created() {
@@ -94,6 +108,7 @@
                 response.forEach((rawPlayoff) => {
                     let playoff = rawPlayoff.data();
 
+
                     let oldGames = playoff.games;
                     let games = [];
 
@@ -101,9 +116,13 @@
                         games.push(null);
                         let gameRef = oldGames[i];
 
+                        console.log(gameRef);
+
                         if (gameRef !== null) {
                             gameRef.get().then((rawGame) => {
                                 let game = rawGame.data();
+
+
 
                                 game.team_first.get().then((firstTeam) => {
                                     game.team_first = firstTeam.data();
@@ -112,31 +131,18 @@
 
                                         games[i] = game;
                                         playoff.games = games;
+
+                                        this.playoffs.push(playoff);
+
+                                        console.log(this.playoffs);
                                     });
                                 });
                             });
+                        } else {
+                            playoff.games[i] = null;
+                            this.playoffs.push(playoff);
                         }
                     }
-
-                    oldGames.forEach((gameRef) => {
-                        if (gameRef !== null) {
-                            gameRef.get().then((rawGame) => {
-                                let game = rawGame.data();
-
-                                game.team_first.get().then((firstTeam) => {
-                                    game.team_first = firstTeam.data();
-                                    game.team_second.get().then((secondTeam) => {
-                                        game.team_second = secondTeam.data();
-
-                                        games.push(game);
-                                        playoff.games = games;
-                                    });
-                                });
-                            });
-                        }
-                    });
-
-                    this.playoffs.push(playoff);
                 });
             });
         }
@@ -144,6 +150,23 @@
 </script>
 
 <style scoped>
+    .playoff-content {
+        width: 100%;
+        height: 50%;
+        white-space: nowrap;
+        overflow-x: auto;
+        overflow-y: hidden;
+    }
+
+    .games-line {
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    .games-line.bottom-vertical {
+        vertical-align: bottom;
+    }
+
     .add-fab {
         position: fixed;
         bottom: 3em;

@@ -29,6 +29,7 @@
                     <span @click="onShow(game)" class="game-text">{{ parsedDate }} • </span>
                     <span @click="onShow(game)" class="game-text" v-if="game.discipline === 'CSGO'">CS:GO</span>
                     <span @click="onShow(game)" class="game-text" v-else>Dota 2</span>
+                    <span @click="onShow(game)" class="game-text"> • {{ game.uid }}</span>
                 </b-row>
             </b-col>
         </b-col>

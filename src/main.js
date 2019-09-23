@@ -1,19 +1,17 @@
 import Vue from 'vue'
 import BootstrapVue from 'bootstrap-vue'
 import VueRouter from 'vue-router'
-import firebase from "firebase/app";
 import VueMaterial from 'vue-material'
 import Vuelidate from 'vuelidate'
-import VueKonva from 'vue-konva'
-
+import * as firebase from 'firebase';
 
 import 'vue-material/dist/vue-material.min.css'
 import 'vue-material/dist/theme/default-dark.css' // This line here
-import 'firebase/firestore'
-import 'firebase/storage'
-import 'firebase/auth'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import 'firebase/auth'
+import 'firebase/firestore'
+import 'firebase/storage'
 
 import App from './App.vue'
 import LandingMain from "@/components/LandingMain";
@@ -29,16 +27,12 @@ import AdminGroupAddEdit from "@/components/AdminGroupAddEdit";
 import LandingGroups from "@/components/LandingGroups";
 import AdminPlayoff from "@/components/AdminPlayoff";
 
-
-
 Vue.config.productionTip = false;
 
 Vue.use(BootstrapVue);
 Vue.use(VueRouter);
 Vue.use(VueMaterial);
 Vue.use(Vuelidate);
-Vue.use(VueKonva);
-
 
 
 const firebaseConfig = {

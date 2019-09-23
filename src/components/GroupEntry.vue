@@ -102,12 +102,12 @@
         background: rgba(30, 30, 30, 0.2);
     }
 
+
     .table-header-text {
         margin-bottom: 0;
         font-weight: bold;
         color: #D68956;
     }
-
     .table-team-text {
         margin-bottom: 0;
         color: #FFFFFF;

@@ -3,58 +3,54 @@
         <team-dialog :team="currentTeam" :on-confirm="onConfirmTeam" :show="showTeamDialog" :show-contacts="false"></team-dialog>
 
         <b-row class="mb-2 ml-2">
+            <p v-if="isFinal" class="table-header-text">Финал</p>
             <div v-if="!hideButtons" class="ml-auto buttons">
-                <!--<b-row class="mx-0">
-                    <i class="material-icons rule-button" @click="onEdit(group)">edit</i>
-                    <i class="material-icons rule-button" @click="onDelete(group)">delete</i>
-                </b-row>-->
-
+                <b-row class="mx-0">
+                    <i class="material-icons rule-button" @click="onShow(game)">info</i>
+                    <i class="material-icons rule-button" @click="onEdit(game)">edit</i>
+                    <i class="material-icons rule-button" @click="onPush(game, playoff)">done</i>
+                </b-row>
             </div>
         </b-row>
-        <div v-if="isFinal">
-            <b-row class="mx-0 ml-2 mb-2">
-                <p class="table-header-text">Финал</p>
-            </b-row>
-        </div>
-        <div class="group-rect">
+        <div :class="isFinal ? 'big-rect' : 'group-rect'">
             <b-col class="mx-0 p-0">
                 <b-row class="dark-team-back mx-0">
                     <template v-if="game">
-                        <img :src="game.team_first.logo" alt="first team logo" class="logo rounded-circle" />
+                        <img :src="game.team_first.logo" alt="first team logo" class="logo rounded-circle" :class="isFinal ? 'big-logo' : ''"/>
                         <b-col md="8" class="mx-0 mt-auto mb-auto">
-                            <p class="table-team-text">{{ game.team_first.title }}</p>
+                            <p class="table-team-text" :class="isFinal ? 'big-text' : ''">{{ game.team_first.title }}</p>
                         </b-col>
                         <b-col md="2" class="mx-0 mt-auto mb-auto">
-                            <p class="table-count-text">{{ firstTeamCount }}</p>
+                            <p class="table-count-text" :class="isFinal ? 'big-text' : ''">{{ firstTeamCount }}</p>
                         </b-col>
                     </template>
                     <template v-else>
-                        <img src="../assets/logo_placeholder.png" alt="first team logo" class="logo rounded-circle" />
+                        <img src="../assets/logo_placeholder.png" alt="first team logo" class="logo rounded-circle" :class="isFinal ? 'big-logo' : ''"/>
                         <b-col md="8" class="mx-0 mt-auto mb-auto">
-                            <p class="table-team-text">TBA</p>
+                            <p class="table-team-text" :class="isFinal ? 'big-text' : ''">TBA</p>
                         </b-col>
                         <b-col md="2" class="mx-0 mt-auto mb-auto">
-                            <p class="table-count-text">0</p>
+                            <p class="table-count-text" :class="isFinal ? 'big-text' : ''">0</p>
                         </b-col>
                     </template>
                 </b-row>
                 <b-row class="light-team-back mx-0">
                     <template v-if="game">
-                        <img :src="game.team_second.logo" alt="second team logo" class="logo rounded-circle" />
+                        <img :src="game.team_second.logo" alt="second team logo" class="logo rounded-circle" :class="isFinal ? 'big-logo' : ''"/>
                         <b-col md="8" class="mx-0 mt-auto mb-auto">
-                            <p class="table-team-text">{{ game.team_second.title }}</p>
+                            <p class="table-team-text" :class="isFinal ? 'big-text' : ''">{{ game.team_second.title }}</p>
                         </b-col>
                         <b-col md="2" class="mx-0 mt-auto mb-auto">
-                            <p class="table-count-text">{{ secondTeamCount }}</p>
+                            <p class="table-count-text" :class="isFinal ? 'big-text' : ''">{{ secondTeamCount }}</p>
                         </b-col>
                     </template>
                     <template v-else>
-                        <img src="../assets/logo_placeholder.png" alt="second team logo" class="logo rounded-circle" />
+                        <img src="../assets/logo_placeholder.png" alt="second team logo" class="logo rounded-circle" :class="isFinal ? 'big-logo' : ''"/>
                         <b-col md="8" class="mx-0 mt-auto mb-auto">
-                            <p class="table-team-text">TBA</p>
+                            <p class="table-team-text" :class="isFinal ? 'big-text' : ''">TBA</p>
                         </b-col>
                         <b-col md="2" class="mx-0 mt-auto mb-auto">
-                            <p class="table-count-text">0</p>
+                            <p class="table-count-text" :class="isFinal ? 'big-text' : ''">0</p>
                         </b-col>
                     </template>
                 </b-row>
@@ -75,7 +71,11 @@
         props: {
             game : Object,
             hideButtons: Boolean,
-            isFinal : Boolean
+            isFinal : Boolean,
+            onPush : Function,
+            onShow: Function,
+            onEdit: Function,
+            playoff: Object
         },
         data: function () {
             return {
@@ -97,13 +97,15 @@
 
             firstTeamCount: function () {
                 let count = 0;
+
+                console.log(this.game);
+
                 if (this.game.results) {
                     this.game.results.forEach((it) => {
                         let res = it.split(":");
                         if (this.game.discipline === 'CSGO') {
                             if (this.game.results.length === 1) {
-                                if (parseInt(res[1]) >= parseInt(res[2])) count = parseInt(res[1]);
-                                else count = parseInt(res[2])
+                                count = parseInt(res[1]);
                             } else if (parseInt(res[1]) > parseInt(res[2])) {
                                 count++;
                             }
@@ -122,8 +124,7 @@
                         let res = it.split(":");
                         if (this.game.discipline === 'CSGO') {
                             if (this.game.results.length === 1) {
-                                if (parseInt(res[1]) <= parseInt(res[2])) count = parseInt(res[1]);
-                                else count = parseInt(res[2])
+                                count = parseInt(res[2]);
                             } else if (parseInt(res[1]) < parseInt(res[2])) {
                                 count++;
                             }
@@ -141,7 +142,7 @@
 
 <style scoped>
 
-    @media (max-width: 1366px) {
+    /*@media (max-width: 1366px) {
         .group-rect {
             width: 14em;
             border-radius: 1em;
@@ -161,10 +162,27 @@
             box-shadow: 0 0.2em 1em rgba(0, 0, 0, 0.18);
             margin-bottom: 2em;
         }
-    }
+    }*/
 
     .logo {
         width: 2em;
+    }
+
+    .big-text {
+        font-size: 1.5em;
+    }
+
+    .big-logo {
+        width: 3em;
+    }
+
+    .big-rect {
+        width: 23em;
+        border-radius: 1em;
+        background: rgba(20, 20, 20, 0.6);
+        overflow: hidden;
+        box-shadow: 0 0.2em 1em rgba(0, 0, 0, 0.18);
+        margin-bottom: 1em;
     }
 
     .group-rect {
@@ -189,11 +207,13 @@
     .table-team-text {
         margin-bottom: 0;
         color: #FFFFFF;
+        text-align: start;
     }
 
     .table-team-text:hover {
         color: #CACACA;
         cursor: pointer;
+        text-align: start;
     }
 
     .table-count-text {
@@ -219,6 +239,6 @@
     }
 
     .buttons {
-        margin-right: 7em;
+        margin-right: 1em;
     }
 </style>
