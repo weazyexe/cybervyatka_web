@@ -32,13 +32,12 @@
                                             <span class="md-error" v-if="!$v.dateNumber.required">Выберите дату начала матча</span>
                                         </md-datepicker>
 
-                                        <md-field class="field" :class="getValidationClass('discipline')">
+                                        <md-field class="field">
                                             <label for="discipline">Дисциплина</label>
-                                            <md-select name="discipline" id="discipline" v-model="game.discipline" md-dense :disabled="sending">
+                                            <md-select name="discipline" id="discipline" v-model="game.discipline" md-dense :disabled="sending || isAddToPlayoff">
                                                 <md-option value="CSGO">CS:GO</md-option>
                                                 <md-option value="DOTA2">Dota 2</md-option>
                                             </md-select>
-                                            <span class="md-error" v-if="!$v.game.discipline.required">Дисциплина обязательна</span>
                                         </md-field>
 
                                         <md-field class="field" :class="getValidationClass('is_ended')">
@@ -136,10 +135,8 @@
 
 <script>
     import firebase from "firebase/app";
-    import { validationMixin } from 'vuelidate';
-    import {
-        required
-    } from 'vuelidate/lib/validators';
+    import {validationMixin} from 'vuelidate';
+    import {required} from 'vuelidate/lib/validators';
     import AdminMenu from "@/components/AdminMenu";
 
     export default {
@@ -160,7 +157,10 @@
                 maps: [
                     "de_dust2", "de_inferno", "de_nuke", "de_mirage", "de_train", "de_overpass", "de_vertigo"
                 ],
-                results: []
+                results: [],
+                playoff: {},
+                playoffGameId: 0,
+                isAddToPlayoff: false
             }
         },
         created() {
@@ -186,45 +186,75 @@
 
                 this.game = game;
             } else {
-                let uid = query.uid;
 
-                db.doc("games/" + uid).get().then((response) => {
-                    let game = response.data();
+                if (query.uid) {
+                    let uid = query.uid;
 
-                    let fRef = game.team_first;
-                    let sRef = game.team_second;
+                    db.doc("games/" + uid).get().then((response) => {
+                        let game = response.data();
+
+                        let fRef = game.team_first;
+                        let sRef = game.team_second;
+
+                        let results = [];
+
+                        if (game.results !== null) {
+                            game.results.forEach((it) => {
+                                let counts = it.split(":");
+                                if (game.discipline === 'CSGO') {
+                                    results.push({map: counts[0], firstCount: counts[1], secondCount: counts[2]});
+                                } else {
+                                    results.push({map: '', firstCount: counts[0], secondCount: counts[1]});
+                                }
+                            });
+                        } else {
+                            for (let i = 0; i < game.best_of; i++) {
+                                results.push({map: '', firstCount: 0, secondCount: 0});
+                            }
+                        }
+
+                        game.results = results;
+                        this.results = results;
+
+                        fRef.get().then((firstTeam) => {
+                            this.firstTeam = firstTeam.data().uid;
+
+                            sRef.get().then((secondTeam) => {
+                                this.secondTeam = secondTeam.data().uid;
+                                this.bestOf = game.best_of;
+                                this.dateNumber = game.datetime.seconds * 1000;
+                                this.game = game;
+                            });
+                        });
+                    });
+                } else {
+                    let game = {};
+
+                    this.isAddToPlayoff = true;
+
+                    let date = Math.round(Date.now() / 1000);
+                    game.uid = date.toString(16).toUpperCase();
+
+                    game.is_ended = false;
 
                     let results = [];
-
-                    if (game.results !== null) {
-                        game.results.forEach((it) => {
-                            let counts = it.split(":");
-                            if (game.discipline === 'CSGO') {
-                                results.push({map: counts[0], firstCount: counts[1], secondCount: counts[2]});
-                            } else {
-                                results.push({map: '', firstCount: counts[0], secondCount: counts[1]});
-                            }
-                        });
-                    } else {
-                        for (let i = 0; i < game.best_of; i++) {
-                            results.push({map: '', firstCount: 0, secondCount: 0});
-                        }
-                    }
-
+                    results.push({map: '', firstCount: '0', secondCount: '0'});
                     game.results = results;
                     this.results = results;
 
-                    fRef.get().then((firstTeam) => {
-                        this.firstTeam = firstTeam.data().uid;
+                    this.game = game;
 
-                        sRef.get().then((secondTeam) => {
-                            this.secondTeam = secondTeam.data().uid;
-                            this.bestOf = game.best_of;
-                            this.dateNumber = game.datetime.seconds * 1000;
-                            this.game = game;
-                        });
+                    let playoffUid = query.playoff;
+                    let gameId = query.playoffGameId;
+                    let db = firebase.firestore();
+
+                    this.playoffGameId = gameId;
+
+                    db.doc(`playoff/${playoffUid}`).get().then((response) => {
+                        this.playoff = response.data();
+                        this.game.discipline = this.playoff.discipline;
                     });
-                });
+                }
             }
 
             db.collection("teams").get().then((response) => {
@@ -283,6 +313,19 @@
                     game.results = null;
                 } else {
                     game.results = results;
+                }
+
+                let query = this.$route.query;
+                if (query.playoff && query.playoffGameId) {
+                    let id = query.playoffGameId;
+
+                    // Лютый хардкод. Добавлять матчи можно только в первые матчи в сетке
+                    if (id === 8 || id === 9 || id === 3 || id === 4) {
+                        let playoff = this.playoff;
+                        playoff.games[id] = db.doc(`games/${game.uid}`);
+
+                        db.doc(`playoff/${playoff.uid}`).set(playoff);
+                    }
                 }
 
                 db.doc(`games/${game.uid}`).set(game).then(() => {

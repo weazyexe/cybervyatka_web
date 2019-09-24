@@ -6,51 +6,55 @@
 
         <admin-menu :is-playoff-active="true"></admin-menu>
         <div class="content">
-            <div class="playoff-content text-center">
+            <template v-for="(playoff, index) in playoffs">
+                <b-col :key="index">
+                    <p class="table-header-text text-center" :key="index">Сетка {{ playoff.discipline === 'CSGO' ? 'CS:GO' : 'Dota 2' }}</p>
+                    <div class="playoff-content text-center" :key="index">
+                        <div class="games-line bottom-vertical mt-auto mr-5">
+                            <playoff-game-cell :game="playoff.games[8]" :hide-buttons="false"
+                                               :on-show="showGame" :on-edit="editGame" :game-id="8" :on-add="addGame"
+                                               :on-push="pushGameNext" :playoff="playoff"></playoff-game-cell>
+                            <playoff-game-cell :game="playoff.games[9]" :hide-buttons="false"
+                                               :on-show="showGame" :on-edit="editGame" :game-id="9" :on-add="addGame"
+                                               :on-push="pushGameNext" :playoff="playoff"></playoff-game-cell>
+                        </div>
 
-                <div class="games-line bottom-vertical mt-auto mr-5">
-                    <playoff-game-cell :game="playoffs[0].games[8]" :hide-buttons="false"
-                                       :on-show="showGame" :on-edit="editGame"
-                                       :on-push="pushGameNext" :playoff="playoffs[0]"></playoff-game-cell>
-                    <playoff-game-cell :game="playoffs[0].games[9]" :hide-buttons="false"
-                                       :on-show="showGame" :on-edit="editGame"
-                                       :on-push="pushGameNext" :playoff="playoffs[0]"></playoff-game-cell>
-                </div>
+                        <div class="games-line mr-5">
+                            <playoff-game-cell :game="playoff.games[3]" :hide-buttons="false"
+                                               :on-show="showGame" :on-edit="editGame" :game-id="3" :on-add="addGame"
+                                               :on-push="pushGameNext" :playoff="playoff"></playoff-game-cell>
+                            <playoff-game-cell :game="playoff.games[4]" :hide-buttons="false"
+                                               :on-show="showGame" :on-edit="editGame" :game-id="4" :on-add="addGame"
+                                               :on-push="pushGameNext" :playoff="playoff"></playoff-game-cell>
+                            <playoff-game-cell :game="playoff.games[6]" :hide-buttons="false"
+                                               :on-show="showGame" :on-edit="editGame"
+                                               :on-push="pushGameNext" :playoff="playoff"></playoff-game-cell>
+                            <playoff-game-cell :game="playoff.games[7]" :hide-buttons="false"
+                                               :on-show="showGame" :on-edit="editGame"
+                                               :on-push="pushGameNext" :playoff="playoff"></playoff-game-cell>
+                        </div>
 
-                <div class="games-line mr-5">
-                    <playoff-game-cell :game="playoffs[0].games[3]" :hide-buttons="false"
-                                       :on-show="showGame" :on-edit="editGame"
-                                       :on-push="pushGameNext" :playoff="playoffs[0]"></playoff-game-cell>
-                    <playoff-game-cell :game="playoffs[0].games[4]" :hide-buttons="false"
-                                       :on-show="showGame" :on-edit="editGame"
-                                       :on-push="pushGameNext" :playoff="playoffs[0]"></playoff-game-cell>
-                    <playoff-game-cell :game="playoffs[0].games[6]" :hide-buttons="false"
-                                       :on-show="showGame" :on-edit="editGame"
-                                       :on-push="pushGameNext" :playoff="playoffs[0]"></playoff-game-cell>
-                    <playoff-game-cell :game="playoffs[0].games[7]" :hide-buttons="false"
-                                       :on-show="showGame" :on-edit="editGame"
-                                       :on-push="pushGameNext" :playoff="playoffs[0]"></playoff-game-cell>
-                </div>
+                        <div class="games-line mr-5 mt-auto mb-auto">
+                            <playoff-game-cell :game="playoff.games[1]" :hide-buttons="false" class="mb-5 pb-5"
+                                               :on-show="showGame" :on-edit="editGame"
+                                               :on-push="pushGameNext" :playoff="playoff"></playoff-game-cell>
+                            <playoff-game-cell :game="playoff.games[5]" :hide-buttons="false" class="mt-5 pt-5"
+                                               :on-show="showGame" :on-edit="editGame"
+                                               :on-push="pushGameNext" :playoff="playoff"></playoff-game-cell>
+                        </div>
 
-                <div class="games-line mr-5 mt-auto mb-auto">
-                    <playoff-game-cell :game="playoffs[0].games[1]" :hide-buttons="false" class="mb-5 pb-5"
-                                       :on-show="showGame" :on-edit="editGame"
-                                       :on-push="pushGameNext" :playoff="playoffs[0]"></playoff-game-cell>
-                    <playoff-game-cell :game="playoffs[0].games[5]" :hide-buttons="false" class="mt-5 pt-5"
-                                       :on-show="showGame" :on-edit="editGame"
-                                       :on-push="pushGameNext" :playoff="playoffs[0]"></playoff-game-cell>
-                </div>
+                        <div class="games-line mr-5 mt-auto mb-auto ml-auto">
+                            <playoff-game-cell :game="playoff.games[0]" :hide-buttons="false" :on-edit="editGame"
+                                               :on-show="showGame" :on-push="pushGameNext"
+                                               class="mb-5 pb-5" :is-final="true" :playoff="playoff"></playoff-game-cell>
+                            <playoff-game-cell :game="playoff.games[2]" :hide-buttons="false" :on-edit="editGame"
+                                               :on-show="showGame" :on-push="pushGameNext"
+                                               class="mt-5 pt-0" :playoff="playoff"></playoff-game-cell>
+                        </div>
 
-                <div class="games-line mr-5 mt-auto mb-auto ml-auto">             
-                    <playoff-game-cell :game="playoffs[0].games[0]" :hide-buttons="false" :on-edit="editGame"
-                                       :on-show="showGame" :on-push="pushGameNext"
-                                       class="mb-5 pb-5" :is-final="true" :playoff="playoffs[0]"></playoff-game-cell>
-                    <playoff-game-cell :game="playoffs[0].games[2]" :hide-buttons="false" :on-edit="editGame"
-                                       :on-show="showGame" :on-push="pushGameNext"
-                                       class="mt-5 pt-0" :playoff="playoffs[0]"></playoff-game-cell>
-                </div>
-
-            </div>
+                    </div>
+                </b-col>
+            </template>
         </div>
     </div>
 </template>
@@ -99,30 +103,29 @@
             },
             onConfirmPush() {
                 this.showPushDialog = false;
+            },
+            addGame(playoff, id) {
+                this.$router.push({ path: '/admin/games/add', query: { playoff: playoff.uid, playoffGameId: id } });
             }
         },
         created() {
             let db = firebase.firestore();
 
             db.collection("playoff").get().then((response) => {
-                response.forEach((rawPlayoff) => {
-                    let playoff = rawPlayoff.data();
-
+                for (let j = 0; j < response.size; j++) {
+                    let playoff = response.docs[j].data();
 
                     let oldGames = playoff.games;
                     let games = [];
 
+                    this.playoffs.push(playoff);
                     for (let i = 0; i < oldGames.length; i++) {
                         games.push(null);
                         let gameRef = oldGames[i];
 
-                        console.log(gameRef);
-
                         if (gameRef !== null) {
                             gameRef.get().then((rawGame) => {
                                 let game = rawGame.data();
-
-
 
                                 game.team_first.get().then((firstTeam) => {
                                     game.team_first = firstTeam.data();
@@ -130,20 +133,19 @@
                                         game.team_second = secondTeam.data();
 
                                         games[i] = game;
-                                        playoff.games = games;
 
-                                        this.playoffs.push(playoff);
+                                        this.playoffs[j].games = games;
 
-                                        console.log(this.playoffs);
+                                        // Без этого не все команды выводит))))
+                                        this.currentGame = game;
                                     });
                                 });
                             });
                         } else {
-                            playoff.games[i] = null;
-                            this.playoffs.push(playoff);
+                            this.playoffs[j].games[i] = null;
                         }
                     }
-                });
+                }
             });
         }
     }
@@ -158,6 +160,12 @@
         overflow-y: hidden;
     }
 
+    .table-team-text {
+        margin-bottom: 0;
+        color: #FFFFFF;
+        text-align: start;
+    }
+
     .games-line {
         display: inline-block;
         vertical-align: middle;
@@ -165,6 +173,15 @@
 
     .games-line.bottom-vertical {
         vertical-align: bottom;
+    }
+
+    .table-header-text {
+        margin-bottom: 0;
+        font-weight: bold;
+        color: #D68956;
+        font-size: 2em;
+        padding-top: 2em;
+        padding-bottom: 1em;
     }
 
     .add-fab {

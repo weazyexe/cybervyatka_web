@@ -1,0 +1,281 @@
+<template>
+    <div>
+        <game-dialog :game="currentGame" :show="showGameDialog" :on-confirm="onShowConfirm"></game-dialog>
+
+        <div class="all-content">
+            <landing-header></landing-header>
+
+            <div>
+                <b-row class="header">
+                    <p class="biggest-text">Плей-офф</p>
+
+                    <md-field id="select-game">
+                        <md-select name="status" id="status" v-model="discipline" md-dense>
+                            <md-option value="CSGO">CS:GO</md-option>
+                            <md-option value="DOTA2">Dota 2</md-option>
+                        </md-select>
+                    </md-field>
+                </b-row>
+
+            </div>
+
+            <div class="prerect">
+                <div class="rectangle"></div>
+            </div>
+        </div>
+
+        <b-container fluid id="teams-content" :class="discipline === 'CSGO' ? 'csgo-back' : 'dota2-back'">
+            <template v-for="(playoff, index) in playoffs">
+                <b-col v-if="playoff.discipline === discipline" :key="index">
+                    <div class="playoff-content text-center" :key="index">
+                        <div class="games-line bottom-vertical mt-auto mr-5">
+                            <playoff-game-cell :game="playoff.games[8]" :hide-buttons="true"
+                                               :playoff="playoff" :on-show="showGame"></playoff-game-cell>
+                            <playoff-game-cell :game="playoff.games[9]" :hide-buttons="true"
+                                               :playoff="playoff" :on-show="showGame"></playoff-game-cell>
+                        </div>
+
+                        <div class="games-line mr-5">
+                            <playoff-game-cell :game="playoff.games[3]" :hide-buttons="true"
+                                               :playoff="playoff" :on-show="showGame"></playoff-game-cell>
+                            <playoff-game-cell :game="playoff.games[4]" :hide-buttons="true"
+                                               :playoff="playoff" :on-show="showGame"></playoff-game-cell>
+                            <playoff-game-cell :game="playoff.games[6]" :hide-buttons="true"
+                                               :playoff="playoff" :on-show="showGame"></playoff-game-cell>
+                            <playoff-game-cell :game="playoff.games[7]" :hide-buttons="true"
+                                               :playoff="playoff" :on-show="showGame"></playoff-game-cell>
+                        </div>
+
+                        <div class="games-line mr-5 mt-auto mb-auto">
+                            <playoff-game-cell :game="playoff.games[1]" :hide-buttons="true" class="mb-5 pb-5"
+                                               :playoff="playoff" :on-show="showGame"></playoff-game-cell>
+                            <playoff-game-cell :game="playoff.games[5]" :hide-buttons="true" class="mt-5 pt-5"
+                                               :playoff="playoff" :on-show="showGame"></playoff-game-cell>
+                        </div>
+
+                        <div class="games-line mr-5 mt-auto mb-auto ml-auto">
+                            <playoff-game-cell :game="playoff.games[0]" :hide-buttons="true" :on-show="showGame"
+                                               class="mb-5 pb-5" :is-final="true" :playoff="playoff"></playoff-game-cell>
+                            <playoff-game-cell :game="playoff.games[2]" :hide-buttons="true" :on-show="showGame"
+                                               class="mt-5 pt-0" :playoff="playoff"></playoff-game-cell>
+                        </div>
+
+                    </div>
+                </b-col>
+            </template>
+            <!--<b-col>
+                <b-row>
+                    <b-container v-if="isLoading" class="text-center">
+                        <md-progress-spinner class="main-color" md-mode="indeterminate"></md-progress-spinner>
+                    </b-container>
+                    <template v-else-if="groups.length === 0">
+                        <b-container class="text-center">
+                            <b-col>
+                                <i class="material-icons sad-face">sentiment_dissatisfied</i>
+                                <p class="bigger-text">Группы не сформированы</p>
+                            </b-col>
+                        </b-container>
+                    </template>
+                    <b-container fluid v-else>
+                        <b-row class="ml-3">
+                            <template v-for="(group, index) in groups">
+                                <template v-if="group.discipline === discipline">
+                                    <group-entry :key="index" :group="group" :hide-buttons="true"></group-entry>
+                                </template>
+                            </template>
+                        </b-row>
+                    </b-container>
+                </b-row>
+            </b-col>-->
+        </b-container>
+    </div>
+</template>
+
+<script>
+    import firebase from 'firebase';
+    import LandingHeader from "@/components/LandingHeader";
+    import PlayoffGameCell from "@/components/PlayoffGameCell";
+    import GameDialog from "@/components/GameDialog";
+
+    export default {
+        name: "LandingPlayoff",
+        components: {
+            LandingHeader,
+            PlayoffGameCell,
+            GameDialog
+        },
+        data: function () {
+            return {
+                discipline: 'CSGO',
+                playoffs: [],
+                showGameDialog: false,
+                currentGame: {}
+            }
+        },
+        methods: {
+            showGame(game) {
+                this.currentGame = game;
+                this.showGameDialog = true;
+            },
+            onShowConfirm() {
+                this.showGameDialog = false;
+            },
+        },
+        created() {
+            let db = firebase.firestore();
+
+            db.collection("playoff").get().then((response) => {
+                for (let j = 0; j < response.size; j++) {
+                    let playoff = response.docs[j].data();
+
+                    let oldGames = playoff.games;
+                    let games = [];
+
+                    this.playoffs.push(playoff);
+                    for (let i = 0; i < oldGames.length; i++) {
+                        games.push(null);
+                        let gameRef = oldGames[i];
+
+                        if (gameRef !== null) {
+                            gameRef.get().then((rawGame) => {
+                                let game = rawGame.data();
+
+                                game.team_first.get().then((firstTeam) => {
+                                    game.team_first = firstTeam.data();
+                                    game.team_second.get().then((secondTeam) => {
+                                        game.team_second = secondTeam.data();
+
+                                        games[i] = game;
+
+                                        this.playoffs[j].games = games;
+
+                                        // Без этого не все команды выводит))))
+                                        this.currentGame = game;
+                                    });
+                                });
+                            });
+                        } else {
+                            this.playoffs[j].games[i] = null;
+                        }
+                    }
+                }
+            });
+        }
+    }
+</script>
+
+<style scoped>
+    html, body {
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+    .playoff-content {
+        width: 100%;
+        height: 50%;
+        white-space: nowrap;
+        overflow-x: auto;
+        overflow-y: hidden;
+    }
+
+    #select-game{
+        margin-left: 2em;
+        margin-top: 15.4em;
+        padding-top: 3em;
+        width: 5em;
+        display: inline;
+        position: unset;
+    }
+
+    .bigger-text {
+        color: #FFFFFF;
+        font-size: 1.5em;
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 2em;
+    }
+
+    .games-line {
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    .games-line.bottom-vertical {
+        vertical-align: bottom;
+    }
+
+    .table-header-text {
+        margin-bottom: 0;
+        font-weight: bold;
+        color: #D68956;
+        font-size: 2em;
+        padding-top: 2em;
+        padding-bottom: 1em;
+    }
+
+    .header {
+        margin-right: 0;
+        margin-left: 0;
+    }
+
+    .sad-face {
+        color: #FFFFFF;
+        text-align: center;
+        font-size: 5em;
+    }
+
+    .all-content {
+        background: url("../assets/main_background.png") center no-repeat;
+        background-size: cover;
+        max-height: 45em;
+    }
+
+    .prerect {
+        max-width: 100%;
+        min-width: 100%;
+        height: 30em;
+        margin-top: -5em;
+        overflow-x: hidden;
+        overflow-y: hidden;
+    }
+
+    .rectangle {
+        background-color: #101010;
+        min-width: 110%;
+        min-height: 10em;
+        transform: rotate(-3deg);
+        margin-left: -7em;
+        transform-origin: 103%;
+        z-index: 1;
+    }
+
+    .biggest-text {
+        color: #FFFFFF;
+        margin-top: 4em;
+        font-size: 4em;
+        font-weight: bold;
+        text-align: left;
+        margin-left: 3.5em;
+    }
+
+    :root {
+        --accent-color-dark: #aa7d64;
+        --accent-color: #D68956;
+    }
+
+    #teams-content {
+        background-color: #101010;
+        z-index: 2;
+        margin-top: -10em;
+        padding: 7em 10% 10% 10%;
+    }
+
+    .csgo-back {
+        background: url("../assets/csgo.svg") center no-repeat;
+    }
+
+    .dota2-back {
+        background: url("../assets/dota2.png") center no-repeat;
+    }
+</style>

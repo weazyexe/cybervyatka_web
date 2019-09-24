@@ -3,12 +3,19 @@
         <team-dialog :team="currentTeam" :on-confirm="onConfirmTeam" :show="showTeamDialog" :show-contacts="false"></team-dialog>
 
         <b-row class="mb-2 ml-2">
-            <p v-if="isFinal" class="table-header-text">Финал</p>
-            <div v-if="!hideButtons" class="ml-auto buttons">
+            <p v-if="isFinal && game" class="table-header-text">Финал: BO{{ game.best_of }}</p>
+            <p v-else-if="isFinal" class="table-header-text">Финал</p>
+            <p v-else-if="game" class="table-header-text">BO{{ game.best_of }}</p>
+            <div class="ml-auto buttons">
                 <b-row class="mx-0">
-                    <i class="material-icons rule-button" @click="onShow(game)">info</i>
-                    <i class="material-icons rule-button" @click="onEdit(game)">edit</i>
-                    <i class="material-icons rule-button" @click="onPush(game, playoff)">done</i>
+                    <template v-if="game">
+                        <i class="material-icons rule-button" @click="onShow(game)">info</i>
+                        <template v-if="!hideButtons">
+                            <i class="material-icons rule-button" v-if="onAdd" @click="onAdd(playoff, gameId)">add</i>
+                            <i class="material-icons rule-button" @click="onEdit(game)">edit</i>
+                            <i class="material-icons rule-button" @click="onPush(game, playoff)">done</i>
+                        </template>
+                    </template>
                 </b-row>
             </div>
         </b-row>
@@ -75,7 +82,9 @@
             onPush : Function,
             onShow: Function,
             onEdit: Function,
-            playoff: Object
+            playoff: Object,
+            onAdd: Function,
+            gameId: Number
         },
         data: function () {
             return {
@@ -97,8 +106,6 @@
 
             firstTeamCount: function () {
                 let count = 0;
-
-                console.log(this.game);
 
                 if (this.game.results) {
                     this.game.results.forEach((it) => {
@@ -141,28 +148,6 @@
 </script>
 
 <style scoped>
-
-    /*@media (max-width: 1366px) {
-        .group-rect {
-            width: 14em;
-            border-radius: 1em;
-            background: rgba(20, 20, 20, 0.6);
-            overflow: hidden;
-            box-shadow: 0 0.2em 1em rgba(0, 0, 0, 0.18);
-            margin-bottom: 2em;
-        }
-    }
-
-    @media (max-width: 720px) {
-        .group-rect {
-            width: 10em;
-            border-radius: 1em;
-            background: rgba(20, 20, 20, 0.6);
-            overflow: hidden;
-            box-shadow: 0 0.2em 1em rgba(0, 0, 0, 0.18);
-            margin-bottom: 2em;
-        }
-    }*/
 
     .logo {
         width: 2em;

@@ -10,7 +10,7 @@
             <b-nav-item class="menu-item" to="/teams">Команды</b-nav-item>
             <b-nav-item class="menu-item" to="/games">Расписание</b-nav-item>
             <b-nav-item class="menu-item" to="/groups">Группы</b-nav-item>
-            <b-nav-item class="menu-item" href="#">Плей-офф</b-nav-item>
+            <b-nav-item class="menu-item" to="/playoff">Плей-офф</b-nav-item>
             <b-nav-item class="menu-item" href="#">Прошлые сезоны</b-nav-item>
             <b-button class="menu-item accent-button shadow-none">Участвовать</b-button>
         </b-navbar-nav>

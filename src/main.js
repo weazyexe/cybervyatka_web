@@ -26,6 +26,7 @@ import AdminGroups from "@/components/AdminGroups";
 import AdminGroupAddEdit from "@/components/AdminGroupAddEdit";
 import LandingGroups from "@/components/LandingGroups";
 import AdminPlayoff from "@/components/AdminPlayoff";
+import LandingPlayoff from "@/components/LandingPlayoff";
 
 Vue.config.productionTip = false;
 
@@ -58,6 +59,7 @@ const routes = [
     { path: '/teams', component: LandingTeams },
     { path: '/games', component: LandingGames },
     { path: '/groups', component: LandingGroups },
+    { path: '/playoff', component: LandingPlayoff },
 
     {
         path: '/admin/teams',

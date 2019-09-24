@@ -87,9 +87,6 @@
         },
         data: function () {
             return {
-                maps: [
-                    "de_dust2", "de_inferno", "de_nuke", "de_mirage", "de_train", "de_overpass", "de_vertigo"
-                ],
                 results: [],
                 currentTeam: {},
                 showTeamDialog: false,
@@ -136,8 +133,6 @@
                 this.showTeamDialog = false;
             },
             onConfirmPush() {
-                //this.isLoading = true;
-
                 let hasNotEndedGames = false;
                 let firstCount = 0, secondCount = 0;
                 let db = firebase.firestore();
@@ -179,23 +174,13 @@
                     let gameWinner = this.playoff.games[indexes.winnerTo];
                     let gameLoser = this.playoff.games[indexes.loserTo];
 
-                    console.log("winner game");
-                    console.log(gameWinner);
-                    console.log("loser game");
-                    console.log(gameLoser);
-
                     // Если победитель есть, то проверяем есть ли уже команда в БД. Если есть - дополняем, если нет - создаём
                     if (indexes.winnerTo !== -1) {
                         if (gameWinner !== null) {
                             gameWinner.team_second = db.doc(`teams/${winner.uid}`);
                             gameWinner.team_first = db.doc(`teams/${gameWinner.team_first.uid}`);
-
-                            console.log("winner game if winnerTo != -1 && gameWinner != null");
-                            console.log(gameWinner);
                         } else {
                             gameWinner = this.makeGame(winner, 0);
-                            console.log("winner game if gameWinner == null");
-                            console.log(gameWinner);
                         }
 
                         db.doc(`games/${gameWinner.uid}`).set(gameWinner);
@@ -206,14 +191,8 @@
                         if (gameLoser !== null) {
                             gameLoser.team_second = db.doc(`teams/${loser.uid}`);
                             gameLoser.team_first = db.doc(`teams/${gameLoser.team_first.uid}`);
-
-                            console.log("loser game if loserTo != -1 && gameLoser != null");
-                            console.log(gameLoser);
                         } else  {
                             gameLoser = this.makeGame(loser, 2);
-
-                            console.log("loser game if gameLoser == null");
-                            console.log(gameLoser);
                         }
 
                         db.doc(`games/${gameLoser.uid}`).set(gameLoser);
@@ -226,8 +205,6 @@
 
                     let playoff = this.preparePlayoff();
                     this.writeGame(true);
-                    console.log("final playoff");
-                    console.log(playoff);
 
                     db.doc(`playoff/${playoff.uid}`).set(playoff).then(() => {
                         this.onConfirm();
