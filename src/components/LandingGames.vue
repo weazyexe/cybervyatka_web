@@ -1,31 +1,28 @@
 <template>
-    <div>
-        <div class="all-content">
+    <div class="parallax">
+        <game-dialog :game="currentGame" :on-confirm="onConfirmShow" :show="showGameDialog"></game-dialog>
+        <div class="all-content parallax__layer parallax__layer--back"></div>
+
+        <div class="parallax__layer parallax__layer--base">
             <landing-header></landing-header>
+            <b-row class="header">
+                <p class="biggest-text">Расписание</p>
 
-            <game-dialog :game="currentGame" :on-confirm="onConfirmShow" :show="showGameDialog"></game-dialog>
+                <md-field id="select-game">
+                    <md-select name="status" id="status" v-model="discipline" md-dense>
+                        <md-option value="CSGO">CS:GO</md-option>
+                        <md-option value="DOTA2">Dota 2</md-option>
+                    </md-select>
+                </md-field>
+            </b-row>
+        </div>
 
-            <div>
-                <b-row class="header">
-                    <p class="biggest-text">Расписание</p>
-
-                    <md-field id="select-game">
-                        <md-select name="status" id="status" v-model="discipline" md-dense>
-                            <md-option value="CSGO">CS:GO</md-option>
-                            <md-option value="DOTA2">Dota 2</md-option>
-                        </md-select>
-                    </md-field>
-                </b-row>
-
-            </div>
-
-            <div class="prerect">
-                <div class="rectangle"></div>
-            </div>
+        <div class="prerect">
+            <div class="rectangle"></div>
         </div>
 
         <b-container fluid id="teams-content" :class="discipline === 'CSGO' ? 'csgo-back' : 'dota2-back'">
-            <b-col>
+            <b-col class="p-0">
                 <b-row class="filters">
                     <md-field class="field">
                         <md-icon>people</md-icon>
@@ -213,9 +210,75 @@
 </script>
 
 <style scoped>
-    html, body {
+    html {
+        height: 100%;
+        overflow: hidden;
+    }
+
+    .prerect {
         max-width: 100%;
+        min-width: 100%;
+        height: 30em;
+        margin-top: 12em;
+        padding-top: 16em;
         overflow-x: hidden;
+        overflow-y: hidden;
+        z-index: -1;
+    }
+
+    .rectangle {
+        background-color: #101010;
+        min-width: 110%;
+        min-height: 12em;
+        transform: rotate(-3deg);
+        margin-left: -7em;
+        transform-origin: 103%;
+    }
+
+    .all-content {
+        background: url("../assets/main_background.png") center no-repeat;
+        background-size: cover;
+        max-height: 45em;
+        z-index: -1;
+        margin-top: -4%;
+    }
+
+    .biggest-text {
+        color: #FFFFFF;
+        margin-top: 4em;
+        font-size: 4em;
+        font-weight: bold;
+        text-align: left;
+        margin-left: 10.5%;
+    }
+
+    #teams-content {
+        background-color: #101010;
+        z-index: 2;
+        margin-top: -3em;
+        padding: 0 10% 10% 10%;
+    }
+
+    .parallax {
+        perspective: 1px;
+        height: 100vh;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+    .parallax__layer {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+    }
+
+    .parallax__layer--base {
+        transform: translateZ(0);
+    }
+
+    .parallax__layer--back {
+        transform: translateZ(-1px) scale(2.1);
     }
 
     #select-game{
@@ -252,56 +315,15 @@
         font-size: 5em;
     }
 
-    .all-content {
-        background: url("../assets/main_background.png") center no-repeat;
-        background-size: cover;
-        max-height: 45em;
-    }
-
     .field {
         color: #D68956;
         margin-right: 2em;
         width: 15em;
     }
 
-    .prerect {
-        max-width: 100%;
-        min-width: 100%;
-        height: 30em;
-        margin-top: -5em;
-        overflow-x: hidden;
-        overflow-y: hidden;
-    }
-
-    .rectangle {
-        background-color: #101010;
-        min-width: 110%;
-        min-height: 10em;
-        transform: rotate(-3deg);
-        margin-left: -7em;
-        transform-origin: 103%;
-        z-index: 1;
-    }
-
-    .biggest-text {
-        color: #FFFFFF;
-        margin-top: 4em;
-        font-size: 4em;
-        font-weight: bold;
-        text-align: left;
-        margin-left: 3.5em;
-    }
-
     :root {
         --accent-color-dark: #aa7d64;
         --accent-color: #D68956;
-    }
-
-    #teams-content {
-        background-color: #101010;
-        z-index: 2;
-        margin-top: -10em;
-        padding: 7em 10% 10% 10%;
     }
 
     .team-button {
@@ -373,7 +395,11 @@
         margin-bottom: 0.7em;
     }
 
-    .md-field:after {
+    .md-field::after {
+        height: 0;
+    }
+
+    .md-field::before {
         height: 0;
     }
 
@@ -384,24 +410,5 @@
 
     .md-field>.md-icon:after {
         content: none;
-    }
-
-    /*.md-field>.md-icon:after {
-        width: 0;
-        height: 0;
-        display: none;
-    }
-
-    .md-field>.md-date-icon:after {
-        width: 0;
-        height: 0;
-    }*/
-
-    .md-icon.md-icon-font.md-icon-image.md-date-icon.md-theme-default::after {
-        width: 0;
-    }
-
-    .md-icon {
-        margin-right: 0.5em;
     }
 </style>
