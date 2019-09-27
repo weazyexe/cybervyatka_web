@@ -43,6 +43,9 @@
             onMain() {
                 this.$router.push('/');
             }
+        },
+        created() {
+            document.title = this.$route.meta.title;
         }
     }
 </script>

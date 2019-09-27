@@ -223,6 +223,7 @@
             }
         },
         created() {
+            document.title = this.$route.meta.title;
             this.isSending = true;
             let db = firebase.firestore();
 
@@ -466,7 +467,7 @@
     }
 
     .parallax__layer--back {
-        transform: translateZ(-1px) scale(2.1);
+        transform: translateZ(-1px) scale(2.7);
     }
 
     .field {

@@ -64,29 +64,45 @@
             return {
                 groups: [],
                 isLoading : true,
-                discipline: 'CSGO'
+                discipline: 'CSGO',
+                isOpen: true
             }
         },
         created() {
+            document.title = this.$route.meta.title;
             let db = firebase.firestore();
 
-            db.collection("groups").get().then((response) => {
-                response.forEach((rawGroup) => {
-                    let group = rawGroup.data();
+            db.doc('tournament/settings').get().then((settingsRaw) => {
+                this.isOpen = settingsRaw.data().isGroupsOpen;
 
-                    let teams = [];
-                    let oldTeams = group.teams;
-                    oldTeams.forEach((teamRef) => {
-                        teamRef.get().then((team) => {
-                            teams.push(team.data());
-                            group.teams = teams;
+                if (this.isOpen) {
+                    db.collection("groups").get().then((response) => {
+                        response.forEach((rawGroup) => {
+                            let group = rawGroup.data();
 
-                            this.isLoading = false;
+                            let teams = [];
+                            let oldTeams = group.teams;
+                            oldTeams.forEach((teamRef) => {
+                                teamRef.get().then((team) => {
+                                    teams.push(team.data());
+                                    group.teams = teams;
+
+                                    this.isLoading = false;
+                                });
+                            });
+
+                            this.groups.push(group);
                         });
-                    });
 
-                    this.groups.push(group);
-                });
+                        if (response.size === 0) {
+                            this.isLoading = false;
+                            this.groups = [];
+                        }
+                    });
+                }
+
+                this.isLoading = false;
+                this.groups = [];
             });
         }
     }
@@ -161,7 +177,7 @@
     }
 
     .parallax__layer--back {
-        transform: translateZ(-1px) scale(2.1);
+        transform: translateZ(-1px) scale(2.7);
     }
 
     .md-field::after {
@@ -190,24 +206,9 @@
         position: unset;
     }
 
-    .bigger-text {
-        color: #FFFFFF;
-        font-size: 1.5em;
-        text-align: center;
-        margin-left: auto;
-        margin-right: auto;
-        margin-bottom: 2em;
-    }
-
     .header {
         margin-right: 0;
         margin-left: 0;
-    }
-
-    .sad-face {
-        color: #FFFFFF;
-        text-align: center;
-        font-size: 5em;
     }
 
 
@@ -223,5 +224,21 @@
 
     .dota2-back {
         background: url("../assets/dota2.png") center no-repeat;
+    }
+
+    .sad-face {
+        color: #FFFFFF;
+        text-align: center;
+        font-size: 5em;
+        margin-top: 1em;
+    }
+
+    .bigger-text {
+        color: #FFFFFF;
+        font-size: 1.5em;
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 2em;
     }
 </style>

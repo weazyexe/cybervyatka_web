@@ -92,6 +92,7 @@
             TeamDialog
         },
         created() {
+            document.title = this.$route.meta.title;
             let db = firebase.firestore();
 
             db.collection("teams").get().then((response) => {

@@ -58,7 +58,7 @@
                         <b-container class="text-center">
                             <b-col>
                                 <i class="material-icons sad-face">sentiment_dissatisfied</i>
-                                <p class="bigger-text">Команд нет</p>
+                                <p class="bigger-text">Игр не найдено</p>
                             </b-col>
                         </b-container>
                     </template>
@@ -132,7 +132,8 @@
                     date : {},
                     is_ended: "false"
                 },
-                isLoading: true
+                isLoading: true,
+
             }
         },
         methods: {
@@ -155,7 +156,8 @@
                 if (this.games) {
                     let games = this.games.filter((game) => game.discipline === this.discipline && !game.is_ended
                         && (this.isDatesEquals(game) || !(this.filter.date instanceof Date))
-                        && (game.team_first.uid === this.filter.team || game.team_second.uid === this.filter.team || this.filter.team === ''));
+                        && (game.team_first.uid === this.filter.team || game.team_second.uid === this.filter.team || this.filter.team === '')
+                        || this.games.length !== 0);
 
                     return games.length === 0;
                 }
@@ -171,6 +173,7 @@
             }
         },
         created() {
+            document.title = this.$route.meta.title;
             this.$material.locale.dateFormat = 'dd.MM.yyyy';
             let db = firebase.firestore();
             this.isLoading = true;
@@ -198,6 +201,11 @@
                         });
                     });
                 });
+
+                if (response.size === 0) {
+                    this.isLoading = false;
+                    this.games = [];
+                }
             });
 
             db.collection("teams").get().then((response) => {
@@ -278,7 +286,7 @@
     }
 
     .parallax__layer--back {
-        transform: translateZ(-1px) scale(2.1);
+        transform: translateZ(-1px) scale(2.7);
     }
 
     #select-game{
@@ -410,5 +418,9 @@
 
     .md-field>.md-icon:after {
         content: none;
+    }
+
+    .md-select {
+        margin-left: 0.7em;
     }
 </style>

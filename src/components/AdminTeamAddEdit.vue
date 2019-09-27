@@ -216,6 +216,7 @@
             }
         },
         created() {
+            document.title = this.$route.meta.title;
             let query = this.$route.query;
 
             if (Object.keys(query).length === 0) {

@@ -1,6 +1,9 @@
 <template>
   <div id="app">
-    <router-view/>
+      <vue-page-transition name="fade-in-up">
+          <router-view/>
+      </vue-page-transition>
+
   </div>
 </template>
 

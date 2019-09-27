@@ -23,7 +23,18 @@
 
         <b-container fluid id="teams-content" :class="discipline === 'CSGO' ? 'csgo-back' : 'dota2-back'">
             <b-row class="text-center">
-                <template v-for="(team, index) in teams">
+                <b-container v-if="isLoading" class="text-center">
+                    <md-progress-spinner class="main-color" md-mode="indeterminate"></md-progress-spinner>
+                </b-container>
+                <template v-else-if="isZeroTeams">
+                    <b-container class="text-center">
+                        <b-col>
+                            <i class="material-icons sad-face">sentiment_dissatisfied</i>
+                            <p class="bigger-text">Команд нет</p>
+                        </b-col>
+                    </b-container>
+                </template>
+                <template v-else v-for="(team, index) in teams">
                     <template v-if="team.discipline === discipline && team.status === 'CONFIRMED'">
                         <div :key="index" class="team-button">
                             <b-row @click="showTeam(team)">
@@ -53,19 +64,35 @@
                 discipline : 'CSGO',
                 teams : [],
                 showTeamDialog : false,
-                currentTeam : {}
+                currentTeam : {},
+                isLoading: true,
+                isZeroTeams: false
             }
         },
         created() {
+            document.title = this.$route.meta.title;
             let db = firebase.firestore();
 
             db.collection("teams").get().then((response) => {
 
+                let count = 0;
+
                 response.forEach((doc) => {
                     let team = doc.data();
 
-                    if (team.status === 'CONFIRMED') this.teams.push(team);
+                    if (team.status === 'CONFIRMED') {
+                        this.teams.push(team);
+                        count++;
+                    }
                 });
+
+                if (count === 0) {
+                    this.isZeroTeams = true;
+                }
+
+                this.isLoading = false;
+            }, () => {
+                this.isZeroTeams = true;
             });
         },
         methods: {
@@ -151,7 +178,7 @@
     }
 
     .parallax__layer--back {
-        transform: translateZ(-1px) scale(2.1);
+        transform: translateZ(-1px) scale(2.7);
     }
 
     .md-field::after {
@@ -222,6 +249,22 @@
 
     .dota2-back {
         background: url("../assets/dota2.png") center no-repeat;
+    }
+
+    .sad-face {
+        color: #FFFFFF;
+        text-align: center;
+        font-size: 5em;
+        margin-top: 1em;
+    }
+
+    .bigger-text {
+        color: #FFFFFF;
+        font-size: 1.5em;
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 2em;
     }
 
 </style>

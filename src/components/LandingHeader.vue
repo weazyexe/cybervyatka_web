@@ -11,7 +11,7 @@
             <b-nav-item class="menu-item" to="/games">Расписание</b-nav-item>
             <b-nav-item class="menu-item" to="/groups">Группы</b-nav-item>
             <b-nav-item class="menu-item" to="/playoff">Плей-офф</b-nav-item>
-            <b-nav-item class="menu-item" href="#">Прошлые сезоны</b-nav-item>
+<!--            <b-nav-item class="menu-item" href="#">Прошлые сезоны</b-nav-item>-->
             <md-button id="past-seasons-button" class="md-raised m-0 mr-3" @click="toParticipate">Участвовать</md-button>
         </b-navbar-nav>
     </b-navbar>

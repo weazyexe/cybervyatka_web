@@ -21,7 +21,7 @@
             <b-container class="info-content">
                 <p class="info-text ml-auto mr-auto"><strong class="strong-info-text">CYBERVYATKA</strong> - это киберспортивный турнир в городе Кирове,
                     проводящийся с 2018 года в ВятГУ. <strong class="strong-info-text">21 октября 2019 года</strong> начинается регистрация на третий сезон!</p>
-                <md-button id="past-seasons-button" class="md-raised">Прошлые сезоны</md-button>
+<!--                <md-button id="past-seasons-button" class="md-raised">Прошлые сезоны</md-button>-->
             </b-container>
         </div>
 

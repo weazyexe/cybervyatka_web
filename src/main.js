@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 import VueMaterial from 'vue-material'
 import Vuelidate from 'vuelidate'
 import * as firebase from 'firebase';
+import VuePageTransition from 'vue-page-transition'
 
 import 'vue-material/dist/vue-material.min.css'
 import 'vue-material/dist/theme/default-dark.css' // This line here
@@ -28,6 +29,7 @@ import LandingGroups from "@/components/LandingGroups";
 import AdminPlayoff from "@/components/AdminPlayoff";
 import LandingPlayoff from "@/components/LandingPlayoff";
 import LandingParticipate from "@/components/LandingParticipate";
+import NotFound from "@/components/NotFound";
 
 Vue.config.productionTip = false;
 
@@ -35,6 +37,7 @@ Vue.use(BootstrapVue);
 Vue.use(VueRouter);
 Vue.use(VueMaterial);
 Vue.use(Vuelidate);
+Vue.use(VuePageTransition)
 
 
 const firebaseConfig = {
@@ -53,35 +56,77 @@ const routes = [
     {
         path: '/',
         meta: {
-            title: 'CYBERVYATKA - Главная страница'
+            title: 'Главная страница - CYBERVYATKA'
         },
         component: LandingMain
     },
-    { path: '/teams', component: LandingTeams },
-    { path: '/games', component: LandingGames },
-    { path: '/groups', component: LandingGroups },
-    { path: '/playoff', component: LandingPlayoff },
-    { path: '/participate', component: LandingParticipate },
+    {
+        path: '/teams',
+        component: LandingTeams,
+        meta: {
+            title: 'Команды - CYBERVYATKA'
+        }
+    },
+    {
+        path: '/games',
+        component: LandingGames,
+        meta: {
+            title: 'Расписание - CYBERVYATKA'
+        }
+    },
+    {
+        path: '/groups',
+        component: LandingGroups,
+        meta: {
+            title: 'Группы - CYBERVYATKA'
+        }
+    },
+    {
+        path: '/playoff',
+        component: LandingPlayoff,
+        meta: {
+            title: 'Плей-офф сетки - CYBERVYATKA'
+        }
+    },
+    {
+        path: '/participate',
+        component: LandingParticipate,
+        meta: {
+            title: 'Участвовать в турнире - CYBERVYATKA'
+        }
+    },
+
+    {
+        path: '/404',
+        component: NotFound,
+        meta: {
+            title: 'Что-то пошло не так'
+        }
+    },
+    { path: '*', redirect: '/404' },
 
     {
         path: '/admin/teams',
         component: AdminTeams,
         meta: {
-            requiresAuth: true
+            requiresAuth: true,
+            title: "Команды - CV.Admin"
         }
     },
     {
         path: '/admin/teams/add',
         component: AdminTeamAddEdit,
         meta: {
-            requiresAuth: true
+            requiresAuth: true,
+            title: "Добавить команду - CV.Admin"
         }
     },
     {
         path: '/admin/teams/edit',
         component: AdminTeamAddEdit,
         meta: {
-            requiresAuth: true
+            requiresAuth: true,
+            title: "Редактировать команду - CV.Admin"
         }
     },
 
@@ -89,21 +134,24 @@ const routes = [
         path: '/admin/games',
         component: AdminGames,
         meta: {
-            requiresAuth: true
+            requiresAuth: true,
+            title: "Игры - CV.Admin"
         }
     },
     {
         path: '/admin/games/add',
         component: AdminGameAddEdit,
         meta: {
-            requiresAuth: true
+            requiresAuth: true,
+            title: "Добавить игру - CV.Admin"
         }
     },
     {
         path: '/admin/games/edit',
         component: AdminGameAddEdit,
         meta: {
-            requiresAuth: true
+            requiresAuth: true,
+            title: "Редактировать игру - CV.Admin"
         }
     },
 
@@ -111,21 +159,24 @@ const routes = [
         path: '/admin/groups',
         component: AdminGroups,
         meta: {
-            requiresAuth: true
+            requiresAuth: true,
+            title: "Группы - CV.Admin"
         }
     },
     {
         path: '/admin/groups/add',
         component: AdminGroupAddEdit,
         meta: {
-            requiresAuth: true
+            requiresAuth: true,
+            title: "Добавить группу - CV.Admin"
         }
     },
     {
         path: '/admin/groups/edit',
         component: AdminGroupAddEdit,
         meta: {
-            requiresAuth: true
+            requiresAuth: true,
+            title: "Редактировать группу - CV.Admin"
         }
     },
 
@@ -133,12 +184,17 @@ const routes = [
         path: '/admin/playoff',
         component: AdminPlayoff,
         meta: {
-            requiresAuth: true
+            requiresAuth: true,
+            title: "Плей-офф сетка - CV.Admin"
         }
     },
 
-    { path: '/auth', component: AdminAuth },
-    { path: '/admin', redirect: '/auth' }
+    {
+        path: '/auth',
+        component: AdminAuth,
+        title: "Авторизация - CV.Admin"
+    },
+    { path: '/admin', redirect: '/admin/teams' }
 
 
 ];

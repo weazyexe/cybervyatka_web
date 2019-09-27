@@ -22,7 +22,18 @@
         </div>
 
         <b-container fluid id="teams-content" :class="discipline === 'CSGO' ? 'csgo-back' : 'dota2-back'">
-            <template v-for="(playoff, index) in playoffs">
+            <b-container v-if="isLoading" class="text-center">
+                <md-progress-spinner class="main-color" md-mode="indeterminate"></md-progress-spinner>
+            </b-container>
+            <template v-else-if="!isOpen">
+                <b-container class="text-center">
+                    <b-col>
+                        <i class="material-icons sad-face">sentiment_dissatisfied</i>
+                        <p class="bigger-text">Сетка плей-офф не сформирована</p>
+                    </b-col>
+                </b-container>
+            </template>
+            <template v-else v-for="(playoff, index) in playoffs">
                 <b-col v-if="playoff.discipline === discipline" :key="index">
                     <div class="playoff-content text-center" :key="index">
                         <div class="games-line bottom-vertical mt-auto mr-5">
@@ -106,7 +117,9 @@
                 discipline: 'CSGO',
                 playoffs: [],
                 showGameDialog: false,
-                currentGame: {}
+                currentGame: {},
+                isLoading: true,
+                isOpen: true
             }
         },
         methods: {
@@ -119,43 +132,58 @@
             },
         },
         created() {
+            document.title = this.$route.meta.title;
             let db = firebase.firestore();
 
-            db.collection("playoff").get().then((response) => {
-                for (let j = 0; j < response.size; j++) {
-                    let playoff = response.docs[j].data();
+            db.doc('tournament/settings').get().then((settingsRaw) => {
+                this.isOpen = settingsRaw.data().isPlayoffOpen;
 
-                    let oldGames = playoff.games;
-                    let games = [];
+                if (this.isOpen) {
+                    db.collection("playoff").get().then((response) => {
+                        for (let j = 0; j < response.size; j++) {
+                            let playoff = response.docs[j].data();
 
-                    this.playoffs.push(playoff);
-                    for (let i = 0; i < oldGames.length; i++) {
-                        games.push(null);
-                        let gameRef = oldGames[i];
+                            let oldGames = playoff.games;
+                            let games = [];
 
-                        if (gameRef !== null) {
-                            gameRef.get().then((rawGame) => {
-                                let game = rawGame.data();
+                            this.playoffs.push(playoff);
+                            for (let i = 0; i < oldGames.length; i++) {
+                                games.push(null);
+                                let gameRef = oldGames[i];
 
-                                game.team_first.get().then((firstTeam) => {
-                                    game.team_first = firstTeam.data();
-                                    game.team_second.get().then((secondTeam) => {
-                                        game.team_second = secondTeam.data();
+                                if (gameRef !== null) {
+                                    gameRef.get().then((rawGame) => {
+                                        let game = rawGame.data();
 
-                                        games[i] = game;
+                                        game.team_first.get().then((firstTeam) => {
+                                            game.team_first = firstTeam.data();
+                                            game.team_second.get().then((secondTeam) => {
+                                                game.team_second = secondTeam.data();
 
-                                        this.playoffs[j].games = games;
+                                                games[i] = game;
 
-                                        // Без этого не все команды выводит))))
-                                        this.currentGame = game;
+                                                this.playoffs[j].games = games;
+
+                                                // Без этого не все команды выводит))))
+                                                this.currentGame = game;
+                                            });
+                                        });
                                     });
-                                });
-                            });
-                        } else {
-                            this.playoffs[j].games[i] = null;
+                                } else {
+                                    this.playoffs[j].games[i] = null;
+                                }
+                            }
                         }
-                    }
+
+                        if (response.size === 0) {
+                            this.playoffs = [];
+                            this.isLoading = false;
+                        }
+                    });
                 }
+
+                this.playoffs = [];
+                this.isLoading = false;
             });
         }
     }
@@ -230,7 +258,7 @@
     }
 
     .parallax__layer--back {
-        transform: translateZ(-1px) scale(2.1);
+        transform: translateZ(-1px) scale(2.7);
     }
 
     .md-field::after {
@@ -294,6 +322,7 @@
         color: #FFFFFF;
         text-align: center;
         font-size: 5em;
+        margin-top: 1em;
     }
 
     :root {
@@ -308,4 +337,14 @@
     .dota2-back {
         background: url("../assets/dota2.png") center no-repeat;
     }
+
+    .bigger-text {
+        color: #FFFFFF;
+        font-size: 1.5em;
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 2em;
+    }
+
 </style>

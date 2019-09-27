@@ -164,6 +164,7 @@
             }
         },
         created() {
+            document.title = this.$route.meta.title;
             this.$material.locale.dateFormat = "dd.MM.yyyy HH:mm";
             let query = this.$route.query;
             let db = firebase.firestore();

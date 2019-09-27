@@ -99,6 +99,7 @@
             }
         },
         created() {
+            document.title = this.$route.meta.title;
             let query = this.$route.query;
             let db = firebase.firestore();
 

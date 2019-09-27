@@ -49,6 +49,7 @@
             }
         },
         created() {
+            document.title = this.$route.meta.title;
             let db = firebase.firestore();
 
             db.collection("groups").get().then((response) => {
