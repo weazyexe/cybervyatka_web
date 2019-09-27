@@ -12,14 +12,19 @@
             <b-nav-item class="menu-item" to="/groups">Группы</b-nav-item>
             <b-nav-item class="menu-item" to="/playoff">Плей-офф</b-nav-item>
             <b-nav-item class="menu-item" href="#">Прошлые сезоны</b-nav-item>
-            <b-button class="menu-item accent-button shadow-none">Участвовать</b-button>
+            <md-button id="past-seasons-button" class="md-raised m-0 mr-3" @click="toParticipate">Участвовать</md-button>
         </b-navbar-nav>
     </b-navbar>
 </template>
 
 <script>
     export default {
-        name: "LandingHeader"
+        name: "LandingHeader",
+        methods: {
+            toParticipate() {
+                this.$router.push('/participate');
+            }
+        }
     }
 </script>
 
@@ -44,28 +49,22 @@
         color: #000;
     }
 
-    .accent-button, .accent-button-big {
-        background: var(--accent-color);
-        box-shadow: 0 0.5em 0.5em rgba(0, 0, 0, 0.25);
-        border-radius: 2em;
-        padding-left: 1em;
-        padding-right: 1em;
-        border-color: var(--accent-color);
-    }
-
-    .accent-button:hover, .accent-button:active, .accent-button.focus,
-    .accent-button-big:hover, .accent-button-big:active, .accent-button-big:focus {
-        background: var(--accent-color-dark);
-        border-color: var(--accent-color-dark);
-        outline: none !important;
-        box-shadow: none;
-    }
-
     .navbar-dark .navbar-nav .nav-link{
         color:white !important
     }
 
     .navbar-dark:hover .navbar-nav:hover .nav-link:hover{
         color: #bcbcbc !important
+    }
+
+    #past-seasons-button {
+        background-color: #D68956;
+        color: #FFFFFF;
+        border-radius: 2em;
+        padding: 0.5em;
+        font-size: 1em;
+        text-transform: none;
+        height: auto;
+        margin-top: 1em;
     }
 </style>

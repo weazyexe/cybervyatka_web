@@ -310,8 +310,6 @@
                     reader.readAsDataURL(files[0]);
                     this.$emit('load-logo-button', files[0]);
                 }
-
-
             },
             getValidationClass (fieldName) {
                 let field = this.$v.team[fieldName];
