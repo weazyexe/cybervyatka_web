@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="background-header">
-            <landing-header></landing-header>
+            <landing-header :is-main-active="true"></landing-header>
 
             <b-container>
                 <b-row>
@@ -32,21 +32,21 @@
         <div class="background-numbers text-center">
             <b-container class="info-content">
                 <b-col>
-                    <b-row>
-                        <div class="mr-auto">
+                    <b-row class="text-center">
+                        <div class="ml-auto mr-auto pl-5 pr-5 pb-5">
                             <p class="number">150<strong class="strong-info-text">+</strong></p>
                             <p class="info-text">Участников</p>
                         </div>
-                        <div class="mr-auto">
+                        <div class="ml-auto mr-auto pl-5 pr-5 pb-5">
                             <p class="number">2</p>
                             <p class="info-text">Дисциплины</p>
                         </div>
-                        <div>
+                        <div class="ml-auto mr-auto pl-5 pr-5 pb-5">
                             <p class="number">100<strong class="strong-info-text">%</strong></p>
                             <p class="info-text">FUN</p>
                         </div>
                     </b-row>
-                    <b-row class="mt-5">
+                    <b-row class="mt-5 ml-auto mr-auto pl-5 pr-5 pb-5">
                         <img src="../assets/csgo-white.png" class="ml-auto mr-5" alt="csgo_logo">
                         <img src="../assets/dota2-white.png" class="mr-auto" alt="dota2_logo">
                     </b-row>
@@ -81,14 +81,14 @@ export default {
         background: url("../assets/players_background.jpg") center no-repeat;
         background-size: cover;
         height: 45em;
-        margin-top: -10%;
+        margin-top: -15em;
     }
 
     .background-numbers {
         background: url("../assets/pc_background.png") center no-repeat;
         background-size: cover;
-        height: 45em;
-        margin-top: -10%;
+        height: 30%;
+        margin-top: -15em;
     }
 
     .info-text {
@@ -142,15 +142,56 @@ export default {
         transform-origin: 103%;
     }
 
-    .biggest-text {
-        color: #FFFFFF;
-        margin-top: 5em;
-        font-size: 4em;
-        letter-spacing: 1em;
-        font-weight: bold;
-        text-align: center;
-        margin-left: auto;
-        margin-right: auto;
+    @media only screen and (min-width: 1301px){
+        .biggest-text {
+            color: #FFFFFF;
+            margin-top: 5em;
+            font-size: 4em;
+            letter-spacing: 1em;
+            font-weight: bold;
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    }
+
+    @media only screen and (max-width: 1300px){
+        .biggest-text {
+            color: #FFFFFF;
+            margin-top: 30%;
+            font-size: 3em;
+            letter-spacing: 1em;
+            font-weight: bold;
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    }
+
+    @media only screen and (max-width: 1000px){
+        .biggest-text {
+            color: #FFFFFF;
+            margin-top: 50%;
+            font-size: 2em;
+            letter-spacing: 1em;
+            font-weight: bold;
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    }
+
+    @media only screen and (max-width: 600px){
+        .biggest-text {
+            color: #FFFFFF;
+            margin-top: 50%;
+            font-size: 1.3em;
+            letter-spacing: 0.3em;
+            font-weight: bold;
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+        }
     }
 
     .bigger-text {
@@ -165,13 +206,5 @@ export default {
     :root {
         --accent-color-dark: #aa7d64;
         --accent-color: #D68956;
-    }
-
-    .accent-button:hover, .accent-button:active, .accent-button.focus,
-    .accent-button-big:hover, .accent-button-big:active, .accent-button-big:focus {
-        background: var(--accent-color-dark);
-        border-color: var(--accent-color-dark);
-        outline: none !important;
-        box-shadow: none;
     }
 </style>

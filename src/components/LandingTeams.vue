@@ -4,7 +4,7 @@
         <div class="all-content parallax__layer parallax__layer--back"></div>
 
         <div class="parallax__layer parallax__layer--base">
-            <landing-header></landing-header>
+            <landing-header :is-teams-active="true"></landing-header>
             <b-row class="header">
                 <p class="biggest-text">Команды</p>
 
@@ -15,37 +15,37 @@
                     </md-select>
                 </md-field>
             </b-row>
-        </div>
 
-        <div class="prerect">
-            <div class="rectangle"></div>
-        </div>
+            <div class="prerect">
+                <div class="rectangle"></div>
+            </div>
 
-        <b-container fluid id="teams-content" :class="discipline === 'CSGO' ? 'csgo-back' : 'dota2-back'">
-            <b-row class="text-center">
-                <b-container v-if="isLoading" class="text-center">
-                    <md-progress-spinner class="main-color" md-mode="indeterminate"></md-progress-spinner>
-                </b-container>
-                <template v-else-if="isZeroTeams">
-                    <b-container class="text-center">
-                        <b-col>
-                            <i class="material-icons sad-face">sentiment_dissatisfied</i>
-                            <p class="bigger-text">Команд нет</p>
-                        </b-col>
+            <b-container fluid id="teams-content" :class="discipline === 'CSGO' ? 'csgo-back' : 'dota2-back'">
+                <b-row class="text-center">
+                    <b-container v-if="isLoading" class="text-center">
+                        <md-progress-spinner class="main-color" md-mode="indeterminate"></md-progress-spinner>
                     </b-container>
-                </template>
-                <template v-else v-for="(team, index) in teams">
-                    <template v-if="team.discipline === discipline && team.status === 'CONFIRMED'">
-                        <div :key="index" class="team-button">
-                            <b-row @click="showTeam(team)">
-                                <img :src="team.logo" alt="team logo" class="team-logo rounded-circle">
-                                <p class="team-title">{{ team.title }}</p>
-                            </b-row>
-                        </div>
+                    <template v-else-if="isZeroTeams">
+                        <b-container class="text-center">
+                            <b-col>
+                                <i class="material-icons sad-face">sentiment_dissatisfied</i>
+                                <p class="bigger-text">Команд нет</p>
+                            </b-col>
+                        </b-container>
                     </template>
-                </template>
-            </b-row>
-        </b-container>
+                    <template v-else v-for="(team, index) in teams">
+                        <template v-if="team.discipline === discipline && team.status === 'CONFIRMED'">
+                            <div :key="index" class="team-button ml-auto mr-auto">
+                                <b-row @click="showTeam(team)">
+                                    <img :src="team.logo" alt="team logo" class="team-logo rounded-circle">
+                                    <p class="team-title">{{ team.title }}</p>
+                                </b-row>
+                            </div>
+                        </template>
+                    </template>
+                </b-row>
+            </b-container>
+        </div>
     </div>
 </template>
 
@@ -119,11 +119,10 @@
         max-width: 100%;
         min-width: 100%;
         height: 30em;
-        margin-top: 12em;
-        padding-top: 16em;
         overflow-x: hidden;
         overflow-y: hidden;
         z-index: -1;
+        position: relative;
     }
 
     .rectangle {
@@ -143,20 +142,33 @@
         margin-top: -4%;
     }
 
-    .biggest-text {
-        color: #FFFFFF;
-        margin-top: 4em;
-        font-size: 4em;
-        font-weight: bold;
-        text-align: left;
-        margin-left: 10.5%;
+    @media only screen and (min-width: 721px) {
+        .biggest-text {
+            color: #FFFFFF;
+            margin-top: 4em;
+            font-size: 4em;
+            font-weight: bold;
+            text-align: left;
+            margin-left: 10.5%;
+        }
+    }
+
+    @media only screen and (max-width: 720px) {
+        .biggest-text {
+            color: #FFFFFF;
+            margin-top: 5.5em;
+            font-size: 3em;
+            font-weight: bold;
+            text-align: left;
+            margin-left: 10.5%;
+        }
     }
 
     #teams-content {
         background-color: #101010;
-        z-index: 2;
-        margin-top: -3em;
+        margin-top: -23em;
         padding: 3% 10% 10% 10%;
+        min-height: 30em;
     }
 
     .parallax {
@@ -202,7 +214,7 @@
         margin-left: 2em;
         margin-top: 15.4em;
         padding-top: 3em;
-        width: 5em;
+        width: 10vw;
         display: inline;
         position: unset;
     }
