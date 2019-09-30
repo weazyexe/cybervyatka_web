@@ -86,4 +86,8 @@ export default {
     font-family: Roboto, serif;
     font-weight: 500;
   }
+
+    .material-icons {
+        user-select: none;
+    }
 </style>

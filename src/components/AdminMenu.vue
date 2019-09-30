@@ -23,7 +23,7 @@
 
             <div id="user-data" class="text-center">
                 <md-button @click="logOut" class="main-color">Log out</md-button>
-                <p class="username">Signed as <strong>{{ user.email }}</strong></p>
+                <p class="username">Signed in as <strong>{{ user.email }}</strong></p>
             </div>
         </b-col>
     </div>

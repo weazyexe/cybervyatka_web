@@ -37,7 +37,7 @@ Vue.use(BootstrapVue);
 Vue.use(VueRouter);
 Vue.use(VueMaterial);
 Vue.use(Vuelidate);
-Vue.use(VuePageTransition)
+Vue.use(VuePageTransition);
 
 
 const firebaseConfig = {

@@ -25,7 +25,7 @@
                         <b-container v-if="isLoading" class="text-center">
                             <md-progress-spinner class="main-color" md-mode="indeterminate"></md-progress-spinner>
                         </b-container>
-                        <template v-else-if="groups.length === 0">
+                        <template v-else-if="isZeroGroups">
                             <b-container class="text-center">
                                 <b-col>
                                     <i class="material-icons sad-face">sentiment_dissatisfied</i>
@@ -34,10 +34,10 @@
                             </b-container>
                         </template>
                         <b-container fluid v-else>
-                            <b-row class="ml-3">
+                            <b-row class="text-center">
                                 <template v-for="(group, index) in groups">
                                     <template v-if="group.discipline === discipline">
-                                        <group-entry :key="index" :group="group" :hide-buttons="true"></group-entry>
+                                        <group-entry class="mlr-auto" :key="index" :group="group" :hide-buttons="true"></group-entry>
                                     </template>
                                 </template>
                             </b-row>
@@ -66,6 +66,14 @@
                 isLoading : true,
                 discipline: 'CSGO',
                 isOpen: true
+            }
+        },
+        computed: {
+            isZeroGroups: function () {
+
+                //console.log(this.group.filter((group) => group.discipline === this.discipline));
+
+                return this.groups.length === 0 || this.groups.filter((group) => group.discipline === this.discipline).length === 0;
             }
         },
         created() {
@@ -252,5 +260,18 @@
         margin-left: auto;
         margin-right: auto;
         margin-bottom: 2em;
+    }
+
+    @media only screen and (min-width: 721px) {
+        .mlr-auto {
+
+        }
+    }
+
+    @media only screen and (max-width: 720px) {
+        .mlr-auto {
+            margin-left: auto;
+            margin-right: auto;
+        }
     }
 </style>

@@ -21,89 +21,90 @@
             </div>
 
             <b-container fluid id="teams-content" :class="discipline === 'CSGO' ? 'csgo-back' : 'dota2-back'">
-                <b-col class="p-0">
-                    <b-row class="filters  ml-auto mr-auto">
-                        <md-field class="field">
-                            <md-icon>people</md-icon>
-                            <label for="team">Команда</label>
-                            <md-select name="team" id="team" v-model="filter.team" md-dense>
-                                <md-option value="">Команда</md-option>
-                                <template v-for="(team, index) in teams">
-                                    <template v-if="team.discipline === discipline && team.status === 'CONFIRMED'">
-                                        <md-option :key="index" :value="team.uid">{{ team.title }}</md-option>
+
+                    <b-col class="p-0 text-center">
+                        <b-row class="filters ml-auto mr-auto text-center">
+                            <md-field class="field mlr-auto">
+                                <md-icon>people</md-icon>
+                                <label for="team">Команда</label>
+                                <md-select name="team" id="team" v-model="filter.team" md-dense>
+                                    <md-option value="">Команда</md-option>
+                                    <template v-for="(team, index) in teams">
+                                        <template v-if="team.discipline === discipline && team.status === 'CONFIRMED'">
+                                            <md-option :key="index" :value="team.uid">{{ team.title }}</md-option>
+                                        </template>
                                     </template>
-                                </template>
-                            </md-select>
-                        </md-field>
+                                </md-select>
+                            </md-field>
 
-                        <md-field class="field">
-                            <md-icon>done_all</md-icon>
-                            <label for="is-ended">Статус матча</label>
-                            <md-select name="is-ended" id="is-ended" v-model="filter.is_ended" md-dense>
-                                <md-option value="false">Предстоящие матчи</md-option>
-                                <md-option value="true">Оконченные матчи</md-option>
-                            </md-select>
-                        </md-field>
+                            <md-field class="field mlr-auto">
+                                <md-icon>done_all</md-icon>
+                                <label for="is-ended">Статус матча</label>
+                                <md-select name="is-ended" id="is-ended" v-model="filter.is_ended" md-dense>
+                                    <md-option value="false">Предстоящие матчи</md-option>
+                                    <md-option value="true">Оконченные матчи</md-option>
+                                </md-select>
+                            </md-field>
 
-                        <md-datepicker class="field" v-model="filter.date">
-                            <label>Дата</label>
-                        </md-datepicker>
-                    </b-row>
-                    <b-row>
-                        <b-container v-if="isLoading" class="text-center">
-                            <md-progress-spinner class="main-color" md-mode="indeterminate"></md-progress-spinner>
-                        </b-container>
-                        <template v-else-if="isZeroTeams">
-                            <b-container class="text-center">
-                                <b-col>
-                                    <i class="material-icons sad-face">sentiment_dissatisfied</i>
-                                    <p class="bigger-text">Игр не найдено</p>
-                                </b-col>
+                            <md-datepicker class="field mlr-auto" v-model="filter.date">
+                                <label>Дата</label>
+                            </md-datepicker>
+                        </b-row>
+                        <b-row class="text-center">
+                            <b-container v-if="isLoading" class="text-center">
+                                <md-progress-spinner class="main-color" md-mode="indeterminate"></md-progress-spinner>
                             </b-container>
-                        </template>
-                        <template v-else v-for="(game, index) in games">
-                            <template v-if="game.discipline === discipline && (game.is_ended.toString() === filter.is_ended)
+                            <template v-else-if="isZeroTeams">
+                                <b-container class="text-center">
+                                    <b-col>
+                                        <i class="material-icons sad-face">sentiment_dissatisfied</i>
+                                        <p class="bigger-text">Игр не найдено</p>
+                                    </b-col>
+                                </b-container>
+                            </template>
+                            <template v-else v-for="(game, index) in games">
+                                <template v-if="game.discipline === discipline && (game.is_ended.toString() === filter.is_ended)
                                                     && (isDatesEquals(game) || !(filter.date instanceof Date))
                                                     && (game.team_first.uid === filter.team || game.team_second.uid === filter.team || filter.team === '')">
-                                <div :key="index" class="team-button" @click="showGame(game)">
-                                    <b-row class="logos">
-                                        <template v-if="game.team_first.logo === ''">
-                                            <img class="small-team-logo rounded-circle" src="../assets/logo_placeholder.png"
-                                                 alt="team_logo"/>
-                                        </template>
-                                        <template v-else>
-                                            <img class="small-team-logo rounded-circle" :src="game.team_first.logo"
-                                                 alt="team_logo" />
-                                        </template>
+                                    <div :key="index" class="team-button mlr-auto" @click="showGame(game)">
+                                        <b-row class="logos">
+                                            <template v-if="game.team_first.logo === ''">
+                                                <img class="small-team-logo rounded-circle" src="../assets/logo_placeholder.png"
+                                                     alt="team_logo"/>
+                                            </template>
+                                            <template v-else>
+                                                <img class="small-team-logo rounded-circle" :src="game.team_first.logo"
+                                                     alt="team_logo" />
+                                            </template>
 
-                                        <template v-if="game.team_second.logo === ''">
-                                            <img class="small-team-logo rounded-circle" src="../assets/logo_placeholder.png"
-                                                 alt="team_logo"/>
-                                        </template>
-                                        <template v-else>
-                                            <img class="small-team-logo rounded-circle" :src="game.team_second.logo"
-                                                 alt="team_logo"/>
-                                        </template>
+                                            <template v-if="game.team_second.logo === ''">
+                                                <img class="small-team-logo rounded-circle" src="../assets/logo_placeholder.png"
+                                                     alt="team_logo"/>
+                                            </template>
+                                            <template v-else>
+                                                <img class="small-team-logo rounded-circle" :src="game.team_second.logo"
+                                                     alt="team_logo"/>
+                                            </template>
 
-                                        <template v-if="game.datetime.toDate().getTime() < Date.now() && !game.is_ended">
-                                            <span class="live-icon">LIVE</span>
-                                        </template>
-                                    </b-row>
-
-                                    <b-col>
-                                        <span class="team-text">{{ game.team_first.title }} VS {{ game.team_second.title }}</span>
-                                        <b-row class="game-info">
-                                            <span class="game-text">Best of {{ game.best_of }}, </span>
-                                            <span class="game-text">{{ $parent.parseDate(game.datetime.toDate()) }} • </span>
-                                            <span class="game-text" v-if="game.discipline === 'CSGO'">CS:GO</span>
-                                            <span class="game-text" v-else>Dota 2</span>
+                                            <template v-if="game.datetime.toDate().getTime() < Date.now() && !game.is_ended">
+                                                <span class="live-icon">LIVE</span>
+                                            </template>
                                         </b-row>
-                                    </b-col>
-                                </div>
+
+                                        <b-col>
+                                            <span class="team-text">{{ game.team_first.title }} VS {{ game.team_second.title }}</span>
+                                            <b-row class="game-info">
+                                                <span class="game-text">Best of {{ game.best_of }}, </span>
+                                                <span class="game-text">{{ parseDate(game.datetime.toDate()) }} • </span>
+                                                <span class="game-text" v-if="game.discipline === 'CSGO'">CS:GO</span>
+                                                <span class="game-text" v-else>Dota 2</span>
+                                            </b-row>
+                                        </b-col>
+                                    </div>
+                                </template>
                             </template>
-                        </template>
-                    </b-row>
-                </b-col>
+                        </b-row>
+                    </b-col>
             </b-container>
         </div>
     </div>
@@ -128,9 +129,9 @@
                 showGameDialog : false,
                 currentGame : {},
                 filter: {
-                    team : "",
+                    team : '',
                     date : {},
-                    is_ended: false
+                    is_ended: "false"
                 },
                 isLoading: true
             }
@@ -148,15 +149,25 @@
                 let filterDate = new Date(new Date(this.filter.date).setHours(0, 0, 0 ,0));
 
                 return date.getTime() === filterDate.getTime();
+            },
+            parseDate(date) {
+                let day = date.getDate();
+                if (day < 10) day = '0' + day;
+
+                let month = date.getMonth() + 1;
+                if (month < 10) month = '0' + month;
+
+                let year = date.getFullYear();
+
+                return day + '.' + month + '.' + year;
             }
         },
         computed: {
-            isZeroTeams() {
+            isZeroTeams: function() {
                 if (this.games) {
-                    let games = this.games.filter((game) => game.discipline === this.discipline && !game.is_ended
+                    let games = this.games.filter((game) => game.discipline === this.discipline && (game.is_ended.toString() === this.filter.is_ended)
                         && (this.isDatesEquals(game) || !(this.filter.date instanceof Date))
-                        && (game.team_first.uid === this.filter.team || game.team_second.uid === this.filter.team || this.filter.team === '')
-                        || this.games.length !== 0);
+                        && (game.team_first.uid === this.filter.team || game.team_second.uid === this.filter.team || this.filter.team === ''));
 
                     return games.length === 0;
                 }
@@ -197,8 +208,6 @@
                             });
 
                             this.isLoading = false;
-
-                            console.log(this.games);
                         });
                     });
                 });
@@ -273,6 +282,19 @@
         }
     }
 
+    @media only screen and (min-width: 721px) {
+        .mlr-auto {
+
+        }
+    }
+
+    @media only screen and (max-width: 720px) {
+        .mlr-auto {
+            margin-left: auto;
+            margin-right: auto;
+        }
+    }
+
     #teams-content {
         background-color: #101010;
         margin-top: -23em;
@@ -306,7 +328,7 @@
         margin-left: 2em;
         margin-top: 15.4em;
         padding-top: 3em;
-        width: 5.2em;
+        width: 6em;
         display: inline;
         position: unset;
     }
@@ -338,7 +360,6 @@
 
     .field {
         color: #D68956;
-        margin-right: 2em;
         width: 15em;
     }
 
@@ -348,8 +369,8 @@
     }
 
     .team-button {
-        margin-right: 5em;
         width: 26em;
+        text-align: start;
         margin-bottom: 2em;
         padding: 1em;
     }

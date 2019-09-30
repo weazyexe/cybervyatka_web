@@ -185,8 +185,8 @@ export default {
         .biggest-text {
             color: #FFFFFF;
             margin-top: 50%;
-            font-size: 1.3em;
-            letter-spacing: 0.3em;
+            font-size: 2em;
+            letter-spacing: 0.6em;
             font-weight: bold;
             text-align: center;
             margin-left: auto;

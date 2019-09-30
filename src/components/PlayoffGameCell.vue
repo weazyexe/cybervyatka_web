@@ -23,40 +23,48 @@
             <b-col class="mx-0 p-0">
                 <b-row class="dark-team-back mx-0">
                     <template v-if="game">
-                        <img :src="game.team_first.logo" alt="first team logo" class="logo rounded-circle" :class="isFinal ? 'big-logo' : ''"/>
-                        <b-col md="8" class="mx-0 mt-auto mb-auto">
+                        <b-col md="2" sm="2" cols="2" class="mx-0 mt-auto mb-auto px-0">
+                            <img :src="game.team_first.logo" alt="first team logo" class="logo rounded-circle" :class="isFinal ? 'big-logo' : ''"/>
+                        </b-col>
+                        <b-col md="8" sm="8" cols="8" class="mx-0 mt-auto mb-auto">
                             <p class="table-team-text" :class="isFinal ? 'big-text' : ''">{{ game.team_first.title }}</p>
                         </b-col>
-                        <b-col md="2" class="mx-0 mt-auto mb-auto">
+                        <b-col md="2" sm="2" cols="2" class="mx-0 mt-auto mb-auto">
                             <p class="table-count-text" :class="isFinal ? 'big-text' : ''">{{ firstTeamCount }}</p>
                         </b-col>
                     </template>
                     <template v-else>
-                        <img src="../assets/logo_placeholder.png" alt="first team logo" class="logo rounded-circle" :class="isFinal ? 'big-logo' : ''"/>
-                        <b-col md="8" class="mx-0 mt-auto mb-auto">
+                        <b-col md="2" sm="2" cols="2" class="mx-0 mt-auto mb-auto px-0">
+                            <img src="../assets/logo_placeholder.png" alt="first team logo" class="logo rounded-circle" :class="isFinal ? 'big-logo' : ''"/>
+                        </b-col>
+                        <b-col md="8" sm="8" cols="8" class="mx-0 mt-auto mb-auto">
                             <p class="table-team-text" :class="isFinal ? 'big-text' : ''">TBA</p>
                         </b-col>
-                        <b-col md="2" class="mx-0 mt-auto mb-auto">
+                        <b-col md="2" sm="2" cols="2" class="mx-0 mt-auto mb-auto">
                             <p class="table-count-text" :class="isFinal ? 'big-text' : ''">0</p>
                         </b-col>
                     </template>
                 </b-row>
                 <b-row class="light-team-back mx-0">
                     <template v-if="game">
-                        <img :src="game.team_second.logo" alt="second team logo" class="logo rounded-circle" :class="isFinal ? 'big-logo' : ''"/>
-                        <b-col md="8" class="mx-0 mt-auto mb-auto">
+                        <b-col md="2" sm="2" cols="2" class="mx-0 mt-auto mb-auto px-0">
+                            <img :src="game.team_second.logo" alt="second team logo" class="logo rounded-circle" :class="isFinal ? 'big-logo' : ''"/>
+                        </b-col>
+                        <b-col md="8" sm="8" cols="8" class="mx-0 mt-auto mb-auto">
                             <p class="table-team-text" :class="isFinal ? 'big-text' : ''">{{ game.team_second.title }}</p>
                         </b-col>
-                        <b-col md="2" class="mx-0 mt-auto mb-auto">
+                        <b-col md="2" sm="2" cols="2" class="mx-0 mt-auto mb-auto">
                             <p class="table-count-text" :class="isFinal ? 'big-text' : ''">{{ secondTeamCount }}</p>
                         </b-col>
                     </template>
                     <template v-else>
-                        <img src="../assets/logo_placeholder.png" alt="second team logo" class="logo rounded-circle" :class="isFinal ? 'big-logo' : ''"/>
-                        <b-col md="8" class="mx-0 mt-auto mb-auto">
+                        <b-col md="2" sm="2" cols="2" class="mx-0 mt-auto mb-auto px-0">
+                            <img src="../assets/logo_placeholder.png" alt="second team logo" class="logo rounded-circle" :class="isFinal ? 'big-logo' : ''"/>
+                        </b-col>
+                        <b-col md="8" sm="8" cols="8" class="mx-0 mt-auto mb-auto">
                             <p class="table-team-text" :class="isFinal ? 'big-text' : ''">TBA</p>
                         </b-col>
-                        <b-col md="2" class="mx-0 mt-auto mb-auto">
+                        <b-col md="2" sm="2" cols="2" class="mx-0 mt-auto mb-auto">
                             <p class="table-count-text" :class="isFinal ? 'big-text' : ''">0</p>
                         </b-col>
                     </template>

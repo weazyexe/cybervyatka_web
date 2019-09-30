@@ -2,7 +2,7 @@
     <div>
         <team-dialog :team="currentTeam" :on-confirm="onConfirmTeam" :show="showTeamDialog" :show-contacts="false"></team-dialog>
 
-        <b-row class="mb-2 ml-2">
+        <b-row class="mb-2 ml-4 mt-4">
             <p class="table-team-text">{{ group.discipline === 'CSGO' ? 'CS:GO' : 'Dota 2' }}: группа {{ group.title }}</p>
             <div v-if="!hideButtons" class="ml-auto buttons">
                 <b-row class="mx-0">
@@ -14,26 +14,26 @@
         <div class="group-rect">
             <b-col class="mx-0 p-0">
                 <b-row class="dark-team-back mx-0">
-                    <b-col md="4" class="mx-0">
+                    <b-col md="8" cols="8" sm="8" class="mx-0">
                         <p class="table-header-text">Команды</p>
                     </b-col>
-                    <b-col md="4" class="mx-0">
-                        <p class="table-header-text text-center">Победы</p>
+                    <b-col md="2" cols="2" sm="2" class="mx-0">
+                        <p class="table-header-text text-center">W</p>
                     </b-col>
-                    <b-col md="4" class="mx-0">
-                        <p class="table-header-text text-center">Поражения</p>
+                    <b-col md="2" cols="2" sm="2" class="mx-0">
+                        <p class="table-header-text text-center">L</p>
                     </b-col>
                 </b-row>
                 <template v-for="(team, index) in sortedTeams">
                     <b-row :key="index" class="mx-0" :class="(index % 2 === 0) ? 'light-team-back' : 'dark-team-back'">
-                        <b-col md="4" class="mx-0">
+                        <b-col md="8" cols="8" sm="8" class="mx-0">
                             <p class="table-team-text" @click="showTeam(team)">{{ team.title }}</p>
                         </b-col>
-                        <b-col md="4" class="mx-0">
-                            <p class="table-count-text text-center">{{ team.wins }}</p>
+                        <b-col md="2" cols="2" sm="2" class="mx-0">
+                            <p class="table-count-text pl-0 text-center">{{ team.wins }}</p>
                         </b-col>
-                        <b-col md="4" class="mx-0">
-                            <p class="table-count-text text-center">{{ team.loses }}</p>
+                        <b-col md="2" cols="2" sm="2" class="mx-0">
+                            <p class="table-count-text pl-0 text-center">{{ team.loses }}</p>
                         </b-col>
                     </b-row>
                 </template>
@@ -83,13 +83,13 @@
 
 <style scoped>
     .group-rect {
-        width: 28em;
+        max-width: 28em;
+        min-width: 20em;
         border-radius: 1em;
         background: rgba(20, 20, 20, 0.6);
         overflow: hidden;
         box-shadow: 0 0.2em 1em rgba(0, 0, 0, 0.18);
-        margin-right: 6em;
-        margin-bottom: 6em;
+        margin: 1em;
     }
 
     .light-team-back {
@@ -106,10 +106,12 @@
     .table-header-text {
         margin-bottom: 0;
         font-weight: bold;
+        text-align: start;
         color: #D68956;
     }
     .table-team-text {
         margin-bottom: 0;
+        text-align: start;
         color: #FFFFFF;
     }
 

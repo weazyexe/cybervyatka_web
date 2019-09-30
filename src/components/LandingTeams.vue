@@ -35,7 +35,7 @@
                     </template>
                     <template v-else v-for="(team, index) in teams">
                         <template v-if="team.discipline === discipline && team.status === 'CONFIRMED'">
-                            <div :key="index" class="team-button ml-auto mr-auto">
+                            <div :key="index" class="team-button mlr-auto">
                                 <b-row @click="showTeam(team)">
                                     <img :src="team.logo" alt="team logo" class="team-logo rounded-circle">
                                     <p class="team-title">{{ team.title }}</p>
@@ -65,8 +65,7 @@
                 teams : [],
                 showTeamDialog : false,
                 currentTeam : {},
-                isLoading: true,
-                isZeroTeams: false
+                isLoading: true
             }
         },
         created() {
@@ -74,25 +73,15 @@
             let db = firebase.firestore();
 
             db.collection("teams").get().then((response) => {
-
-                let count = 0;
-
                 response.forEach((doc) => {
                     let team = doc.data();
 
                     if (team.status === 'CONFIRMED') {
                         this.teams.push(team);
-                        count++;
                     }
                 });
 
-                if (count === 0) {
-                    this.isZeroTeams = true;
-                }
-
                 this.isLoading = false;
-            }, () => {
-                this.isZeroTeams = true;
             });
         },
         methods: {
@@ -102,6 +91,11 @@
             },
             onShowConfirm() {
                 this.showTeamDialog = false;
+            }
+        },
+        computed: {
+            isZeroTeams: function () {
+                return this.teams.filter((it) => it.discipline === this.discipline && it.status === 'CONFIRMED').length === 0;
             }
         }
 }
@@ -214,7 +208,7 @@
         margin-left: 2em;
         margin-top: 15.4em;
         padding-top: 3em;
-        width: 10vw;
+        width: 5em;
         display: inline;
         position: unset;
     }
@@ -252,7 +246,7 @@
     .team-button:hover {
         cursor: pointer;
         border-radius: 1em;
-        background-color: #303030;
+        background: rgba(50, 50, 50, 0.4);
     }
 
     .csgo-back {
@@ -279,4 +273,16 @@
         margin-bottom: 2em;
     }
 
+    @media only screen and (min-width: 721px) {
+        .mlr-auto {
+
+        }
+    }
+
+    @media only screen and (max-width: 720px) {
+        .mlr-auto {
+            margin-left: auto;
+            margin-right: auto;
+        }
+    }
 </style>
