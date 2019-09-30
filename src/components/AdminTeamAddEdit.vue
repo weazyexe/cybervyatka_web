@@ -405,14 +405,13 @@
                 },
                 contacts: {
                     email: {
-                        required,
                         email: email
                     },
                     phone: {
                         required
                     },
                     vk: {
-                        url: url
+                        required
                     }
                 },
                 players: {
