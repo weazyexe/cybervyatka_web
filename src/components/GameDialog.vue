@@ -1,68 +1,58 @@
 <template>
-    <md-dialog class="game-dialog" :md-active="show">
+    <div>
 
-        <team-dialog :team="currentTeam" :show="showTeamDialog" :show-contacts="false" :on-confirm="onShowConfirm"></team-dialog>
+        <md-dialog class="game-dialog" :md-active="show">
+            <div class="horizontal-center">
 
-        <div class="horizontal-center">
-            <b-row>
-                <b-col md="12" class="text-center">
-                    <b-row class="text-center">
-                        <b-col class="mx-auto">
-                            <div class="text-center">
-                                <img class="modal-logo rounded-circle" v-if="game.team_first.logo === ''" src="../assets/logo_placeholder.png"
-                                     alt="team_logo" @click="showTeam(game.team_first)"/>
-                                <img class="modal-logo rounded-circle" v-else :src="game.team_first.logo"
-                                     alt="team_logo" @click="showTeam(game.team_first)"/>
+                <team-dialog :team="currentTeam" :show="showTeamDialog" :show-contacts="false" :on-confirm="onShowConfirm"></team-dialog>
 
-                                <img class="modal-logo rounded-circle" v-if="game.team_second.logo === ''" src="../assets/logo_placeholder.png"
-                                     alt="team_logo" @click="showTeam(game.team_second)"/>
-                                <img class="modal-logo rounded-circle" v-else :src="game.team_second.logo"
-                                     alt="team_logo" @click="showTeam(game.team_second)"/>
+                <b-row>
+                    <b-col md="12" class="text-center">
+                        <b-row class="text-center">
+                            <b-col class="mx-auto">
+                                <div class="text-center">
+                                    <img class="modal-logo rounded-circle" v-if="game.team_first.logo === ''" src="../assets/logo_placeholder.png"
+                                         alt="team_logo" @click="showTeam(game.team_first)"/>
+                                    <img class="modal-logo rounded-circle" v-else :src="game.team_first.logo"
+                                         alt="team_logo" @click="showTeam(game.team_first)"/>
+
+                                    <img class="modal-logo rounded-circle" v-if="game.team_second.logo === ''" src="../assets/logo_placeholder.png"
+                                         alt="team_logo" @click="showTeam(game.team_second)"/>
+                                    <img class="modal-logo rounded-circle" v-else :src="game.team_second.logo"
+                                         alt="team_logo" @click="showTeam(game.team_second)"/>
+                                </div>
+                            </b-col>
+                        </b-row>
+
+                        <div class="team-text">
+                            <div @click="showTeam(game.team_first)" class="team-link" >
+                                {{ game.team_first.title }}
                             </div>
-                        </b-col>
-                    </b-row>
-
-                    <div class="team-text">
-                        <div @click="showTeam(game.team_first)" class="team-link" >
-                            {{ game.team_first.title }}
+                            <strong class="versus"> VS </strong>
+                            <div @click="showTeam(game.team_second)" class="team-link">{{ game.team_second.title }}</div>
                         </div>
-                        <strong class="versus"> VS </strong>
-                        <div @click="showTeam(game.team_second)" class="team-link">{{ game.team_second.title }}</div>
-                    </div>
-                    <p class="team-text-small">Best of {{ game.best_of }} • {{ parsedDate }}</p>
-                    <p class="game-text-small" v-if="game.discipline === 'CSGO'">CS:GO</p>
-                    <p class="game-text-small" v-else>Dota 2</p>
+                        <p class="team-text-small">Best of {{ game.best_of }} • {{ parsedDate }}</p>
+                        <p class="game-text-small" v-if="game.discipline === 'CSGO'">CS:GO</p>
+                        <p class="game-text-small" v-else>Dota 2</p>
 
-                    <p class="list-header">Результаты</p>
-                    <template v-if="game.discipline === 'CSGO'">
+                        <p class="list-header">Результаты</p>
                         <template v-if="game.results">
-                            <template v-for="(map, index) in Object.keys(game.results)">
-                                <p :key="index" class="player-name">{{ map }}: {{ game.results[map] }}</p>
+                            <template v-for="(match, index) in results">
+                                <p :key="index" class="player-name">{{ game.discipline === 'CSGO' ? match.map : `${index + 1} игра` }}: {{ match.firstCount }}:{{ match.secondCount }}</p>
                             </template>
                         </template>
                         <template v-else>
-                            <p class="player-name">Карты ещё не выбраны</p>
+                            <p class="player-name">{{ game.discipline === 'CSGO' ? 'Карты ещё не выбраны' : 'Игры ещё не начались' }} </p>
                         </template>
-                    </template>
-                    <template v-else>
-                        <template v-if="game.results[0] !== '0:0'">
-                            <template v-for="(result, index) in game.results">
-                                <p :key="index" class="player-name" v-if="result === '1:0'">{{ index + 1 }} игра: {{ game.team_first }}</p>
-                                <p :key="index" class="player-name" v-else-if="result === '0:1'">{{ index + 1 }} игра: {{ game.team_second }}</p>
-                            </template>
-                        </template>
-                        <template v-else>
-                            <p class="player-name">Игры ещё не начались</p>
-                        </template>
-                    </template>
-                </b-col>
-            </b-row>
-        </div>
+                    </b-col>
+                </b-row>
+            </div>
 
-        <md-dialog-actions>
-            <md-button class="md-primary dialog-button" @click="onConfirm">OK</md-button>
-        </md-dialog-actions>
-    </md-dialog>
+            <md-dialog-actions>
+                <md-button class="md-primary dialog-button" @click="onConfirm">OK</md-button>
+            </md-dialog-actions>
+        </md-dialog>
+    </div>
 </template>
 
 <script>
@@ -102,6 +92,22 @@
             },
             onShowConfirm() {
                 this.showTeamDialog = false;
+            }
+        },
+        computed: {
+            results: function () {
+                let res = [];
+
+                this.game.results.forEach((it) => {
+                    let match = it.split(':');
+                    if (this.game.discipline === 'CSGO') {
+                        res.push({map: match[0], firstCount: match[1], secondCount: match[2]});
+                    } else {
+                        res.push({firstCount: match[0], secondCount: match[1]});
+                    }
+                });
+
+                return res;
             }
         }
     }

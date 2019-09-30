@@ -106,6 +106,8 @@
                         </b-row>
                     </b-col>
             </b-container>
+
+            <landing-footer></landing-footer>
         </div>
     </div>
 </template>
@@ -114,12 +116,14 @@
     import firebase from 'firebase';
     import GameDialog from "@/components/GameDialog";
     import LandingHeader from "@/components/LandingHeader";
+    import LandingFooter from "@/components/LandingFooter";
 
     export default {
         name: "LandingGames",
         components: {
             GameDialog,
-            LandingHeader
+            LandingHeader,
+            LandingFooter
         },
         data: function () {
             return {

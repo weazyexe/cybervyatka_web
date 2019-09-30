@@ -185,6 +185,7 @@
 
                 </md-card>
             </b-container>
+            <landing-footer></landing-footer>
         </div>
     </div>
 </template>
@@ -192,6 +193,7 @@
 <script>
 
     import LandingHeader from "@/components/LandingHeader";
+    import LandingFooter from "@/components/LandingFooter";
     import firebase from 'firebase';
     import { validationMixin } from 'vuelidate';
     import {
@@ -206,7 +208,8 @@
         name: "LandingParticipate",
         mixins: [validationMixin],
         components: {
-            LandingHeader
+            LandingHeader,
+            LandingFooter
         },
         data: function() {
             return {

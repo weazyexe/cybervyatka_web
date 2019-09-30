@@ -45,6 +45,7 @@
                     </template>
                 </b-row>
             </b-container>
+            <landing-footer></landing-footer>
         </div>
     </div>
 </template>
@@ -54,11 +55,16 @@
     import firebase from 'firebase';
     import TeamDialog from "@/components/TeamDialog";
     import LandingHeader from "@/components/LandingHeader";
+    import LandingFooter from "@/components/LandingFooter";
 
     export default {
 
         name: 'LandingTeams',
-        components: {LandingHeader, TeamDialog},
+        components: {
+            LandingHeader,
+            TeamDialog,
+            LandingFooter
+        },
         data: function() {
             return {
                 discipline : 'CSGO',

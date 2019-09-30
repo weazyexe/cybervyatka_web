@@ -52,6 +52,7 @@
                     </b-row>
                 </b-col>
             </b-container>
+            <landing-footer></landing-footer>
         </div>
     </div>
 
@@ -59,9 +60,14 @@
 
 <script>
 import LandingHeader from "@/components/LandingHeader";
+import LandingFooter from "@/components/LandingFooter";
+
 export default {
   name: 'Header',
-    components: {LandingHeader},
+    components: {
+        LandingHeader,
+        LandingFooter
+    },
     created() {
       document.title = this.$route.meta.title;
     }

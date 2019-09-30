@@ -72,6 +72,7 @@
                     </b-col>
                 </template>
             </b-container>
+            <landing-footer></landing-footer>
         </div>
     </div>
 </template>
@@ -79,6 +80,7 @@
 <script>
     import firebase from 'firebase';
     import LandingHeader from "@/components/LandingHeader";
+    import LandingFooter from "@/components/LandingFooter";
     import PlayoffGameCell from "@/components/PlayoffGameCell";
     import GameDialog from "@/components/GameDialog";
     import ScrollableContainer from 'vue-scrollable-container';
@@ -87,6 +89,7 @@
         name: "LandingPlayoff",
         components: {
             LandingHeader,
+            LandingFooter,
             PlayoffGameCell,
             GameDialog,
             ScrollableContainer

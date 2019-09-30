@@ -45,6 +45,8 @@
                     </b-row>
                 </b-col>
             </b-container>
+
+            <landing-footer></landing-footer>
         </div>
     </div>
 </template>
@@ -53,12 +55,14 @@
     import firebase from 'firebase';
     import LandingHeader from "@/components/LandingHeader";
     import GroupEntry from "@/components/GroupEntry";
+    import LandingFooter from "@/components/LandingFooter";
 
     export default {
         name: "LandingGroups",
         components: {
             LandingHeader,
             GroupEntry,
+            LandingFooter
         },
         data: function () {
             return {
