@@ -9,8 +9,12 @@
         <b-container fluid class="footer">
             <b-col>
                 <b-row class="ml-auto mr-auto text-center pt-4">
-                    <p class="text-link ml-auto">О турнире</p>
-                    <p class="text-link ml-5 mr-5">Организаторы</p>
+                    <router-link to="/about" class="ml-auto">
+                        <p class="text-link">О турнире</p>
+                    </router-link>
+                    <router-link to="/our_squad" class="ml-5 mr-5">
+                        <p class="text-link">Организаторы</p>
+                    </router-link>
                     <p class="text-link mr-auto mr-2" @click="showDialog = true">Баг-репорт</p>
                 </b-row>
                 <b-row class="ml-auto mr-auto text-center">
@@ -45,6 +49,10 @@
     .text-link {
         color: #303030;
         font-weight: bold;
+    }
+
+    a:hover {
+        text-decoration: none;
     }
 
     .text-link:hover {

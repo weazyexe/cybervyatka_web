@@ -30,6 +30,8 @@ import AdminPlayoff from "@/components/AdminPlayoff";
 import LandingPlayoff from "@/components/LandingPlayoff";
 import LandingParticipate from "@/components/LandingParticipate";
 import NotFound from "@/components/NotFound";
+import LandingOrgs from "@/components/LandingOrgs";
+import LandingAbout from "@/components/LandingAbout";
 
 Vue.config.productionTip = false;
 
@@ -93,6 +95,20 @@ const routes = [
         component: LandingParticipate,
         meta: {
             title: 'Участвовать в турнире - CYBERVYATKA'
+        }
+    },
+    {
+        path: '/our_squad',
+        component: LandingOrgs,
+        meta: {
+            title: 'Организаторы - CYBERVYATKA'
+        }
+    },
+    {
+        path: '/about',
+        component: LandingAbout,
+        meta: {
+            title: 'О турнире - CYBERVYATKA'
         }
     },
 
