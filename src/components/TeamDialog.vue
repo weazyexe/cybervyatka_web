@@ -54,6 +54,9 @@
             show: Boolean,
             onConfirm: Function,
             showContacts : Boolean
+        },
+        destroyed() {
+            this.show = false;
         }
     }
 </script>

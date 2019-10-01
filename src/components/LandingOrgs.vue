@@ -13,12 +13,24 @@
             </div>
 
             <b-container fluid id="teams-content">
-                <b-row class="filters ml-auto mr-auto text-center">
-                    <staff-entry name="Алексей Широков" position="Стафф"  photo="org_lesha.png" instagram="shirba322" vk="eztome"></staff-entry>
-                    <staff-entry name="Олег Мартыненко" position="Администратор"  photo="org_oleg.png" instagram="propendocena" vk="id58555244"></staff-entry>
-                    <staff-entry name="Александр Вохмянин" position="Администратор"  photo="org_sashav.png" instagram="aleksandr_vokhmyanin" vk="id96993943" telegram="alastorchan"></staff-entry>
-                    <staff-entry name="Тимур Задворнов" position="Разработчик, дизайнер" photo="org_me.jpg" instagram="weazyexe" vk="weazyexe" twitter="weazyexe" telegram="weazyexe"></staff-entry>
-                </b-row>
+                <b-col>
+                    <b-row class="filters ml-auto mr-auto text-center">
+                        <staff-entry name="Александр Шихалдин" position="Руководитель"  photo="org_shixa.png" vk="silent43" instagram="alexandr_shikhaldin" telegram="silent43rus"></staff-entry>
+                    </b-row>
+                    <b-row class="filters ml-auto mr-auto text-center">
+                        <staff-entry name="Анна Глушкова" position="Контент-менеджер"  photo="org_anna.png" vk="glushkoova" instagram="glushkoova"></staff-entry>
+                        <staff-entry name="Даниил Аверин" position="Менеджер по продвижению"  photo="org_daniil.png" vk="averination" instagram="averination"></staff-entry>
+                        <staff-entry name="Тимур Задворнов" position="Разработчик, дизайнер" photo="org_me.jpg" instagram="weazyexe" vk="weazyexe" twitter="weazyexe" telegram="weazyexe"></staff-entry>
+                    </b-row>
+                    <b-row class="filters ml-auto mr-auto text-center">
+                        <staff-entry name="Олег Мартыненко" position="Администратор"  photo="org_oleg.png" instagram="propendocena" vk="id58555244" telegram="propendoz"></staff-entry>
+                        <staff-entry name="Александр Вохмянин" position="Администратор"  photo="org_sashav.png" instagram="aleksandr_vokhmyanin" vk="id96993943" telegram="alastorchan"></staff-entry>
+                    </b-row>
+                    <b-row class="filters ml-auto mr-auto text-center">
+                        <staff-entry name="Алексей Широков" position="Стафф"  photo="org_lesha.png" instagram="shirba322" vk="eztome"></staff-entry>
+                        <staff-entry name="Иван Митягин" position="Стафф" photo="org_mitya.png" instagram="mad_mitya09" vk="idqwerty007"></staff-entry>
+                    </b-row>
+                </b-col>
             </b-container>
 
             <landing-footer></landing-footer>

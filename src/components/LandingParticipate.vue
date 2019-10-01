@@ -350,6 +350,7 @@
                 },
                 contacts: {
                     email: {
+                        required,
                         email: email
                     },
                     phone: {

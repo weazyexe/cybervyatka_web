@@ -1,5 +1,5 @@
 <template>
-    <b-col class="m-1 mlr-auto">
+    <b-col class="m-3 mb-5 mlr-auto">
         <img :src="require(`../assets/${photo}`)" alt="Лёша))" class="rounded-circle staff-avatar">
         <p class="name-text">{{ name }}</p>
         <p class="position-text">{{ position }}</p>
@@ -48,6 +48,8 @@
 
     .staff-avatar {
         width: 150px;
+        min-width: 150px;
+        max-width: 150px;
     }
 
     .staff-link {

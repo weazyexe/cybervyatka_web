@@ -2,7 +2,9 @@
     <div class="hamburger-menu fixed-top">
         <b-col class="horizontal-center" md="12">
             <b-row>
-                <img class="admin-menu-logo" src="../assets/logo_clear.png" alt="Logo">
+                <router-link to="/" class="admin-menu-logo">
+                    <img src="../assets/logo_clear.png" alt="Logo">
+                </router-link>
             </b-row>
 
             <router-link to="/admin/teams">

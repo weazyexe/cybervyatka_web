@@ -83,20 +83,6 @@
         font-weight: bold;
     }
 
-    .text {
-        color: white;
-        font-size: 2.2em;
-        margin-bottom: 0;
-        margin-top: 1em;
-        text-align: start;
-    }
-
-    .text-list {
-        color: #DFDFDF;
-        font-size: 1.5em;
-        text-align: start;
-    }
-
     .prerect {
         max-width: 100%;
         min-width: 100%;
@@ -133,6 +119,20 @@
             text-align: left;
             margin-left: 10.5%;
         }
+
+        .text {
+            color: white;
+            font-size: 2.2em;
+            margin-bottom: 0;
+            margin-top: 1em;
+            text-align: start;
+        }
+
+        .text-list {
+            color: #DFDFDF;
+            font-size: 1.5em;
+            text-align: start;
+        }
     }
 
     @media only screen and (max-width: 720px) {
@@ -143,6 +143,20 @@
             font-weight: bold;
             text-align: left;
             margin-left: 10.5%;
+        }
+
+        .text {
+            color: white;
+            font-size: 1.5em;
+            margin-bottom: 0;
+            margin-top: 1em;
+            text-align: start;
+        }
+
+        .text-list {
+            color: #DFDFDF;
+            font-size: 1.3em;
+            text-align: start;
         }
     }
 
