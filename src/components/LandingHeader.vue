@@ -72,7 +72,7 @@
         },
         methods: {
             toParticipate() {
-                this.$router.push('/participate');
+                this.$router.push('/registration');
             },
             expandOrCollapseMenu() {
                 this.isExpanded = !this.isExpanded;

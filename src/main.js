@@ -91,7 +91,7 @@ const routes = [
         }
     },
     {
-        path: '/participate',
+        path: '/registration',
         component: LandingParticipate,
         meta: {
             title: 'Участвовать в турнире - CYBERVYATKA'
