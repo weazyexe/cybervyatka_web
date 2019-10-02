@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="">
         <div class="background-header">
             <landing-header :is-main-active="true"></landing-header>
 
@@ -19,9 +19,32 @@
 
         <div class="background-info text-center">
             <b-container class="info-content">
-                <p class="info-text ml-auto mr-auto"><strong class="strong-info-text">CYBERVYATKA</strong> - это киберспортивный турнир в городе Кирове,
-                    проводящийся с 2018 года в ВятГУ. Регистрация на третий сезон заканчивается <strong class="strong-info-text">20 октября 2019 года</strong>!</p>
-<!--                <md-button id="past-seasons-button" class="md-raised">Прошлые сезоны</md-button>-->
+                <p class="info-text ml-auto mr-auto"><strong class="strong-info-text">CYBERVYATKA</strong> - это
+                    киберспортивный турнир в городе Кирове,
+                    проводящийся с 2018 года в ВятГУ. Регистрация на третий сезон заканчивается <strong
+                            class="strong-info-text">20 октября 2019 года</strong>!</p>
+            </b-container>
+        </div>
+
+        <div class="prerect-top">
+            <div class="rectangle"></div>
+        </div>
+
+        <div class="background-dates text-center">
+            <b-container class="info-content">
+                <b-col class="ml-auto mr-auto">
+                    <p class="strong-info-text mt-2">Регистрация</p>
+                    <p class="info-text-big"><strong>До 20 октября</strong></p>
+                    <p class="strong-info-text mt-5">Групповой этап</p>
+                    <p class="info-text-big"><strong>23 октября - 31 октября</strong></p>
+                    <p class="strong-info-text mt-5">Плей-офф</p>
+                    <p class="info-text-big"><strong>1 ноября - 7 ноября</strong></p>
+                    <p class="strong-info-text mt-5">Финалы</p>
+                    <p class="info-text-big"><strong>8 и 9 ноября</strong></p>
+                    <router-link to="/games" class="mt-5">
+                        <md-button id="baton-button" class="md-raised ml-auto mr-auto">Расписание</md-button>
+                    </router-link>
+                </b-col>
             </b-container>
         </div>
 
@@ -34,15 +57,23 @@
                 <b-col>
                     <b-row class="text-center">
                         <div class="ml-auto mr-auto pl-5 pr-5 pb-5">
-                            <p class="number">150<strong class="strong-info-text">+</strong></p>
+                            <b-row class="number text-center">
+                                <p id="participant-counter" class="ml-auto">0</p>
+                                <p class="mr-auto"><strong class="strong-info-text">+</strong></p>
+                            </b-row>
                             <p class="info-text">Участников</p>
                         </div>
                         <div class="ml-auto mr-auto pl-5 pr-5 pb-5">
-                            <p class="number">2</p>
+                            <b-row class="number text-center">
+                                <p id="discipline-counter" class="ml-auto mr-auto">0</p>
+                            </b-row>
                             <p class="info-text">Дисциплины</p>
                         </div>
                         <div class="ml-auto mr-auto pl-5 pr-5 pb-5">
-                            <p class="number">100<strong class="strong-info-text">%</strong></p>
+                            <b-row class="number text-center">
+                                <p id="fun-counter" class="ml-auto">0</p>
+                                <p class="mr-auto"><strong class="strong-info-text">%</strong></p>
+                            </b-row>
                             <p class="info-text">FUN</p>
                         </div>
                     </b-row>
@@ -50,28 +81,105 @@
                         <img src="../assets/csgo-white.png" class="ml-auto mr-5" alt="csgo_logo">
                         <img src="../assets/dota2-white.png" class="mr-auto" alt="dota2_logo">
                     </b-row>
+
+                    <router-link to="/registration" class="mt-5">
+                        <md-button id="baton-button2" class="md-raised ml-auto mr-auto">Участвовать</md-button>
+                    </router-link>
                 </b-col>
             </b-container>
-            <landing-footer></landing-footer>
         </div>
+
+        <div class="prerect-top">
+            <div class="rectangle"></div>
+        </div>
+
+
+        <div class="background-dates text-center">
+            <b-container class="info-content">
+                <b-col class="ml-auto mr-auto">
+                    <p class="info-text-big"><strong>Прошлые сезоны</strong></p>
+                    <p class="bigger-text mb-0">Было проведено уже 2 сезона нашего турнира в стенах ВятГУ</p>
+                    <p class="bigger-text">Больше фотографий в альбомах <a href="https://vk.com/albums-172258986"
+                                                                           class="strong-info-text" target="_blank">сообщества
+                        ВК</a></p>
+
+                    <b-row class="text-center">
+                        <div class="ml-auto mr-auto">
+                            <img src="../assets/big1.png" alt="photo1" class="photo-200">
+                            <img src="../assets/quad2.png" alt="photo1" class="photo-200">
+                            <img src="../assets/quad3.png" alt="photo1" class="photo-200">
+                            <img src="../assets/quad4.png" alt="photo1" class="photo-200">
+                            <img src="../assets/large1.png" alt="photo1" class="photo-400-200">
+                        </div>
+
+                    </b-row>
+                </b-col>
+            </b-container>
+        </div>
+
+        <div class="prerect-top">
+            <div class="rectangle"></div>
+        </div>
+
+        <div class="background-video text-center">
+            <b-container class="info-content">
+                <b-col class="ml-auto mr-auto">
+                    <iframe width="640" height="600" class="video-iframe" frameBorder="0"
+                            src="https://youtube.com/embed/HOK3qOUU8eA?start=28">
+                    </iframe>
+                </b-col>
+            </b-container>
+        </div>
+
+        <landing-footer></landing-footer>
+
     </div>
 
 </template>
 
 <script>
-import LandingHeader from "@/components/LandingHeader";
-import LandingFooter from "@/components/LandingFooter";
+    import LandingHeader from "@/components/LandingHeader";
+    import LandingFooter from "@/components/LandingFooter";
+    import {CountUp} from 'countup.js'
 
-export default {
-  name: 'Header',
-    components: {
-        LandingHeader,
-        LandingFooter
-    },
-    created() {
-      document.title = this.$route.meta.title;
+    export default {
+        name: 'Header',
+        components: {
+            LandingHeader,
+            LandingFooter
+        },
+        data: function () {
+            return {
+                isCounterStarted: false
+            }
+        },
+        methods: {
+            scrollListener: function () {
+
+                if (window.scrollY > 1800 && !this.isCounterStarted) {
+                    this.isCounterStarted = true;
+                    let funCounter = new CountUp('fun-counter', 100);
+                    let participantCounter = new CountUp('participant-counter', 150);
+                    let disciplineCounter = new CountUp('discipline-counter', 2);
+
+                    funCounter.duration = 4000;
+                    participantCounter.duration = 4000;
+                    disciplineCounter.duration = 4000;
+
+                    funCounter.start();
+                    participantCounter.start();
+                    disciplineCounter.start();
+                }
+            }
+        },
+        created() {
+            document.title = this.$route.meta.title;
+            window.addEventListener('scroll', this.scrollListener);
+        },
+        destroyed() {
+            window.removeEventListener('scroll', this.scrollListener);
+        }
     }
-}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -90,10 +198,26 @@ export default {
         margin-top: -15em;
     }
 
+    .background-dates {
+        background: url("../assets/napobedy_background.png") center no-repeat;
+        background-size: cover;
+        min-height: 67em;
+        margin-top: -15em;
+        padding-bottom: 5em;
+    }
+
+    .background-video {
+        background: url("../assets/main_background.png") center no-repeat;
+        background-size: cover;
+        min-height: 50em;
+        margin-top: -15em;
+        padding-bottom: 5em;
+    }
+
     .background-numbers {
         background: url("../assets/pc_background.png") center no-repeat;
         background-size: cover;
-        height: 30%;
+        min-height: 55em;
         margin-top: -15em;
     }
 
@@ -101,6 +225,13 @@ export default {
         color: #FFFFFF;
         text-align: center;
         font-size: 2em;
+    }
+
+    .info-text-big {
+        font-size: 2.5em;
+        color: #FFFFFF;
+        text-align: center;
+        margin-top: -0.5em;
     }
 
     .strong-info-text {
@@ -118,7 +249,18 @@ export default {
         padding-top: 15em;
     }
 
-    #past-seasons-button {
+    #baton-button {
+        background-color: #D68956;
+        color: #FFFFFF;
+        border-radius: 2em;
+        padding: 0.5em;
+        font-size: 2em;
+        text-transform: none;
+        height: auto;
+        margin-top: 1em;
+    }
+
+    #baton-button2 {
         background-color: #D68956;
         color: #FFFFFF;
         border-radius: 2em;
@@ -138,7 +280,7 @@ export default {
         overflow-x: hidden;
         overflow-y: hidden;
     }
-    
+
     .rectangle {
         background-color: #101010;
         min-width: 150%;
@@ -148,7 +290,7 @@ export default {
         transform-origin: 103%;
     }
 
-    @media only screen and (min-width: 1301px){
+    @media only screen and (min-width: 1301px) {
         .biggest-text {
             color: #FFFFFF;
             margin-top: 5em;
@@ -161,7 +303,7 @@ export default {
         }
     }
 
-    @media only screen and (max-width: 1300px){
+    @media only screen and (max-width: 1300px) {
         .biggest-text {
             color: #FFFFFF;
             margin-top: 30%;
@@ -174,7 +316,7 @@ export default {
         }
     }
 
-    @media only screen and (max-width: 1000px){
+    @media only screen and (max-width: 1000px) {
         .biggest-text {
             color: #FFFFFF;
             margin-top: 50%;
@@ -187,7 +329,7 @@ export default {
         }
     }
 
-    @media only screen and (max-width: 600px){
+    @media only screen and (max-width: 600px) {
         .biggest-text {
             color: #FFFFFF;
             margin-top: 50%;
@@ -213,4 +355,46 @@ export default {
         --accent-color-dark: #aa7d64;
         --accent-color: #D68956;
     }
+
+    .photo-200 {
+        min-width: 7em;
+        min-height: 7em;
+        /*max-width: 15em;
+        max-height: 9.2em;*/
+        padding: 0.2em;
+    }
+
+    .photo-400 {
+        min-width: 14em;
+        min-height: 14em;
+        /*max-width: 20em;
+        max-height: 20em;*/
+        padding: 0.2em;
+    }
+
+    @media only screen and (min-width: 720px) {
+        .photo-400-200 {
+            min-width: 7em;
+            /*max-width: 20em;
+            max-height: 10em;*/
+            padding: 0.2em;
+        }
+    }
+
+    @media only screen and (max-width: 720px) {
+        .photo-400-200 {
+            max-width: 306px;
+            /*max-width: 20em;
+            max-height: 10em;*/
+            padding: 0.2em;
+        }
+    }
+
+
+    .video-iframe {
+        height: 30em;
+        width: 50em;
+    }
+
+
 </style>

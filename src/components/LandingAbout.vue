@@ -216,4 +216,5 @@
         --accent-color-dark: #aa7d64;
         --accent-color: #D68956;
     }
+
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <md-dialog class="team-dialog" :md-active.sync="show">
+    <md-dialog class="team-dialog" :md-active="show">
 
         <div class="horizontal-center">
             <b-row>
@@ -19,7 +19,7 @@
                             <p class="player-name">VK: <a :href="team.contacts.vk" target="_blank">{{ team.contacts.vk }}</a></p>
                         </template>
                         <template v-if="team.contacts.telegram !== ''">
-                            <p class="player-name">Telegram: <a :href="'https://teleg.one/' + team.contacts.telegram" target="_blank">{{ team.contacts.telegram }}</a></p>
+                            <p class="player-name">Telegram: <a :href="'https://t-do.ru/' + team.contacts.telegram" target="_blank">{{ team.contacts.telegram }}</a></p>
                         </template>
                     </div>
 
