@@ -82,12 +82,7 @@
 </script>
 
 <style scoped>
-    .logo {
-        width: 6em;
-        height: 6em;
-        margin-left: 20%;
-        margin-top: 1em;
-    }
+
 
     .logo:hover {
         cursor: pointer;
@@ -120,14 +115,68 @@
         height: auto;
     }
 
-    .menu-button {
-        font-size: 2em;
-        color: white;
-        position: fixed;
-        right: 2em;
-        top: 2em;
-        z-index: 1000;
+    @media only screen and (min-width: 720px) {
+        .menu-button {
+            font-size: 2em;
+            color: white;
+            position: fixed;
+            right: 2em;
+            top: 2em;
+            z-index: 1000;
+        }
+
+        .logo {
+            width: 6em;
+            height: 6em;
+            margin-left: 20%;
+            margin-top: 1em;
+        }
+
+        .expanded-menu {
+            position: fixed;
+            left: 0;
+            right: 0;
+            background: rgba(30, 30, 30, 0.9) center fixed;
+            z-index: 999;
+            min-height: 115%;
+            overflow-y: hidden;
+            width: 100%;
+            margin-top: -10em;
+        }
     }
+
+    @media only screen and (max-width: 720px) {
+        .menu-button {
+            font-size: 1.3em;
+            color: white;
+            position: fixed;
+            right: 2em;
+            top: 2em;
+            z-index: 1000;
+        }
+
+        .logo {
+            width: 3em;
+            height: 3em;
+            margin-left: 20%;
+            margin-top: 1em;
+        }
+
+        .expanded-menu {
+            position: fixed;
+            left: 0;
+            right: 0;
+            background: rgba(30, 30, 30, 0.9) center fixed;
+            z-index: 999;
+            min-height: 115%;
+            overflow-y: hidden;
+            width: 100%;
+            margin-top: -10em;
+            padding-top: 10em;
+        }
+    }
+    
+
 
     .menu-button:hover {
         cursor: pointer;
@@ -144,18 +193,6 @@
     .bigger-text:hover {
         color: #CACACA;
         cursor: pointer;
-    }
-
-    .expanded-menu {
-        position: fixed;
-        left: 0;
-        right: 0;
-        background: rgba(30, 30, 30, 0.9) center fixed;
-        z-index: 999;
-        min-height: 115%;
-        overflow-y: hidden;
-        width: 100%;
-        margin-top: -10em;
     }
 
     .pt-20 {

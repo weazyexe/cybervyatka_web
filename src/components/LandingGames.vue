@@ -249,10 +249,10 @@
 
     .rectangle {
         background-color: #101010;
-        min-width: 110%;
+        min-width: 130%;
         min-height: 12em;
         transform: rotate(-3deg);
-        margin-left: -7em;
+        margin-left: -3em;
         transform-origin: 103%;
     }
 
@@ -264,18 +264,47 @@
         margin-top: -4%;
     }
 
-    @media only screen and (min-width: 721px) {
+    @media only screen and (max-width: 350px) {
         .biggest-text {
             color: #FFFFFF;
-            margin-top: 4em;
-            font-size: 4em;
+            margin-top: 3em;
+            font-size: 1.5em;
             font-weight: bold;
             text-align: left;
             margin-left: 10.5%;
         }
+
+        #select-game{
+            margin-left: 0.5em;
+            margin-top: 1.8em;
+            padding-top: 3em;
+            width: 5.2em;
+            display: inline;
+            position: unset;
+        }
     }
 
-    @media only screen and (max-width: 720px) {
+    @media only screen and (min-width: 350px) {
+        .biggest-text {
+            color: #FFFFFF;
+            margin-top: 5em;
+            font-size: 2em;
+            font-weight: bold;
+            text-align: left;
+            margin-left: 10.5%;
+        }
+
+        #select-game{
+            margin-left: 1em;
+            margin-top: 7.8em;
+            padding-top: 3em;
+            width: 5.2em;
+            display: inline;
+            position: unset;
+        }
+    }
+
+    @media only screen and (min-width: 400px) {
         .biggest-text {
             color: #FFFFFF;
             margin-top: 6.8em;
@@ -284,18 +313,25 @@
             text-align: left;
             margin-left: 10.5%;
         }
-    }
 
-    @media only screen and (min-width: 721px) {
-        .mlr-auto {
-
+        #select-game{
+            margin-left: 2em;
+            margin-top: 15.4em;
+            padding-top: 3em;
+            width: 5.2em;
+            display: inline;
+            position: unset;
         }
     }
 
-    @media only screen and (max-width: 720px) {
-        .mlr-auto {
-            margin-left: auto;
-            margin-right: auto;
+    @media only screen and (min-width: 721px) {
+        .biggest-text {
+            color: #FFFFFF;
+            margin-top: 4em;
+            font-size: 4em;
+            font-weight: bold;
+            text-align: left;
+            margin-left: 10.5%;
         }
     }
 
@@ -326,15 +362,6 @@
 
     .parallax__layer--back {
         transform: translateZ(-1px) scale(2.7);
-    }
-
-    #select-game{
-        margin-left: 2em;
-        margin-top: 15.4em;
-        padding-top: 3em;
-        width: 6em;
-        display: inline;
-        position: unset;
     }
 
     .bigger-text {

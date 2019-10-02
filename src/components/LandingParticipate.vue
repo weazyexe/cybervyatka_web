@@ -420,10 +420,10 @@
 
     .rectangle {
         background-color: #101010;
-        min-width: 110%;
+        min-width: 130%;
         min-height: 12em;
         transform: rotate(-3deg);
-        margin-left: -7em;
+        margin-left: -3em;
         transform-origin: 103%;
     }
 

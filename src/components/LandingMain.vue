@@ -184,102 +184,13 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
-    .background-header {
-        background: url("../assets/main_background.png") center no-repeat;
-        background-size: cover;
-        height: 50em;
-    }
-
-    .background-info {
-        background: url("../assets/players_background.jpg") center no-repeat;
-        background-size: cover;
-        height: 45em;
-        margin-top: -15em;
-    }
-
-    .background-dates {
-        background: url("../assets/napobedy_background.png") center no-repeat;
-        background-size: cover;
-        min-height: 67em;
-        margin-top: -15em;
-        padding-bottom: 5em;
-    }
-
-    .background-video {
-        background: url("../assets/main_background.png") center no-repeat;
-        background-size: cover;
-        min-height: 50em;
-        margin-top: -15em;
-        padding-bottom: 5em;
-    }
-
-    @media only screen and (min-width: 440px) {
-        .background-numbers {
-            background: url("../assets/pc_background.png") center no-repeat;
-            background-size: cover;
-            min-height: 55em;
-            margin-top: -15em;
-        }
-    }
-
-    @media only screen and (max-width: 440px) {
-        .background-numbers {
-            background: url("../assets/pc_background.png") center no-repeat;
-            background-size: cover;
-            min-height: 75em;
-            margin-top: -15em;
-        }
-    }
-
-
-    .info-text {
-        color: #FFFFFF;
-        text-align: center;
-        font-size: 2em;
-    }
-
-    .info-text-big {
-        font-size: 2.5em;
-        color: #FFFFFF;
-        text-align: center;
-        margin-top: -0.5em;
-    }
-
     .strong-info-text {
         color: #D68956;
         font-weight: bold;
     }
 
-    .number {
-        color: #FFFFFF;
-        font-size: 4em;
-        font-weight: bold;
-    }
-
     .info-content {
         padding-top: 15em;
-    }
-
-    #baton-button {
-        background-color: #D68956;
-        color: #FFFFFF;
-        border-radius: 2em;
-        padding: 0.5em;
-        font-size: 2em;
-        text-transform: none;
-        height: auto;
-        margin-top: 1em;
-    }
-
-    #baton-button2 {
-        background-color: #D68956;
-        color: #FFFFFF;
-        border-radius: 2em;
-        padding: 0.5em;
-        font-size: 2em;
-        text-transform: none;
-        height: auto;
-        margin-top: 1em;
     }
 
     .prerect-top {
@@ -297,8 +208,17 @@
         min-width: 150%;
         min-height: 20em;
         transform: rotate(-3deg);
-        margin-left: -7em;
+        margin-left: -3em;
         transform-origin: 103%;
+    }
+
+    @media only screen and (min-width: 440px) {
+        .background-numbers {
+            background: url("../assets/pc_background.png") center no-repeat;
+            background-size: cover;
+            min-height: 55em;
+            margin-top: -15em;
+        }
     }
 
     @media only screen and (min-width: 1301px) {
@@ -322,6 +242,10 @@
             margin-bottom: 2em;
         }
 
+        .video-iframe {
+            height: 30em;
+            width: 50em;
+        }
     }
 
     @media only screen and (max-width: 1300px) {
@@ -345,6 +269,10 @@
             margin-bottom: 2em;
         }
 
+        .video-iframe {
+            height: 30em;
+            width: 50em;
+        }
     }
 
     @media only screen and (max-width: 1000px) {
@@ -368,9 +296,99 @@
             margin-bottom: 2em;
         }
 
+        .video-iframe {
+            height: 30em;
+            width: 50em;
+        }
+
+    }
+
+    @media only screen and (min-width: 600px) {
+        .number {
+            color: #FFFFFF;
+            font-size: 4em;
+            font-weight: bold;
+        }
+
+        .info-text {
+            color: #FFFFFF;
+            text-align: center;
+            font-size: 2em;
+        }
+
+        .info-text-big {
+            font-size: 2.5em;
+            color: #FFFFFF;
+            text-align: center;
+            margin-top: -0.5em;
+        }
+
+        #baton-button {
+            background-color: #D68956;
+            color: #FFFFFF;
+            border-radius: 2em;
+            padding: 0.5em;
+            font-size: 2em;
+            text-transform: none;
+            height: auto;
+            margin-top: 1em;
+        }
+
+        #baton-button2 {
+            background-color: #D68956;
+            color: #FFFFFF;
+            border-radius: 2em;
+            padding: 0.5em;
+            font-size: 2em;
+            text-transform: none;
+            height: auto;
+            margin-top: 1em;
+        }
+
+        .background-header {
+            background: url("../assets/main_background.png") center no-repeat;
+            background-size: cover;
+            height: 50em;
+        }
+
+        .background-info {
+            background: url("../assets/players_background.jpg") center no-repeat;
+            background-size: cover;
+            height: 45em;
+            margin-top: -15em;
+        }
+
+        .background-dates {
+            background: url("../assets/napobedy_background.png") center no-repeat;
+            background-size: cover;
+            min-height: 67em;
+            margin-top: -15em;
+            padding-bottom: 5em;
+        }
+
+        .background-video {
+            background: url("../assets/main_background.png") center no-repeat;
+            background-size: cover;
+            min-height: 50em;
+            margin-top: -15em;
+            padding-bottom: 5em;
+        }
+
+        .background-numbers {
+            background: url("../assets/pc_background.png") center no-repeat;
+            background-size: cover;
+            min-height: 70em;
+            margin-top: -15em;
+        }
     }
 
     @media only screen and (max-width: 600px) {
+        .number {
+            color: #FFFFFF;
+            font-size: 2em;
+            font-weight: bold;
+        }
+
         .biggest-text {
             color: #FFFFFF;
             margin-top: 50%;
@@ -391,6 +409,81 @@
             margin-bottom: 2em;
         }
 
+        .video-iframe {
+            height: 30vh;
+            width: 50vw;
+        }
+
+        .info-text {
+            color: #FFFFFF;
+            text-align: center;
+            font-size: 1em;
+        }
+
+        .info-text-big {
+            font-size: 1.5em;
+            color: #FFFFFF;
+            text-align: center;
+            margin-top: -0.5em;
+        }
+
+        #baton-button {
+            background-color: #D68956;
+            color: #FFFFFF;
+            border-radius: 2em;
+            padding: 0.5em;
+            font-size: 1em;
+            text-transform: none;
+            height: auto;
+            margin-top: 1em;
+        }
+
+        #baton-button2 {
+            background-color: #D68956;
+            color: #FFFFFF;
+            border-radius: 2em;
+            padding: 0.5em;
+            font-size: 1em;
+            text-transform: none;
+            height: auto;
+            margin-top: 1em;
+        }
+
+        .background-header {
+            background: url("../assets/main_background.png") center no-repeat;
+            background-size: cover;
+            height: 34em;
+        }
+
+        .background-info {
+            background: url("../assets/players_background.jpg") center no-repeat;
+            background-size: cover;
+            height: 25em;
+            margin-top: -18em;
+        }
+
+        .background-dates {
+            background: url("../assets/napobedy_background.png") center no-repeat;
+            background-size: cover;
+            min-height: 50em;
+            margin-top: -15em;
+            padding-bottom: 5em;
+        }
+
+        .background-video {
+            background: url("../assets/main_background.png") center no-repeat;
+            background-size: cover;
+            min-height: 40em;
+            margin-top: -15em;
+            padding-bottom: 5em;
+        }
+
+        .background-numbers {
+            background: url("../assets/pc_background.png") center no-repeat;
+            background-size: cover;
+            min-height: 55em;
+            margin-top: -15em;
+        }
     }
 
     @media only screen and (max-width: 440px) {
@@ -414,33 +507,17 @@
             margin-bottom: 2em;
         }
 
-    }
-
-
-    :root {
-        --accent-color-dark: #aa7d64;
-        --accent-color: #D68956;
-    }
-
-    .photo-200 {
-        min-width: 7em;
-        min-height: 7em;
-        /*max-width: 15em;
-        max-height: 9.2em;*/
-        padding: 0.2em;
-    }
-
-    .photo-400 {
-        min-width: 14em;
-        min-height: 14em;
-        /*max-width: 20em;
-        max-height: 20em;*/
-        padding: 0.2em;
+        .background-numbers {
+            background: url("../assets/pc_background.png") center no-repeat;
+            background-size: cover;
+            min-height: 75em;
+            margin-top: -15em;
+        }
     }
 
     @media only screen and (min-width: 720px) {
         .photo-400-200 {
-            min-width: 7em;
+            /*min-width: 7em;*/
             /*max-width: 20em;
             max-height: 10em;*/
             padding: 0.2em;
@@ -449,17 +526,11 @@
 
     @media only screen and (max-width: 720px) {
         .photo-400-200 {
-            max-width: 306px;
+            /*max-width: 306px;*/
             /*max-width: 20em;
             max-height: 10em;*/
             padding: 0.2em;
         }
-    }
-
-
-    .video-iframe {
-        height: 30em;
-        width: 50em;
     }
 
     @media only screen and (min-width: 440px) {
@@ -486,4 +557,16 @@
         }
     }
 
+    :root {
+        --accent-color-dark: #aa7d64;
+        --accent-color: #D68956;
+    }
+
+    .photo-200 {
+        min-width: 7em;
+        min-height: 7em;
+        /*max-width: 15em;
+        max-height: 9.2em;*/
+        padding: 0.2em;
+    }
 </style>
