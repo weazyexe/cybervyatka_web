@@ -20,16 +20,16 @@
                                             <img :src="team.logo" alt="team logo" class="team-logo rounded-circle img-fluid">
                                         </b-col>
                                         <b-col md="3">
-                                            <md-field :class="getValidationClass('logo')">
+                                            <md-field class="field" :class="getValidationClass('logo')">
                                                 <label>Загрузить логотип</label>
-                                                <md-file @input="onSelectFile" ref="file" id="load-logo-button" v-model="team.logo" accept="image/jpeg,image/png" placeholder="Выберите изображение" :disabled="sending"/>
+                                                <md-file  @input="onSelectFile" ref="file" id="load-logo-button" v-model="team.logo" accept="image/jpeg,image/png" placeholder="Выберите изображение" :disabled="sending"/>
                                                 <span class="md-error" v-if="!$v.team.logo.required">Логотип обязателен</span>
                                             </md-field>
                                         </b-col>
                                     </b-row>
                                     <b-row class="fields-row">
                                         <b-col md="4">
-                                            <md-field class="field" :class="getValidationClass('title')">
+                                            <md-field :class="getValidationClass('title')">
                                                 <label for="title">Название команды</label>
                                                 <md-input name="title" id="title" v-model="team.title" :disabled="sending" />
                                                 <span class="md-error" v-if="!$v.team.title.required">Название обязательно</span>

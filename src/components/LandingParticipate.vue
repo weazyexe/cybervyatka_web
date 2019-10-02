@@ -63,7 +63,7 @@
                                                     <img src="../assets/logo_placeholder.png" alt="team logo" class="team-logo rounded-circle w10 ml-auto mr-auto">
                                                 </template>
                                             </div>
-                                            <md-field class="w20 ml-auto mr-auto">
+                                            <md-field class="field ml-auto mr-auto">
                                                 <label>Загрузить логотип</label>
                                                 <md-file @input="onSelectFile" ref="file" id="load-logo-button" v-model="team.logo" accept="image/jpeg,image/png" placeholder="Выберите логотип"/>
                                             </md-field>
@@ -463,19 +463,55 @@
         transform: translateZ(-1px) scale(2.7);
     }
 
-    .field {
-        color: #D68956;
-        margin-right: 1em;
-        margin-left: 1em;
-        width: 20em;
+    @media only screen and (max-width: 500px) {
+        
     }
 
-    .field-player {
-        color: #D68956;
-        margin-right: 1em;
-        margin-left: 1em;
-        width: 16vw;
+    @media only screen and (max-width: 640px) {
+        .field-player {
+            color: #D68956;
+            margin-right: 1em;
+            margin-left: 1em;
+        }
+
+        .form-card {
+            margin-top: -15em;
+            margin-left: 1%;
+            margin-right: 1%;
+            background-color: #212121;
+        }
+
+        .field {
+            color: #D68956;
+            margin-right: 1em;
+            margin-left: 1em;
+        }
     }
+
+    @media only screen and (min-width: 640px) {
+        .field-player {
+            color: #D68956;
+            margin-right: 1em;
+            margin-left: 1em;
+            width: 16vw;
+        }
+
+        .form-card {
+            margin-top: -15em;
+            margin-left: 10%;
+            margin-right: 10%;
+            background-color: #212121;
+        }
+
+        .field {
+            color: #D68956;
+            margin-right: 1em;
+            margin-left: 1em;
+            width: 20em;
+        }
+    }
+    
+
 
     .rect-header {
         margin-left: 0;
@@ -485,13 +521,6 @@
     :root {
         --accent-color-dark: #aa7d64;
         --accent-color: #D68956;
-    }
-
-    .form-card {
-        margin-top: -15em;
-        margin-left: 10%;
-        margin-right: 10%;
-        background-color: #212121;
     }
 
     .w10 {

@@ -21,8 +21,7 @@
             <b-container class="info-content">
                 <p class="info-text ml-auto mr-auto"><strong class="strong-info-text">CYBERVYATKA</strong> - это
                     киберспортивный турнир в городе Кирове,
-                    проводящийся с 2018 года в ВятГУ. Регистрация на третий сезон заканчивается <strong
-                            class="strong-info-text">20 октября 2019 года</strong>!</p>
+                    проводящийся с 2018 года в ВятГУ</p>
             </b-container>
         </div>
 
@@ -77,9 +76,9 @@
                             <p class="info-text">FUN</p>
                         </div>
                     </b-row>
-                    <b-row class="mt-5 ml-auto mr-auto pl-5 pr-5 pb-5">
-                        <img src="../assets/csgo-white.png" class="ml-auto mr-5" alt="csgo_logo">
-                        <img src="../assets/dota2-white.png" class="mr-auto" alt="dota2_logo">
+                    <b-row class="mt-5 ml-auto mr-auto pl-md-5 pr-md-5 pb-md-5">
+                        <img src="../assets/csgo-white.png" class="ml-auto mr-md-5 csgo-logo" alt="csgo_logo">
+                        <img src="../assets/dota2-white.png" class="mr-auto dota2-logo" alt="dota2_logo">
                     </b-row>
 
                     <router-link to="/registration" class="mt-5">
@@ -214,12 +213,24 @@
         padding-bottom: 5em;
     }
 
-    .background-numbers {
-        background: url("../assets/pc_background.png") center no-repeat;
-        background-size: cover;
-        min-height: 55em;
-        margin-top: -15em;
+    @media only screen and (min-width: 440px) {
+        .background-numbers {
+            background: url("../assets/pc_background.png") center no-repeat;
+            background-size: cover;
+            min-height: 55em;
+            margin-top: -15em;
+        }
     }
+
+    @media only screen and (max-width: 440px) {
+        .background-numbers {
+            background: url("../assets/pc_background.png") center no-repeat;
+            background-size: cover;
+            min-height: 75em;
+            margin-top: -15em;
+        }
+    }
+
 
     .info-text {
         color: #FFFFFF;
@@ -301,6 +312,16 @@
             margin-left: auto;
             margin-right: auto;
         }
+
+        .bigger-text {
+            color: #FFFFFF;
+            font-size: 1.5em;
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 2em;
+        }
+
     }
 
     @media only screen and (max-width: 1300px) {
@@ -314,6 +335,16 @@
             margin-left: auto;
             margin-right: auto;
         }
+
+        .bigger-text {
+            color: #FFFFFF;
+            font-size: 1.5em;
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 2em;
+        }
+
     }
 
     @media only screen and (max-width: 1000px) {
@@ -327,6 +358,16 @@
             margin-left: auto;
             margin-right: auto;
         }
+
+        .bigger-text {
+            color: #FFFFFF;
+            font-size: 1.5em;
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 2em;
+        }
+
     }
 
     @media only screen and (max-width: 600px) {
@@ -340,16 +381,41 @@
             margin-left: auto;
             margin-right: auto;
         }
+
+        .bigger-text {
+            color: #FFFFFF;
+            font-size: 1.5em;
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 2em;
+        }
+
     }
 
-    .bigger-text {
-        color: #FFFFFF;
-        font-size: 1.5em;
-        text-align: center;
-        margin-left: auto;
-        margin-right: auto;
-        margin-bottom: 2em;
+    @media only screen and (max-width: 440px) {
+        .biggest-text {
+            color: #FFFFFF;
+            margin-top: 50%;
+            font-size: 1.5em;
+            letter-spacing: 0.5em;
+            font-weight: bold;
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .bigger-text {
+            color: #FFFFFF;
+            font-size: 1em;
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 2em;
+        }
+
     }
+
 
     :root {
         --accent-color-dark: #aa7d64;
@@ -396,5 +462,28 @@
         width: 50em;
     }
 
+    @media only screen and (min-width: 440px) {
+        .csgo-logo {
+
+        }
+
+        .dota2-logo {
+
+        }
+    }
+
+    @media only screen and (max-width: 440px) {
+        .csgo-logo {
+            width: 3em;
+            height: 1.4em;
+            margin-right: 1em;
+            margin-top: 0.7em;
+        }
+
+        .dota2-logo {
+            width: 3em;
+            height: 3em;
+        }
+    }
 
 </style>

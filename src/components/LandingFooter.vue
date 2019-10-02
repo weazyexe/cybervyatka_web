@@ -71,10 +71,12 @@
 
     .footer-logo {
         width: 1.2em;
+        height: 1.2em;
     }
 
     .wz-logo {
         width: 2em;
+        height: 1.2em;
     }
 
     .bug-report-dialog {
