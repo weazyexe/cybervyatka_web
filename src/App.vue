@@ -46,6 +46,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   margin: 0;
+    -webkit-overflow-scrolling: touch;
 }
   .hamburger-menu {
     background-color: #101010;

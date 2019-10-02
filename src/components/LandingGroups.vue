@@ -74,9 +74,6 @@
         },
         computed: {
             isZeroGroups: function () {
-
-                //console.log(this.group.filter((group) => group.discipline === this.discipline));
-
                 return this.groups.length === 0 || this.groups.filter((group) => group.discipline === this.discipline).length === 0;
             }
         },
