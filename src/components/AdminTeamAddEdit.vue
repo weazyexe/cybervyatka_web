@@ -17,13 +17,12 @@
                                 <b-col>
                                     <b-row>
                                         <b-col md="2" class="text-center">
-                                            <img :src="team.logo" alt="team logo" class="team-logo rounded-circle img-fluid">
+                                            <img :src="logo" alt="team logo" class="team-logo rounded-circle img-fluid">
                                         </b-col>
                                         <b-col md="3">
-                                            <md-field class="field" :class="getValidationClass('logo')">
+                                            <md-field class="field">
                                                 <label>Загрузить логотип</label>
                                                 <md-file  @input="onSelectFile" ref="file" id="load-logo-button" v-model="team.logo" accept="image/jpeg,image/png" placeholder="Выберите изображение" :disabled="sending"/>
-                                                <span class="md-error" v-if="!$v.team.logo.required">Логотип обязателен</span>
                                             </md-field>
                                         </b-col>
                                     </b-row>
@@ -98,7 +97,6 @@
                                             <md-field class="field" :class="getValidationClass('vk')">
                                                 <label for="phone">Страница VK</label>
                                                 <md-input name="vk" id="vk" v-model="team.contacts.vk" :disabled="sending" />
-                                                <span class="md-error" v-if="!$v.team.contacts.vk.url">Некорректный URL</span>
                                             </md-field>
                                         </b-col>
                                         <b-col md="3">
@@ -212,7 +210,7 @@
             return {
                 team : {},
                 sending: false,
-                logo : null
+                logo : {}
             }
         },
         created() {
@@ -222,7 +220,7 @@
             if (Object.keys(query).length === 0) {
                 this.$router.replace('/admin/teams/add');
 
-                let team = {};
+                let team = { wins: 0, loses: 0, discipline: "CSGO", status: "REQUESTED" };
                 let standins = [], players = [],  contacts = { email: '', vk: '', phone: '', telegram: ''};
 
                 let len = 0;
@@ -261,38 +259,45 @@
                         team.contacts = contacts;
                     }
 
-                    if (team.logo == null) {
+                    if (team.logo === null) {
                         team.logo = "";
                     } else {
-                        let players = [];
-                        team.players.forEach((it) => {
-                            let arr = it.split(/ '|' /);
-                            players.push({ name: arr[0], nickname: arr[1], surname: arr[2]});
-                        });
-
-                        team.players = players;
-
-                        let standins = [];
-                        if (team.standins == null) {
-                            team.standins = ['', '', ''];
-                        } else {
-                            let len = team.standins.length;
-
-                            while (len !== 3) {
-                                team.standins.push('');
-                                len++;
-                            }
-                        }
-
-                        team.standins.forEach((it) => {
-                           let arr = it.split(/ '|' /);
-                           standins.push({ name: arr[0], nickname: arr[1], surname: arr[2]});
-                        });
-
-                        team.standins = standins;
-
-                        this.team = team;
+                        this.logo = team.logo;
                     }
+
+                    let players = [];
+                    team.players.forEach((it) => {
+                        let arr = it.split(/ '|' /);
+                        players.push({ name: arr[0], nickname: arr[1], surname: arr[2]});
+                    });
+
+                    team.players = players;
+
+
+                    if (team.standins === null) {
+                        team.standins = ['', '', ''];
+                    } else {
+                        let len = team.standins.length;
+
+                        while (len !== 3) {
+                            team.standins.push('');
+                            len++;
+                        }
+                    }
+
+                    let standins = [];
+                    team.standins.forEach((it) => {
+                        let arr = it.split(/ '|' /);
+                        if (arr.length !== 0) {
+                            standins.push({ name: arr[0], nickname: arr[1], surname: arr[2]});
+                        } else {
+                            standins.push({name: '', nickname: '', surname: ''});
+                        }
+                    });
+
+                    team.standins = standins;
+
+                    this.team = team;
                 });
             }
         },
@@ -306,10 +311,8 @@
                     const reader = new FileReader;
                     reader.onload = e => {
                         this.logo = e.target.result;
-                        this.team.logo = e.target.result;
                     };
                     reader.readAsDataURL(files[0]);
-                    this.$emit('load-logo-button', files[0]);
                 }
             },
             getValidationClass (fieldName) {
@@ -355,20 +358,31 @@
                 team.wins = parseInt(team.wins, 10);
                 team.loses = parseInt(team.loses, 10);
 
-                if (this.team.logo.includes('firebasestorage')) {
+                console.log(this.logo);
+
+                if (Object.keys(this.logo).length !== 0) {
+                    if (this.logo.includes('firebasestorage')) {
+                        db.doc("teams/" + team.uid).set(team).then(() => {
+                            this.$router.push('/admin/teams');
+                        });
+                    } else {
+                        ref.putString(`${this.logo}`, 'data_url').then(() => {
+                            ref.getDownloadURL().then((url) => {
+                                team.logo = url;
+                                db.doc("teams/" + team.uid).set(team).then(() => {
+                                    this.$router.push('/admin/teams');
+                                });
+                            });
+                        });
+                    }
+                } else {
+                    team.logo = null;
+
                     db.doc("teams/" + team.uid).set(team).then(() => {
                         this.$router.push('/admin/teams');
                     });
-                } else {
-                    ref.putString(`${this.logo}`, 'data_url').then(() => {
-                        ref.getDownloadURL().then((url) => {
-                            team.logo = url;
-                            db.doc("teams/" + team.uid).set(team).then(() => {
-                                this.$router.push('/admin/teams');
-                            });
-                        });
-                    });
                 }
+
             },
             saveChanges() {
                 this.$v.$touch();
@@ -389,9 +403,6 @@
                 discipline: {
                     required
                 },
-                logo: {
-                    required
-                },
                 status: {
                     required
                 },
@@ -406,7 +417,7 @@
                 contacts: {
                     email: {
                         required,
-                        email: email
+                        email
                     },
                     phone: {
                         required

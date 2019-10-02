@@ -200,12 +200,11 @@
         required,
         minLength,
         maxLength,
-        url,
         email
     } from 'vuelidate/lib/validators';
 
     export default {
-        name: "LandingParticipate",
+        name: "LandingRegistration",
         mixins: [validationMixin],
         components: {
             LandingHeader,
@@ -290,6 +289,9 @@
                 let standins = [], players = [];
                 let team = this.team;
 
+                let date = Math.round(Date.now() / 1000);
+                team.uid = date.toString(16).toUpperCase();
+
                 this.team.logo = this.logo;
                 team.loses = 0;
                 team.wins = 0;
@@ -313,20 +315,29 @@
 
                 team.players = players;
 
-                if (this.team.logo.includes('firebasestorage')) {
+                if (Object.keys(this.logo).length !== 0) {
+                    if (this.team.logo.includes('firebasestorage')) {
+                        db.doc("teams/" + team.uid).set(team).then(() => {
+                            this.isSending = false;
+                            this.isSent = true;
+                        });
+                    } else {
+                        ref.putString(`${this.logo}`, 'data_url').then(() => {
+                            ref.getDownloadURL().then((url) => {
+                                team.logo = url;
+                                db.doc("teams/" + team.uid).set(team).then(() => {
+                                    this.isSending = false;
+                                    this.isSent = true;
+                                });
+                            });
+                        });
+                    }
+                } else {
+                    team.logo = null;
+
                     db.doc("teams/" + team.uid).set(team).then(() => {
                         this.isSending = false;
                         this.isSent = true;
-                    });
-                } else {
-                    ref.putString(`${this.logo}`, 'data_url').then(() => {
-                        ref.getDownloadURL().then((url) => {
-                            team.logo = url;
-                            db.doc("teams/" + team.uid).set(team).then(() => {
-                                this.isSending = false;
-                                this.isSent = true;
-                            });
-                        });
                     });
                 }
             },
@@ -351,7 +362,7 @@
                 contacts: {
                     email: {
                         required,
-                        email: email
+                        email
                     },
                     phone: {
                         required

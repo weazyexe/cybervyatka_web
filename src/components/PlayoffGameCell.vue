@@ -8,13 +8,11 @@
             <p v-else-if="game" class="table-header-text">BO{{ game.best_of }}</p>
             <div class="ml-auto buttons">
                 <b-row class="mx-0">
-                    <template v-if="game">
-                        <i class="material-icons rule-button" @click="onShow(game)">info</i>
-                        <template v-if="!hideButtons">
-                            <i class="material-icons rule-button" v-if="onAdd" @click="onAdd(playoff, gameId)">add</i>
-                            <i class="material-icons rule-button" @click="onEdit(game)">edit</i>
-                            <i class="material-icons rule-button" @click="onPush(game, playoff)">done</i>
-                        </template>
+                    <i class="material-icons rule-button" @click="onShow(game)">info</i>
+                    <template v-if="!hideButtons">
+                        <i class="material-icons rule-button" v-if="onAdd" @click="onAdd(playoff, gameId)">add</i>
+                        <i class="material-icons rule-button" @click="onEdit(game)">edit</i>
+                        <i class="material-icons rule-button" @click="onPush(game, playoff)">done</i>
                     </template>
                 </b-row>
             </div>

@@ -10,6 +10,11 @@
                 <b-row>
                     <p class="bigger-text">Киберспортивный турнир в Кирове</p>
                 </b-row>
+                <b-row>
+                    <a :href="`https://vk.com/cybervyatka`" target="_blank" class="ml-auto mr-auto">
+                        <img src="../assets/vk.png" alt="vk" class="staff-link">
+                    </a>
+                </b-row>
             </b-container>
         </div>
 
@@ -201,6 +206,12 @@
         padding-bottom: 20%;
         overflow-x: hidden;
         overflow-y: hidden;
+    }
+
+    .staff-link {
+        width: 2em;
+        height: 2em;
+        margin: 0.3em;
     }
 
     .rectangle {
