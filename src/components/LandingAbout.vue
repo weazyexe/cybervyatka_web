@@ -110,6 +110,39 @@
         margin-top: -4%;
     }
 
+    @media only screen and (max-width: 350px) {
+        .biggest-text {
+            color: #FFFFFF;
+            margin-top: 3em;
+            font-size: 1.5em;
+            font-weight: bold;
+            text-align: left;
+            margin-left: 10.5%;
+        }
+    }
+
+    @media only screen and (min-width: 350px) {
+        .biggest-text {
+            color: #FFFFFF;
+            margin-top: 5em;
+            font-size: 2em;
+            font-weight: bold;
+            text-align: left;
+            margin-left: 10.5%;
+        }
+    }
+
+    @media only screen and (min-width: 400px) {
+        .biggest-text {
+            color: #FFFFFF;
+            margin-top: 6.8em;
+            font-size: 2.5em;
+            font-weight: bold;
+            text-align: left;
+            margin-left: 10.5%;
+        }
+    }
+
     @media only screen and (min-width: 721px) {
         .biggest-text {
             color: #FFFFFF;
@@ -119,7 +152,9 @@
             text-align: left;
             margin-left: 10.5%;
         }
+    }
 
+    @media only screen and (min-width: 721px) {
         .text {
             color: white;
             font-size: 2.2em;
@@ -136,15 +171,6 @@
     }
 
     @media only screen and (max-width: 720px) {
-        .biggest-text {
-            color: #FFFFFF;
-            margin-top: 6.8em;
-            font-size: 2.5em;
-            font-weight: bold;
-            text-align: left;
-            margin-left: 10.5%;
-        }
-
         .text {
             color: white;
             font-size: 1.5em;

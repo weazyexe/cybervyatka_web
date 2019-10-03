@@ -11,7 +11,7 @@
                     <p class="bigger-text">Киберспортивный турнир в Кирове</p>
                 </b-row>
                 <b-row>
-                    <a :href="`https://vk.com/cybervyatka`" target="_blank" class="ml-auto mr-auto">
+                    <a href="https://vk.com/cybervyatka" target="_blank" class="ml-auto mr-auto">
                         <img src="../assets/vk.png" alt="vk" class="staff-link">
                     </a>
                 </b-row>

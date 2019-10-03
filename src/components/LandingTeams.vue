@@ -36,9 +36,9 @@
                     <template v-else v-for="(team, index) in teams">
                         <template v-if="team.discipline === discipline && team.status === 'CONFIRMED'">
                             <div :key="index" class="team-button mlr-auto">
-                                <b-row @click="showTeam(team)">
-                                    <img :src="team.logo" alt="team logo" class="team-logo rounded-circle">
-                                    <p class="team-title">{{ team.title }}</p>
+                                <b-row @click="showTeam(team)" class="text-center">
+                                    <img :src="team.logo" alt="team logo" class="team-logo rounded-circle mt-auto mb-auto">
+                                    <p class="team-title mr-auto mt-auto mb-auto">{{ team.title }}</p>
                                 </b-row>
                             </div>
                         </template>
@@ -160,6 +160,26 @@
             display: inline;
             position: unset;
         }
+
+        .team-title {
+            color: #FFFFFF;
+            font-size: 1em;
+            margin-top: auto;
+            margin-left: 1em;
+        }
+
+        .team-logo {
+            width: 2em;
+            height: 2em;
+            margin-left: 1em;
+        }
+
+        .team-button {
+            margin-right: 3em;
+            width: 15em;
+            margin-bottom: 2em;
+            padding: 1em;
+        }
     }
 
     @media only screen and (min-width: 350px) {
@@ -179,6 +199,26 @@
             width: 5.2em;
             display: inline;
             position: unset;
+        }
+
+        .team-title {
+            color: #FFFFFF;
+            font-size: 1em;
+            margin-top: auto;
+            margin-left: 1em;
+        }
+
+        .team-logo {
+            width: 3em;
+            height: 3em;
+            margin-left: 1em;
+        }
+
+        .team-button {
+            margin-right: 3em;
+            width: 15em;
+            margin-bottom: 2em;
+            padding: 1em;
         }
     }
 
@@ -200,6 +240,26 @@
             display: inline;
             position: unset;
         }
+
+        .team-title {
+            color: #FFFFFF;
+            font-size: 1.5em;
+            margin-top: auto;
+            margin-left: 1em;
+        }
+
+        .team-logo {
+            width: 4em;
+            height: 4em;
+            margin-left: 1em;
+        }
+
+        .team-button {
+            margin-right: 3em;
+            width: 20em;
+            margin-bottom: 2em;
+            padding: 1em;
+        }
     }
 
     @media only screen and (min-width: 721px) {
@@ -210,6 +270,26 @@
             font-weight: bold;
             text-align: left;
             margin-left: 10.5%;
+        }
+
+        .team-title {
+            color: #FFFFFF;
+            font-size: 1.5em;
+            margin-top: auto;
+            margin-left: 1em;
+        }
+
+        .team-logo {
+            width: 4em;
+            height: 4em;
+            margin-left: 1em;
+        }
+
+        .team-button {
+            margin-right: 3em;
+            width: 20em;
+            margin-bottom: 2em;
+            padding: 1em;
         }
     }
 
@@ -267,26 +347,6 @@
     :root {
         --accent-color-dark: #aa7d64;
         --accent-color: #D68956;
-    }
-
-    .team-title {
-        color: #FFFFFF;
-        font-size: 1.5em;
-        margin-top: auto;
-        margin-left: 1em;
-    }
-
-    .team-logo {
-        width: 4em;
-        height: 4em;
-        margin-left: 1em;
-    }
-
-    .team-button {
-        margin-right: 3em;
-        width: 20em;
-        margin-bottom: 2em;
-        padding: 1em;
     }
 
     .team-button:hover {

@@ -33,7 +33,7 @@
                                 <div class="md-title">Анкета успешно отправлена!</div>
                             </md-card-header>
 
-                            <md-card-content>В ближайшее время мы рассмотрим Вашу заявку.</md-card-content>
+                            <md-card-content>В ближайшее время мы рассмотрим Вашу заявку. Ожидайте сообщение, которое придёт на указанную Вами электронную почту</md-card-content>
                             <md-button class="mb-3 strong-info-text" @click="toMain">Перейти на главную</md-button>
 
                         </div>

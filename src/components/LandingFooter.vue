@@ -8,17 +8,19 @@
 
         <b-container fluid class="footer">
             <b-col>
-                <b-row class="ml-auto mr-auto text-center pt-4">
-                    <router-link to="/about" class="ml-auto">
+                <b-row class="ml-auto mr-auto text-center pt-4 links">
+                    <router-link to="/about" class="ml-auto mr-auto">
                         <p class="text-link">О турнире</p>
                     </router-link>
-                    <router-link to="/our_squad" class="ml-5 mr-5">
+                    <router-link to="/our_squad" class="ml-auto mr-auto">
                         <p class="text-link">Организаторы</p>
                     </router-link>
-                    <p class="text-link mr-auto mr-2" @click="showDialog = true">Баг-репорт</p>
+                    <p class="text-link ml-auto mr-auto" @click="showDialog = true">Баг-репорт</p>
                 </b-row>
                 <b-row class="ml-auto mr-auto text-center">
-                    <p class="wz-link ml-auto mr-auto">with love, <strong>weazy</strong> for cybervyatka, 2019</p>
+                    <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="ml-auto mr-auto" target="_blank">
+                        <p class="wz-link">with love, <strong>weazy</strong> for cybervyatka, 2019</p>
+                    </a>
                 </b-row>
                 <b-row class="ml-auto mr-auto text-center">
                     <img src="../assets/logo_clear.png" alt="cv logo" class="footer-logo ml-auto mb-3">
@@ -46,9 +48,8 @@
         background-color: #171717;
     }
 
-    .text-link {
-        color: #303030;
-        font-weight: bold;
+    .links {
+        width: 40%;
     }
 
     a:hover {
@@ -56,7 +57,7 @@
     }
 
     .text-link:hover {
-        color: #353535;
+        color: #808080;
         cursor: pointer;
     }
 
@@ -81,5 +82,20 @@
 
     .bug-report-dialog {
         background-color: #303030;
+    }
+
+    @media only screen and (max-width: 460px) {
+        .text-link {
+            color: #606060;
+            font-size: 0.7em;
+            font-weight: bold;
+        }
+    }
+
+    @media only screen and (min-width: 460px) {
+        .text-link {
+            color: #606060;
+            font-weight: bold;
+        }
     }
 </style>

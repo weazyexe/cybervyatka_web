@@ -1,20 +1,4 @@
 <template>
-    <!--<b-navbar type="dark">
-        <b-navbar-brand>
-            <router-link to="/">
-                <img class="logo" src="../assets/logo_clear.png" alt="CV Logo">
-            </router-link>
-
-        </b-navbar-brand>
-        <b-navbar-nav class="ml-auto">
-            <b-nav-item class="menu-item" to="/teams">Команды</b-nav-item>
-            <b-nav-item class="menu-item" to="/games">Расписание</b-nav-item>
-            <b-nav-item class="menu-item" to="/groups">Группы</b-nav-item>
-            <b-nav-item class="menu-item" to="/playoff">Плей-офф</b-nav-item>
-&lt;!&ndash;            <b-nav-item class="menu-item" href="#">Прошлые сезоны</b-nav-item>&ndash;&gt;
-            <md-button id="past-seasons-button" class="md-raised m-0 mr-3" @click="toParticipate">Участвовать</md-button>
-        </b-navbar-nav>
-    </b-navbar>-->
     <div>
         <b-row class="m-0">
             <div class="pl-3 pt-3">
@@ -105,16 +89,6 @@
         color: #bcbcbc !important
     }
 
-    #past-seasons-button {
-        background-color: #D68956;
-        color: #FFFFFF;
-        border-radius: 2em;
-        padding: 0.5em;
-        font-size: 1.5em;
-        text-transform: none;
-        height: auto;
-    }
-
     @media only screen and (min-width: 720px) {
         .menu-button {
             font-size: 2em;
@@ -142,6 +116,23 @@
             overflow-y: hidden;
             width: 100%;
             margin-top: -10em;
+        }
+
+        .bigger-text {
+            color: #FFFFFF;
+            font-size: 1.5em;
+            text-align: center;
+            margin-bottom: 2em;
+        }
+
+        #past-seasons-button {
+            background-color: #D68956;
+            color: #FFFFFF;
+            border-radius: 2em;
+            padding: 0.5em;
+            font-size: 1.5em;
+            text-transform: none;
+            height: auto;
         }
     }
 
@@ -171,8 +162,25 @@
             min-height: 115%;
             overflow-y: hidden;
             width: 100%;
-            margin-top: -10em;
-            padding-top: 10em;
+            margin-top: -8em;
+            padding-top: 8em;
+        }
+
+        .bigger-text {
+            color: #FFFFFF;
+            font-size: 1em;
+            text-align: center;
+            margin-bottom: 2em;
+        }
+
+        #past-seasons-button {
+            background-color: #D68956;
+            color: #FFFFFF;
+            border-radius: 2em;
+            padding: 0.5em;
+            font-size: 1em;
+            text-transform: none;
+            height: auto;
         }
     }
     
@@ -181,13 +189,6 @@
     .menu-button:hover {
         cursor: pointer;
         color: #CACACA;
-    }
-
-    .bigger-text {
-        color: #FFFFFF;
-        font-size: 1.5em;
-        text-align: center;
-        margin-bottom: 2em;
     }
 
     .bigger-text:hover {

@@ -80,6 +80,7 @@
 
     .team-dialog {
         background-color: #252525;
+        overflow-y: auto;
     }
 
     .game-text-small {
