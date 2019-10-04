@@ -239,6 +239,7 @@
                 team.standins = standins;
                 team.players = players;
                 team.contacts = contacts;
+                team.isInvited = false;
 
                 let date = Math.round(Date.now() / 1000);
                 team.uid = date.toString(16).toUpperCase();

@@ -37,8 +37,16 @@
                         <template v-if="team.discipline === discipline && team.status === 'CONFIRMED'">
                             <div :key="index" class="team-button mlr-auto">
                                 <b-row @click="showTeam(team)" class="text-center">
-                                    <img :src="team.logo" alt="team logo" class="team-logo rounded-circle mt-auto mb-auto">
-                                    <p class="team-title mr-auto mt-auto mb-auto">{{ team.title }}</p>
+                                    <template v-if="team.logo !== null && team.logo !== ''">
+                                        <img :src="team.logo" alt="team logo" class="team-logo rounded-circle mt-auto mb-auto">
+                                    </template>
+                                    <template v-else>
+                                        <img src="../assets/logo_placeholder.png" alt="team logo" class="team-logo rounded-circle mt-auto mb-auto">
+                                    </template>
+                                    <p class="team-title mr-3 mt-auto mb-auto">{{ team.title }}</p>
+                                    <template v-if="team.isInvited">
+                                        <span class="live-icon mt-auto mb-auto mr-auto">INVITED</span>
+                                    </template>
                                 </b-row>
                             </div>
                         </template>
@@ -113,6 +121,15 @@
     html, body {
         max-width: 100%;
         overflow-x: hidden;
+    }
+
+    .live-icon {
+        color: #FFFFFF;
+        background-color: #5e91ff;
+        border-radius: 0.7em;
+        padding: 0.5em 0.8em;
+        font-size: 0.5em;
+        height: 2.3em;
     }
 
     .prerect {

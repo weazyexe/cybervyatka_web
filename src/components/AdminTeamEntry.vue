@@ -17,6 +17,9 @@
             <span @click="onShow(team)" class="team-text">{{ team.title }}</span>
             <span @click="onShow(team)" class="game-text" v-if="team.discipline === 'CSGO'">• CS:GO</span>
             <span @click="onShow(team)" class="game-text" v-else>• Dota 2</span>
+            <template v-if="team.isInvited">
+                <span class="live-icon ml-3 mr-auto">INVITED</span>
+            </template>
 
         </b-col>
         <template v-if="isRequested">
@@ -62,6 +65,15 @@
 </script>
 
 <style scoped>
+    .live-icon {
+        color: #FFFFFF;
+        background-color: #5e91ff;
+        border-radius: 0.7em;
+        padding: 0.5em 0.8em;
+        font-size: 0.5em;
+        height: 2.3em;
+    }
+
     .team-logo {
          width: 4em;
          height: 4em;

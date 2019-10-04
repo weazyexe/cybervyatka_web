@@ -44,12 +44,13 @@ Vue.use(VuePageTransition);
 
 const firebaseConfig = {
     apiKey: "AIzaSyBA0i4H8m7xJA4QdjxjS0gfIojm4vnZ6fw",
-    authDomain: "cybervyatka.firebaseapp.com",
+    authDomain: "cybervyatka.ru",
     databaseURL: "https://cybervyatka.firebaseio.com",
     projectId: "cybervyatka",
     storageBucket: "cybervyatka.appspot.com",
     messagingSenderId: "339048167856",
-    appId: "1:339048167856:web:bd592eefdae06bfe99fe75"
+    appId: "1:339048167856:web:bd592eefdae06bfe99fe75",
+    measurementId: "G-7TRFDM2EK7"
 };
 
 // Initialize Firebase

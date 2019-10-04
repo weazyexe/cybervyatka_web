@@ -296,6 +296,7 @@
                 team.loses = 0;
                 team.wins = 0;
                 team.status = 'REQUESTED';
+                team.isInvited = false;
 
                 let db = firebase.firestore();
                 let ref = firebase.storage().ref("logos/" + team.uid + ".png");

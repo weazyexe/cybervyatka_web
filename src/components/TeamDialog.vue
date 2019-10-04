@@ -12,6 +12,13 @@
                     <p class="game-text-small" v-if="team.discipline === 'CSGO'">CS:GO</p>
                     <p class="game-text-small" v-else>Dota 2</p>
 
+                    <template v-if="team.isInvited">
+                        <div class="mb-3 mt-m-1">
+                            <span class="live-icon mb-auto mr-auto ">INVITED</span>
+                            <md-tooltip md-direction="bottom">Это приглашенная команда, занявшая призовое место в прошлом сезоне</md-tooltip>
+                        </div>
+                    </template>
+
                     <div v-if="showContacts" class="players-list">
                         <p class="player-name">E-mail: <a :href="'mailto:' + team.contacts.email" target="_blank">{{ team.contacts.email }}</a></p>
                         <p class="player-name">Телефон: <a :href="'callto:' + team.contacts.phone" target="_blank">{{ team.contacts.phone }}</a></p>
@@ -62,6 +69,20 @@
 </script>
 
 <style scoped>
+
+    .live-icon {
+        color: #FFFFFF;
+        background-color: #5e91ff;
+        border-radius: 0.7em;
+        padding: 0.5em 0.8em;
+        font-size: 0.5em;
+        height: 2.3em;
+        margin-top: -1em;
+    }
+
+    .mt-m-1 {
+        margin-top: -1em;
+    }
 
     .modal-logo {
         width: 8em;
