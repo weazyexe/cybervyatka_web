@@ -13,63 +13,83 @@
         <admin-menu :is-teams-active="true"></admin-menu>
         <div class="right-side">
             <div class="content">
-                <template v-if="teams.length === 0">
-                    <b-container class="text-center">
-                        <md-progress-spinner class="main-color" md-mode="indeterminate"></md-progress-spinner>
+                <b-col class="p-0 m-0">
+                    <b-container>
+                        <b-row>
+                            <md-field class="field">
+                                <md-icon>games</md-icon>
+                                <label for="discipline">Дисциплина</label>
+                                <md-select name="discipline" id="discipline" v-model="filter.discipline" md-dense>
+                                    <md-option value="">Дисциплина</md-option>
+                                    <md-option value="CSGO">CS:GO</md-option>
+                                    <md-option value="DOTA2">Dota 2</md-option>
+                                </md-select>
+                            </md-field>
+                            <p class="counter-text mt-auto mb-auto">Всего: <strong>{{ allTeamsCount }}</strong></p>
+                            <p class="counter-text mt-auto mb-auto">На рассмотрении: <strong>{{ requestedTeamsCount }}</strong></p>
+                            <p class="counter-text mt-auto mb-auto">Подтвержденные: <strong>{{ confirmedTeamsCount }}</strong></p>
+                            <p class="counter-text mt-auto mb-auto">Отменённые: <strong>{{ cancelledTeamsCount }}</strong></p>
+                        </b-row>
                     </b-container>
 
-                </template>
-                <template v-else>
-                    <template v-if="requestedTeams.length !== 0">
-                        <div class="rect">
-                            <p class="rect-header">Ожидают подтверждения</p>
-                            <template v-for="(team, index) in requestedTeams">
-                                <div class="team" v-bind:key="index">
-                                    <admin-team-entry v-bind:is-requested="true"
-                                                      v-bind:on-edit="editTeam"
-                                                      v-bind:on-delete="deleteTeam"
-                                                      v-bind:on-cancel="cancelTeam"
-                                                      v-bind:on-confirm="confirmTeam"
-                                                      v-bind:on-show="showInfo"
-                                                      v-bind:team="team">
-                                    </admin-team-entry>
-                                </div>
-                            </template>
-                        </div>
-                    </template>
+                    <template v-if="teams.length === 0">
+                        <b-container class="text-center">
+                            <md-progress-spinner class="main-color" md-mode="indeterminate"></md-progress-spinner>
+                        </b-container>
 
-                    <template v-if="confirmedTeams.length !== 0">
-                        <div class="rect">
-                            <p class="rect-header">Подтверждены</p>
-                            <template v-for="(team, index) in confirmedTeams">
-                                <div class="team" v-bind:key="index">
-                                    <admin-team-entry v-bind:is-requested="false"
-                                                      v-bind:on-edit="editTeam"
-                                                      v-bind:on-delete="deleteTeam"
-                                                      v-bind:on-show="showInfo"
-                                                      v-bind:team="team">
-                                    </admin-team-entry>
-                                </div>
-                            </template>
-                        </div>
                     </template>
+                    <template v-else>
+                        <template v-if="requestedTeams.length !== 0">
+                            <div class="rect">
+                                <p class="rect-header">Ожидают подтверждения</p>
+                                <template v-for="(team, index) in requestedTeams">
+                                    <div class="team" v-bind:key="index" v-if="team.discipline === filter.discipline || filter.discipline === ''">
+                                        <admin-team-entry v-bind:is-requested="true"
+                                                          v-bind:on-edit="editTeam"
+                                                          v-bind:on-delete="deleteTeam"
+                                                          v-bind:on-cancel="cancelTeam"
+                                                          v-bind:on-confirm="confirmTeam"
+                                                          v-bind:on-show="showInfo"
+                                                          v-bind:team="team">
+                                        </admin-team-entry>
+                                    </div>
+                                </template>
+                            </div>
+                        </template>
 
-                    <template v-if="cancelledTeams.length !== 0">
-                        <div class="rect">
-                            <p class="rect-header">Отменены</p>
-                            <template v-for="(team, index) in cancelledTeams">
-                                <div class="team" v-bind:key="index">
-                                    <admin-team-entry v-bind:is-requested="false"
-                                                      v-bind:on-edit="editTeam"
-                                                      v-bind:on-delete="deleteTeam"
-                                                      v-bind:on-show="showInfo"
-                                                      v-bind:team="team">
-                                    </admin-team-entry>
-                                </div>
-                            </template>
-                        </div>
+                        <template v-if="confirmedTeams.length !== 0">
+                            <div class="rect">
+                                <p class="rect-header">Подтверждены</p>
+                                <template v-for="(team, index) in confirmedTeams">
+                                    <div class="team" v-bind:key="index" v-if="team.discipline === filter.discipline || filter.discipline === ''">
+                                        <admin-team-entry v-bind:is-requested="false"
+                                                          v-bind:on-edit="editTeam"
+                                                          v-bind:on-delete="deleteTeam"
+                                                          v-bind:on-show="showInfo"
+                                                          v-bind:team="team">
+                                        </admin-team-entry>
+                                    </div>
+                                </template>
+                            </div>
+                        </template>
+
+                        <template v-if="cancelledTeams.length !== 0">
+                            <div class="rect">
+                                <p class="rect-header">Отменены</p>
+                                <template v-for="(team, index) in cancelledTeams">
+                                    <div class="team" v-bind:key="index" v-if="team.discipline === filter.discipline || filter.discipline === ''">
+                                        <admin-team-entry v-bind:is-requested="false"
+                                                          v-bind:on-edit="editTeam"
+                                                          v-bind:on-delete="deleteTeam"
+                                                          v-bind:on-show="showInfo"
+                                                          v-bind:team="team">
+                                        </admin-team-entry>
+                                    </div>
+                                </template>
+                            </div>
+                        </template>
                     </template>
-                </template>
+                </b-col>
 
             </div>
         </div>
@@ -126,6 +146,24 @@
 
                 showTeamDialog:  false,
                 showDeleteDialog:  false,
+
+                filter: {
+                    discipline: ''
+                }
+            }
+        },
+        computed: {
+            allTeamsCount() {
+                return this.teams.filter((it) => it.discipline === this.filter.discipline || this.filter.discipline === '').length - 1;
+            },
+            requestedTeamsCount() {
+                return this.requestedTeams.filter((it) => it.discipline === this.filter.discipline || this.filter.discipline === '').length;
+            },
+            confirmedTeamsCount() {
+                return this.confirmedTeams.filter((it) => it.discipline === this.filter.discipline || this.filter.discipline === '').length;
+            },
+            cancelledTeamsCount() {
+                return this.cancelledTeams.filter((it) => it.discipline === this.filter.discipline || this.filter.discipline === '').length;
             }
         },
         methods: {
@@ -239,5 +277,20 @@
     .icon-fab {
         color: #FFFFFF;
         margin-top: 0.2em;
+    }
+
+    .field {
+        color: #D68956;
+        margin-left: -1em;
+        width: 20em;
+    }
+
+    .counter-text {
+        margin-left: 1em;
+        color: white;
+    }
+
+    .md-select {
+        margin-left: 0.7em;
     }
 </style>
