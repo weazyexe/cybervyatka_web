@@ -33,6 +33,7 @@ import LandingParticipate from "@/components/LandingParticipate";
 import NotFound from "@/components/NotFound";
 import LandingOrgs from "@/components/LandingOrgs";
 import LandingAbout from "@/components/LandingAbout";
+import AdminSettings from "@/components/AdminSettings";
 
 Vue.config.productionTip = false;
 
@@ -204,6 +205,15 @@ const routes = [
         meta: {
             requiresAuth: true,
             title: "Плей-офф сетка - CV.Admin"
+        }
+    },
+
+    {
+        path: '/admin/settings',
+        component: AdminSettings,
+        meta: {
+            requiresAuth: true,
+            title: "Настройки - CV.Admin"
         }
     },
 

@@ -22,6 +22,9 @@
             <router-link to="/admin/playoff">
                 <admin-menu-button button-text="Плей-офф" image="call_split" :is-active="isPlayoffActive"></admin-menu-button>
             </router-link>
+            <router-link to="/admin/settings">
+                <admin-menu-button button-text="Настройки" image="tune" :is-active="isSettingsActive"></admin-menu-button>
+            </router-link>
 
             <div id="user-data" class="text-center">
                 <md-button @click="logOut" class="main-color">Log out</md-button>
@@ -45,6 +48,7 @@
             isGamesActive : Boolean,
             isGroupsActive : Boolean,
             isPlayoffActive : Boolean,
+            isSettingsActive : Boolean,
         },
         data: function () {
             return {
@@ -83,7 +87,7 @@
     }
 
     #user-data {
-        margin-top: 100%;
+        margin-top: 50%;
         font-size: 0.7em;
     }
 
