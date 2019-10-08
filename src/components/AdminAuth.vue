@@ -46,6 +46,7 @@
         },
         created() {
             document.title = this.$route.meta.title;
+            this.$metrika.hit(this.$route.path);
         }
     }
 </script>

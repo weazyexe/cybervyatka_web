@@ -5,6 +5,7 @@ import VueMaterial from 'vue-material'
 import Vuelidate from 'vuelidate'
 import * as firebase from 'firebase';
 import VuePageTransition from 'vue-page-transition'
+import VueYandexMetrika from 'vue-yandex-metrika';
 
 import 'vue-material/dist/vue-material.min.css'
 import 'vue-material/dist/theme/default-dark.css' // This line here
@@ -40,7 +41,6 @@ Vue.use(VueRouter);
 Vue.use(VueMaterial);
 Vue.use(Vuelidate);
 Vue.use(VuePageTransition);
-
 
 const firebaseConfig = {
     apiKey: "AIzaSyBA0i4H8m7xJA4QdjxjS0gfIojm4vnZ6fw",
@@ -221,6 +221,13 @@ const router = new VueRouter({
     routes: routes,
     mode: 'history'
 });
+
+Vue.use(VueYandexMetrika, {
+    router: router,
+    id: 55660069,
+    env: process.env.NODE_ENV
+});
+
 
 router.beforeEach((to, from, next) => {
     let currentUser = firebase.auth().currentUser;

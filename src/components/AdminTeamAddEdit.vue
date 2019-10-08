@@ -195,7 +195,6 @@
         required,
         minLength,
         maxLength,
-        url,
         email
     } from 'vuelidate/lib/validators';
     import AdminMenu from "@/components/AdminMenu";
@@ -358,8 +357,6 @@
 
                 team.wins = parseInt(team.wins, 10);
                 team.loses = parseInt(team.loses, 10);
-
-                console.log(this.logo);
 
                 if (Object.keys(this.logo).length !== 0) {
                     if (this.logo.includes('firebasestorage')) {

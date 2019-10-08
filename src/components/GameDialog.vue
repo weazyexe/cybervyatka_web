@@ -38,7 +38,7 @@
                         <p class="list-header">Результаты</p>
                         <template v-if="game.results">
                             <template v-for="(match, index) in results">
-                                <p :key="index" class="player-name">{{ game.discipline === 'CSGO' ? match.map : `${index + 1} игра` }}: {{ match.firstCount }}:{{ match.secondCount }}</p>
+                                <p :key="index" class="player-name">{{ game.discipline === 'CSGO' ? match.map : `${index + 1} игра` }}: <strong class="strong-info-text">{{ match.firstCount }}</strong><strong>:</strong><strong class="strong-info-text">{{ match.secondCount }}</strong></p>
                             </template>
                         </template>
                         <template v-else>
@@ -67,23 +67,9 @@
         },
         data: function () {
             return {
-                parsedDate : "",
                 showTeamDialog : false,
                 currentTeam: {}
             }
-        },
-        created() {
-            let game = this.game;
-
-            let day = game.datetime.toDate().getDate();
-            if (day < 10) day = '0' + day;
-
-            let month = game.datetime.toDate().getMonth() + 1;
-            if (month < 10) month = '0' + month;
-
-            let year = game.datetime.toDate().getFullYear();
-
-            this.parsedDate = day + '.' + month + '.' + year;
         },
         methods: {
             showTeam(team) {
@@ -108,12 +94,31 @@
                 });
 
                 return res;
+            },
+            parsedDate: function() {
+                let game = this.game;
+
+                let day = game.datetime.toDate().getDate();
+                if (day < 10) day = '0' + day;
+
+                let month = game.datetime.toDate().getMonth() + 1;
+                if (month < 10) month = '0' + month;
+
+                let year = game.datetime.toDate().getFullYear();
+
+                return day + '.' + month + '.' + year;
             }
         }
     }
 </script>
 
 <style scoped>
+
+    .strong-info-text {
+        color: #D68956;
+        font-weight: bold;
+    }
+
     .modal-logo {
         width: 4em;
         height: 4em;

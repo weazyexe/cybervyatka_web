@@ -23,7 +23,7 @@
                         <p class="player-name">E-mail: <a :href="'mailto:' + team.contacts.email" target="_blank">{{ team.contacts.email }}</a></p>
                         <p class="player-name">Телефон: <a :href="'callto:' + team.contacts.phone" target="_blank">{{ team.contacts.phone }}</a></p>
                         <template v-if="team.contacts.vk !== ''">
-                            <p class="player-name">VK: <a :href="team.contacts.vk" target="_blank">{{ team.contacts.vk }}</a></p>
+                            <p class="player-name">VK: <a :href="team.contacts.vk.includes('http') ? team.contacts.vk : `https://${team.contacts.vk}`" target="_blank">{{ team.contacts.vk }}</a></p>
                         </template>
                         <template v-if="team.contacts.telegram !== ''">
                             <p class="player-name">Telegram: <a :href="'https://t-do.ru/' + team.contacts.telegram" target="_blank">{{ team.contacts.telegram }}</a></p>
@@ -97,6 +97,8 @@
     .player-name {
         margin-bottom: 0;
         color: #FFFFFF;
+        margin-left: 1em;
+        margin-right: 1em;
     }
 
     .team-dialog {

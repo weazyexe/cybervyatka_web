@@ -54,7 +54,7 @@
                             <b-container v-if="isLoading" class="text-center">
                                 <md-progress-spinner class="main-color" md-mode="indeterminate"></md-progress-spinner>
                             </b-container>
-                            <template v-else-if="isZeroTeams">
+                            <template v-else-if="isZeroTeams || !showGames">
                                 <b-container class="text-center">
                                     <b-col>
                                         <i class="material-icons sad-face">sentiment_dissatisfied</i>
@@ -137,7 +137,8 @@
                     date : {},
                     is_ended: "false"
                 },
-                isLoading: true
+                isLoading: true,
+                showGames: false
             }
         },
         methods: {

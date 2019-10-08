@@ -33,6 +33,13 @@
                             <li class="text-list">Призы и подарки от партнеров</li>
                             <li class="text-list">Яркие и позитивные эмоции</li>
                         </ul>
+
+                        <p class="text mt-5 pt-5">Турнир организовывается <strong class="text-colored text-weight">на добровольной основе</strong>. Если Вы хотите нас поддержать материально - реквизиты ниже:</p>
+                        <ul class="mt-3">
+                            <li class="text-list">Сбербанк: 2202 2001 2896 4143 (Тимур Владимирович З.)</li>
+                            <li class="text-list">Тинькофф: <a class="text-colored text-weight" target="_blank" href="https://www.tinkoff.ru/sl/9WbnE8NJfGp">5536 9138 0655 0303</a></li>
+                            <li class="text-list">Яндекс.Деньги: <a class="text-colored text-weight" target="_blank" href="https://money.yandex.ru/to/410013544399630">410013544399630</a></li>
+                        </ul>
                     </b-col>
                 </b-row>
             </b-container>

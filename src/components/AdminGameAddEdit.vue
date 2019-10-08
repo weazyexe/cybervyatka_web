@@ -138,6 +138,7 @@
     import {validationMixin} from 'vuelidate';
     import {required} from 'vuelidate/lib/validators';
     import AdminMenu from "@/components/AdminMenu";
+    import csgoRules from '../js/rules';
 
     export default {
         name: "AdminGameAddEdit",
@@ -154,9 +155,7 @@
                 teams: [],
                 firstTeam : "",
                 secondTeam : "",
-                maps: [
-                    "de_dust2", "de_inferno", "de_nuke", "de_mirage", "de_train", "de_overpass", "de_vertigo"
-                ],
+                maps: csgoRules.maps,
                 results: [],
                 playoff: {},
                 playoffGameId: 0,

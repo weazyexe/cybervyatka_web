@@ -233,7 +233,7 @@
 
         .team-button {
             margin-right: 3em;
-            width: 15em;
+            width: 20em;
             margin-bottom: 2em;
             padding: 1em;
         }
@@ -273,7 +273,7 @@
 
         .team-button {
             margin-right: 3em;
-            width: 20em;
+            width: 25em;
             margin-bottom: 2em;
             padding: 1em;
         }
@@ -304,7 +304,7 @@
 
         .team-button {
             margin-right: 3em;
-            width: 20em;
+            width: 25em;
             margin-bottom: 2em;
             padding: 1em;
         }
