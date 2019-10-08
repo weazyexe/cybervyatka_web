@@ -24,7 +24,7 @@
 
                     <b-col class="p-0 text-center">
                         <b-row class="filters ml-auto mr-auto text-center">
-                            <md-field class="field mlr-auto">
+                            <md-field class="field mlr-auto ml-md-4 ml-sm-4 ml-xl-4">
                                 <md-icon>people</md-icon>
                                 <label for="team">Команда</label>
                                 <md-select name="team" id="team" v-model="filter.team" md-dense>
@@ -37,7 +37,7 @@
                                 </md-select>
                             </md-field>
 
-                            <md-field class="field mlr-auto">
+                            <md-field class="field mlr-auto ml-md-4 ml-sm-4 ml-xl-4">
                                 <md-icon>done_all</md-icon>
                                 <label for="is-ended">Статус матча</label>
                                 <md-select name="is-ended" id="is-ended" v-model="filter.is_ended" md-dense>
@@ -46,7 +46,7 @@
                                 </md-select>
                             </md-field>
 
-                            <md-datepicker class="field mlr-auto" v-model="filter.date">
+                            <md-datepicker class="field mlr-auto ml-md-4 ml-sm-4 ml-xl-4" v-model="filter.date">
                                 <label>Дата</label>
                             </md-datepicker>
                         </b-row>
@@ -283,6 +283,13 @@
             display: inline;
             position: unset;
         }
+
+        #teams-content {
+            background-color: #101010;
+            margin-top: -27em;
+            padding: 3% 10% 10% 10%;
+            min-height: 30em;
+        }
     }
 
     @media only screen and (min-width: 350px) {
@@ -302,6 +309,12 @@
             width: 5.2em;
             display: inline;
             position: unset;
+        }
+        #teams-content {
+            background-color: #101010;
+            margin-top: -27em;
+            padding: 3% 10% 10% 10%;
+            min-height: 30em;
         }
     }
 
@@ -323,6 +336,13 @@
             display: inline;
             position: unset;
         }
+
+        #teams-content {
+            background-color: #101010;
+            margin-top: -25em;
+            padding: 3% 10% 10% 10%;
+            min-height: 30em;
+        }
     }
 
     @media only screen and (min-width: 721px) {
@@ -334,13 +354,13 @@
             text-align: left;
             margin-left: 10.5%;
         }
-    }
 
-    #teams-content {
-        background-color: #101010;
-        margin-top: -23em;
-        padding: 3% 10% 10% 10%;
-        min-height: 30em;
+        #teams-content {
+            background-color: #101010;
+            margin-top: -23em;
+            padding: 3% 10% 10% 10%;
+            min-height: 30em;
+        }
     }
 
     .parallax {

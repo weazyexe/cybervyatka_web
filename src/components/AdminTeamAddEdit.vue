@@ -374,7 +374,7 @@
                         });
                     }
                 } else {
-                    team.logo = null;
+                    team.logo = "";
 
                     db.doc("teams/" + team.uid).set(team).then(() => {
                         this.$router.push('/admin/teams');

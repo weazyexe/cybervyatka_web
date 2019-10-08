@@ -34,7 +34,7 @@
                         </b-container>
                     </template>
                     <template v-else v-for="(team, index) in teams">
-                        <template v-if="team.discipline === discipline && team.status === 'CONFIRMED'">
+                        <template v-if="team.discipline === discipline && team.status === 'CONFIRMED' && !team.invisible">
                             <div :key="index" class="team-button mlr-auto">
                                 <b-row @click="showTeam(team)" class="text-center">
                                     <template v-if="team.logo !== null && team.logo !== ''">
@@ -197,6 +197,13 @@
             margin-bottom: 2em;
             padding: 1em;
         }
+
+        #teams-content {
+            background-color: #101010;
+            margin-top: -27em;
+            padding: 3% 10% 10% 10%;
+            min-height: 30em;
+        }
     }
 
     @media only screen and (min-width: 350px) {
@@ -236,6 +243,13 @@
             width: 20em;
             margin-bottom: 2em;
             padding: 1em;
+        }
+
+        #teams-content {
+            background-color: #101010;
+            margin-top: -27em;
+            padding: 3% 10% 10% 10%;
+            min-height: 30em;
         }
     }
 
@@ -277,6 +291,13 @@
             margin-bottom: 2em;
             padding: 1em;
         }
+
+        #teams-content {
+            background-color: #101010;
+            margin-top: -25em;
+            padding: 3% 10% 10% 10%;
+            min-height: 30em;
+        }
     }
 
     @media only screen and (min-width: 721px) {
@@ -308,13 +329,13 @@
             margin-bottom: 2em;
             padding: 1em;
         }
-    }
 
-    #teams-content {
-        background-color: #101010;
-        margin-top: -23em;
-        padding: 3% 10% 10% 10%;
-        min-height: 30em;
+        #teams-content {
+            background-color: #101010;
+            margin-top: -23em;
+            padding: 3% 10% 10% 10%;
+            min-height: 30em;
+        }
     }
 
     .parallax {

@@ -27,7 +27,7 @@
                 <template v-for="(team, index) in sortedTeams">
                     <b-row :key="index" class="mx-0" :class="(index % 2 === 0) ? 'light-team-back' : 'dark-team-back'">
                         <b-col md="8" cols="8" sm="8" class="mx-0">
-                            <p class="table-team-text" @click="showTeam(team)">{{ team.title }}</p>
+                            <p class="table-team-text" @click="showTeam(team)" :class="team.title.length > 11 ? 'small-text' : ''">{{ team.title }}</p>
                         </b-col>
                         <b-col md="2" cols="2" sm="2" class="mx-0">
                             <p class="table-count-text pl-0 text-center">{{ team.wins }}</p>
@@ -84,7 +84,7 @@
 <style scoped>
     .group-rect {
         max-width: 28em;
-        min-width: 20em;
+        min-width: 10em;
         border-radius: 1em;
         background: rgba(20, 20, 20, 0.6);
         overflow: hidden;
@@ -139,4 +139,18 @@
     .buttons {
         margin-right: 7em;
     }
+
+    @media only screen and (max-width: 400px) {
+        .small-text {
+            font-size: 0.7em;
+            margin-top: 0.3em;
+        }
+    }
+
+    @media only screen and (min-width: 400px) {
+        .small-text {
+
+        }
+    }
+
 </style>

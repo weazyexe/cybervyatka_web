@@ -63,6 +63,7 @@
                                         <admin-game-entry :on-edit="editGame"
                                                           :on-delete="deleteGame"
                                                           :on-show="showGame"
+                                                          :on-complete="endGame"
                                                           :game="game">
                                         </admin-game-entry>
                                     </div>
@@ -166,6 +167,18 @@
             },
             onShowConfirm() {
                this.showGameDialog = false;
+            },
+            endGame(game) {
+                let uid = game.uid;
+
+                this.$router.push({
+                    path: '/admin/games/edit',
+                    query: {
+                        uid: uid,
+                        end: true,
+                        isGroups: true
+                    }
+                });
             },
             deleteGame(game) {
                 this.currentGame = game;

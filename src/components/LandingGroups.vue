@@ -168,6 +168,13 @@
             display: inline;
             position: unset;
         }
+
+        #teams-content {
+            background-color: #101010;
+            margin-top: -27em;
+            padding: 3% 10% 10% 10%;
+            min-height: 30em;
+        }
     }
 
     @media only screen and (min-width: 350px) {
@@ -187,6 +194,13 @@
             width: 5.2em;
             display: inline;
             position: unset;
+        }
+
+        #teams-content {
+            background-color: #101010;
+            margin-top: -27em;
+            padding: 3% 10% 10% 10%;
+            min-height: 30em;
         }
     }
 
@@ -208,6 +222,13 @@
             display: inline;
             position: unset;
         }
+
+        #teams-content {
+            background-color: #101010;
+            margin-top: -25em;
+            padding: 3% 10% 10% 10%;
+            min-height: 30em;
+        }
     }
 
     @media only screen and (min-width: 721px) {
@@ -219,13 +240,13 @@
             text-align: left;
             margin-left: 10.5%;
         }
-    }
 
-    #teams-content {
-        background-color: #101010;
-        margin-top: -23em;
-        padding: 3% 10% 10% 10%;
-        min-height: 30em;
+        #teams-content {
+            background-color: #101010;
+            margin-top: -23em;
+            padding: 3% 10% 10% 10%;
+            min-height: 30em;
+        }
     }
 
     .parallax {

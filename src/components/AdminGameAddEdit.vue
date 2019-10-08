@@ -17,32 +17,41 @@
                                     <p class="rect-header">Основная информация</p>
                                     <b-row class="fields-row">
 
-                                        <md-field class="field" :class="getValidationClass('bestOf')">
+                                        <md-field class="field" :class="getValidationClass('bestOf')" >
                                             <label for="best-of">Best of</label>
-                                            <md-select name="best-of" id="best-of" v-model="bestOf" md-dense :disabled="sending">
+                                            <md-select name="best-of" id="best-of" v-model="bestOf" md-dense :disabled="isEndGame">
                                                 <md-option :value="1">Best of 1</md-option>
+                                                <md-option :value="2">Best of 2</md-option>
                                                 <md-option :value="3">Best of 3</md-option>
                                                 <md-option :value="5">Best of 5</md-option>
                                             </md-select>
                                             <span class="md-error" v-if="!$v.bestOf.required">Выберите количество матчей</span>
                                         </md-field>
 
-                                        <md-datepicker id="datetime" class="field" :class="getValidationClass('dateNumber')" v-model="dateNumber">
-                                            <label>Начало матча</label>
-                                            <span class="md-error" v-if="!$v.dateNumber.required">Выберите дату начала матча</span>
-                                        </md-datepicker>
+                                        <template v-if="isEndGame">
+                                            <md-field class="field">
+                                                <label for="count-1">Начало матча</label>
+                                                <md-input name="count-1" :disabled="true" v-model="new Date(dateNumber).toString()"/>
+                                            </md-field>
+                                        </template>
+                                        <template v-else>
+                                            <md-datepicker id="datetime" class="field" :class="getValidationClass('dateNumber')" v-model="dateNumber">
+                                                <label>Начало матча</label>
+                                                <span class="md-error" v-if="!$v.dateNumber.required">Выберите дату начала матча</span>
+                                            </md-datepicker>
+                                        </template>
 
-                                        <md-field class="field">
+                                        <md-field class="field" >
                                             <label for="discipline">Дисциплина</label>
-                                            <md-select name="discipline" id="discipline" v-model="game.discipline" md-dense :disabled="sending || isAddToPlayoff">
+                                            <md-select name="discipline" id="discipline" v-model="game.discipline" md-dense :disabled="isEndGame || isAddToPlayoff">
                                                 <md-option value="CSGO">CS:GO</md-option>
                                                 <md-option value="DOTA2">Dota 2</md-option>
                                             </md-select>
                                         </md-field>
 
-                                        <md-field class="field" :class="getValidationClass('is_ended')">
+                                        <md-field class="field" :class="getValidationClass('is_ended')" >
                                             <label for="best-of">Статус игры</label>
-                                            <md-select name="best-of" id="best-of" v-model="game.is_ended" md-dense :disabled="sending">
+                                            <md-select name="best-of" id="best-of" v-model="game.is_ended" md-dense :disabled="isEndGame">
                                                 <md-option value="true">Игра окончена</md-option>
                                                 <md-option value="false">Игра не началась</md-option>
                                             </md-select>
@@ -51,9 +60,9 @@
                                     </b-row>
                                     <p class="rect-header">Команды</p>
                                     <b-row class="fields-row">
-                                        <md-field class="field" :class="getValidationClass('firstTeam')">
+                                        <md-field class="field" :class="getValidationClass('firstTeam')" >
                                             <label for="team-first">Первая команда</label>
-                                            <md-select name="team-first" id="team-first" v-model="firstTeam" md-dense :disabled="sending">
+                                            <md-select name="team-first" id="team-first" v-model="firstTeam" md-dense :disabled="isEndGame">
                                                 <template v-for="(team, index) in teams">
                                                     <template v-if="team.discipline === game.discipline && (team.status === 'CONFIRMED' || team.invisible)">
                                                         <md-option v-if="team.uid !== secondTeam.uid" :value="team.uid" :key="index">
@@ -64,9 +73,9 @@
                                             </md-select>
                                             <span class="md-error" v-if="!$v.firstTeam.required">Первая команда не выбрана</span>
                                         </md-field>
-                                        <md-field class="field" :class="getValidationClass('secondTeam')">
+                                        <md-field class="field" :class="getValidationClass('secondTeam')" >
                                             <label for="team-second">Вторая команда</label>
-                                            <md-select name="team-second" id="team-second" v-model="secondTeam" md-dense :disabled="sending">
+                                            <md-select name="team-second" id="team-second" v-model="secondTeam" md-dense :disabled="isEndGame">
                                                 <template v-for="(team, index) in teams">
                                                     <template v-if="team.discipline === game.discipline && (team.status === 'CONFIRMED' || team.invisible)">
                                                         <md-option v-if="team.uid !== firstTeam.uid" :value="team.uid" :key="index">
@@ -138,7 +147,7 @@
     import {validationMixin} from 'vuelidate';
     import {required} from 'vuelidate/lib/validators';
     import AdminMenu from "@/components/AdminMenu";
-    import csgoRules from '../js/rules';
+    import rules from '../js/rules';
 
     export default {
         name: "AdminGameAddEdit",
@@ -155,11 +164,12 @@
                 teams: [],
                 firstTeam : "",
                 secondTeam : "",
-                maps: csgoRules.maps,
+                maps: rules.maps,
                 results: [],
                 playoff: {},
                 playoffGameId: 0,
-                isAddToPlayoff: false
+                isAddToPlayoff: false,
+                isEndGame: false
             }
         },
         created() {
@@ -168,6 +178,7 @@
             let query = this.$route.query;
             let db = firebase.firestore();
 
+            // Если в query нет параметров - редирект на добавление команды
             if (Object.keys(query).length === 0) {
                 this.$router.replace('/admin/games/add');
 
@@ -185,76 +196,115 @@
                 this.results = results;
 
                 this.game = game;
-            } else {
+            } else if (query.uid && !query.end && !query.isGroups) { // Если нажата кнопка "Редактировать команду"
+                let uid = query.uid;
 
-                if (query.uid) {
-                    let uid = query.uid;
+                db.doc("games/" + uid).get().then((response) => {
+                    let game = response.data();
 
-                    db.doc("games/" + uid).get().then((response) => {
-                        let game = response.data();
-
-                        let fRef = game.team_first;
-                        let sRef = game.team_second;
-
-                        let results = [];
-
-                        if (game.results !== null) {
-                            game.results.forEach((it) => {
-                                let counts = it.split(":");
-                                if (game.discipline === 'CSGO') {
-                                    results.push({map: counts[0], firstCount: counts[1], secondCount: counts[2]});
-                                } else {
-                                    results.push({map: '', firstCount: counts[0], secondCount: counts[1]});
-                                }
-                            });
-                        } else {
-                            for (let i = 0; i < game.best_of; i++) {
-                                results.push({map: '', firstCount: 0, secondCount: 0});
-                            }
-                        }
-
-                        game.results = results;
-                        this.results = results;
-
-                        fRef.get().then((firstTeam) => {
-                            this.firstTeam = firstTeam.data().uid;
-
-                            sRef.get().then((secondTeam) => {
-                                this.secondTeam = secondTeam.data().uid;
-                                this.bestOf = game.best_of;
-                                this.dateNumber = game.datetime.seconds * 1000;
-                                this.game = game;
-                            });
-                        });
-                    });
-                } else {
-                    let game = {};
-
-                    this.isAddToPlayoff = true;
-
-                    let date = Math.round(Date.now() / 1000);
-                    game.uid = date.toString(16).toUpperCase();
-
-                    game.is_ended = false;
+                    let fRef = game.team_first;
+                    let sRef = game.team_second;
 
                     let results = [];
-                    results.push({map: '', firstCount: '0', secondCount: '0'});
+
+                    if (game.results !== null) {
+                        game.results.forEach((it) => {
+                            let counts = it.split(":");
+                            if (game.discipline === 'CSGO') {
+                                results.push({map: counts[0], firstCount: counts[1], secondCount: counts[2]});
+                            } else {
+                                results.push({map: '', firstCount: counts[0], secondCount: counts[1]});
+                            }
+                        });
+                    } else {
+                        for (let i = 0; i < game.best_of; i++) {
+                            results.push({map: '', firstCount: 0, secondCount: 0});
+                        }
+                    }
+
                     game.results = results;
                     this.results = results;
 
-                    this.game = game;
+                    fRef.get().then((firstTeam) => {
+                        this.firstTeam = firstTeam.data().uid;
 
-                    let playoffUid = query.playoff;
-                    let gameId = query.playoffGameId;
-                    let db = firebase.firestore();
-
-                    this.playoffGameId = gameId;
-
-                    db.doc(`playoff/${playoffUid}`).get().then((response) => {
-                        this.playoff = response.data();
-                        this.game.discipline = this.playoff.discipline;
+                        sRef.get().then((secondTeam) => {
+                            this.secondTeam = secondTeam.data().uid;
+                            this.bestOf = game.best_of;
+                            this.dateNumber = game.datetime.seconds * 1000;
+                            this.game = game;
+                        });
                     });
-                }
+                });
+            } else if (query.uid && query.end) { // Если нажата кнопка "Закончить матч"
+                let uid = query.uid;
+                this.isEndGame = true;
+
+                db.doc("games/" + uid).get().then((response) => {
+                    let game = response.data();
+
+                    let fRef = game.team_first;
+                    let sRef = game.team_second;
+
+                    let results = [];
+
+                    if (game.results !== null) {
+                        game.results.forEach((it) => {
+                            let counts = it.split(":");
+                            if (game.discipline === 'CSGO') {
+                                results.push({map: counts[0], firstCount: counts[1], secondCount: counts[2]});
+                            } else {
+                                results.push({map: '', firstCount: counts[0], secondCount: counts[1]});
+                            }
+                        });
+                    } else {
+                        for (let i = 0; i < game.best_of; i++) {
+                            results.push({map: '', firstCount: 0, secondCount: 0});
+                        }
+                    }
+
+                    game.results = results;
+                    game.is_ended = true;
+                    this.results = results;
+
+                    fRef.get().then((firstTeam) => {
+                        this.firstTeam = firstTeam.data().uid;
+
+                        sRef.get().then((secondTeam) => {
+                            this.secondTeam = secondTeam.data().uid;
+                            this.bestOf = game.best_of;
+                            this.dateNumber = game.datetime.seconds * 1000;
+                            this.game = game;
+                        });
+                    });
+                });
+            } else { // Иначе случай при добавлении команды в плей-офф
+                let game = {};
+
+                this.isAddToPlayoff = true;
+
+                let date = Math.round(Date.now() / 1000);
+                game.uid = date.toString(16).toUpperCase();
+
+                game.is_ended = false;
+
+                let results = [];
+                results.push({map: '', firstCount: '0', secondCount: '0'});
+                game.results = results;
+                this.results = results;
+
+                this.game = game;
+
+                let playoffUid = query.playoff;
+                let gameId = query.playoffGameId;
+                let db = firebase.firestore();
+
+                this.playoffGameId = gameId;
+
+                db.doc(`playoff/${playoffUid}`).get().then((response) => {
+                    this.playoff = response.data();
+                    this.game.discipline = this.playoff.discipline;
+                });
             }
 
             db.collection("teams").get().then((response) => {
@@ -289,7 +339,10 @@
                 game.best_of = parseInt(this.bestOf, 10);
                 game.team_first = db.doc(`teams/${this.firstTeam}`);
                 game.team_second = db.doc(`teams/${this.secondTeam}`);
-                game.is_ended = game.is_ended === "true";
+
+                if (!this.isEndGame) {
+                    game.is_ended = game.is_ended === "true";
+                }
 
                 let countOfZeros = 0;
                 let results = [];
@@ -319,12 +372,103 @@
                 if (query.playoff && query.playoffGameId) {
                     let id = query.playoffGameId;
 
-                    // Лютый хардкод. Добавлять матчи можно только в первые матчи в сетке
+                    // FIXME: Лютый хардкод. Добавлять матчи можно только в первые матчи в сетке
                     if (id === 8 || id === 9 || id === 3 || id === 4) {
                         let playoff = this.playoff;
                         playoff.games[id] = db.doc(`games/${game.uid}`);
 
                         db.doc(`playoff/${playoff.uid}`).set(playoff);
+                    }
+                } else if (game.results !== null) {
+                    let result = rules.whoWin(game);
+
+                    // FIXME: Опять трешовый код
+                    switch (result) {
+                        case "FIRST_TEAM": {
+                            db.doc(`teams/${this.firstTeam}`).get().then(response => {
+                                let team = response.data();
+                                team.wins++;
+                                db.doc(`teams/${team.uid}`).update(team);
+                            });
+
+                            db.doc(`teams/${this.secondTeam}`).get().then(response => {
+                                let team = response.data();
+                                team.loses++;
+                                db.doc(`teams/${team.uid}`).update(team);
+                            });
+
+                            break;
+                        }
+                        case "SECOND_TEAM": {
+                            db.doc(`teams/${this.firstTeam}`).get().then(response => {
+                                let team = response.data();
+                                team.loses++;
+                                db.doc(`teams/${team.uid}`).update(team);
+                            });
+
+                            db.doc(`teams/${this.secondTeam}`).get().then(response => {
+                                let team = response.data();
+                                team.wins++;
+                                db.doc(`teams/${team.uid}`).update(team);
+                            });
+
+                            break;
+                        }
+
+                        case "BEST_OF_EVEN": {
+
+                            let res = rules.whoWinBestOfEven(game);
+
+                            switch (res) {
+                                case "FIRST_TEAM": {
+                                    db.doc(`teams/${this.firstTeam}`).get().then(response => {
+                                        let team = response.data();
+                                        team.wins+=2;
+                                        db.doc(`teams/${team.uid}`).update(team);
+                                    });
+
+                                    db.doc(`teams/${this.secondTeam}`).get().then(response => {
+                                        let team = response.data();
+                                        team.loses+=2;
+                                        db.doc(`teams/${team.uid}`).update(team);
+                                    });
+
+                                    break;
+                                }
+                                case "SECOND_TEAM": {
+                                    db.doc(`teams/${this.firstTeam}`).get().then(response => {
+                                        let team = response.data();
+                                        team.loses+=2;
+                                        db.doc(`teams/${team.uid}`).update(team);
+                                    });
+
+                                    db.doc(`teams/${this.secondTeam}`).get().then(response => {
+                                        let team = response.data();
+                                        team.wins+=2;
+                                        db.doc(`teams/${team.uid}`).update(team);
+                                    });
+                                    break;
+                                }
+
+                                case "TIE": {
+                                    db.doc(`teams/${this.firstTeam}`).get().then(response => {
+                                        let team = response.data();
+                                        team.loses++;
+                                        team.wins++;
+                                        db.doc(`teams/${team.uid}`).update(team);
+                                    });
+
+                                    db.doc(`teams/${this.secondTeam}`).get().then(response => {
+                                        let team = response.data();
+                                        team.wins++;
+                                        team.loses++;
+                                        db.doc(`teams/${team.uid}`).update(team);
+                                    });
+                                }
+                            }
+                            break;
+                        }
+                        default: break;
                     }
                 }
 
