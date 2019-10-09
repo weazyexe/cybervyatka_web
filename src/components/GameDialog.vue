@@ -9,22 +9,21 @@
                 <b-row>
                     <b-col md="12" class="text-center">
                         <b-row class="text-center mb-2">
-                            <b-col md="6" class="ml-auto text-center pl-5">
-                                <img class="modal-logo rounded-circle" v-if="game.team_first.logo === ''" src="../assets/logo_placeholder.png"
-                                     alt="team_logo" @click="showTeam(game.team_first)"/>
-                                <img class="modal-logo rounded-circle" v-else :src="game.team_first.logo"
-                                     alt="team_logo" @click="showTeam(game.team_first)"/>
-                                <span class="winner-icon mb-auto mr-auto ml-auto" v-if="game.is_ended && rules.whoWin(game) === 'FIRST_TEAM'">WINNER</span>
-                                <span class="loser-icon mb-auto mr-auto ml-auto" v-else-if="game.is_ended && rules.whoWin(game) !== 'BEST_OF_EVEN'">LOSER</span>
-                            </b-col>
-                            <b-col md="6" class="mr-auto text-center pr-5">
-                                <img class="modal-logo rounded-circle" v-if="game.team_second.logo === ''" src="../assets/logo_placeholder.png"
-                                     alt="team_logo" @click="showTeam(game.team_second)"/>
-                                <img class="modal-logo rounded-circle" v-else :src="game.team_second.logo"
-                                     alt="team_logo" @click="showTeam(game.team_second)"/>
-                                <span class="winner-icon mb-auto mr-auto ml-auto" v-if="game.is_ended && rules.whoWin(game) === 'SECOND_TEAM'">WINNER</span>
-                                <span class="loser-icon mb-auto ml-auto mr-auto" v-else-if="game.is_ended && rules.whoWin(game) !== 'BEST_OF_EVEN'">LOSER</span>
-                            </b-col>
+                            <img class="modal-logo rounded-circle ml-auto" v-if="game.team_first.logo === ''" src="../assets/logo_placeholder.png"
+                                 alt="team_logo" @click="showTeam(game.team_first)"/>
+                            <img class="modal-logo rounded-circle  ml-auto" v-else :src="game.team_first.logo"
+                                 alt="team_logo" @click="showTeam(game.team_first)"/>
+                            <img class="modal-logo rounded-circle mr-auto" v-if="game.team_second.logo === ''" src="../assets/logo_placeholder.png"
+                                 alt="team_logo" @click="showTeam(game.team_second)"/>
+                            <img class="modal-logo rounded-circle mr-auto" v-else :src="game.team_second.logo"
+                                 alt="team_logo" @click="showTeam(game.team_second)"/>
+                        </b-row>
+                        <b-row>
+                            <span class="winner-icon mb-auto mr-1 ml-auto" v-if="game.is_ended && rules.whoWin(game) === 'FIRST_TEAM'">WINNER</span>
+                            <span class="loser-icon mb-auto mr-1 ml-auto" v-else-if="game.is_ended && rules.whoWin(game) !== 'BEST_OF_EVEN'">LOSER</span>
+
+                            <span class="winner-icon mb-auto mr-auto ml-5" v-if="game.is_ended && rules.whoWin(game) === 'SECOND_TEAM'">WINNER</span>
+                            <span class="loser-icon mb-auto ml-5 mr-auto" v-else-if="game.is_ended && rules.whoWin(game) !== 'BEST_OF_EVEN'">LOSER</span>
                         </b-row>
 
                         <b-col class="team-text">
@@ -112,7 +111,13 @@
 
                 let year = game.datetime.toDate().getFullYear();
 
-                return day + '.' + month + '.' + year;
+                let hours = game.datetime.toDate().getHours();
+                if (hours < 10) hours = '0' + hours;
+
+                let minutes = game.datetime.toDate().getMinutes();
+                if (minutes < 10) minutes = '0' + minutes;
+
+                return `${day}.${month}.${year} ${hours}:${minutes}`;
             }
         }
     }

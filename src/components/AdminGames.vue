@@ -20,7 +20,6 @@
                             <md-icon>games</md-icon>
                             <label for="discipline">Дисциплина</label>
                             <md-select name="discipline" id="discipline" v-model="filter.discipline" md-dense>
-                                <md-option value="">Дисциплина</md-option>
                                 <md-option value="CSGO">CS:GO</md-option>
                                 <md-option value="DOTA2">Dota 2</md-option>
                             </md-select>
@@ -32,7 +31,7 @@
                             <md-select name="team" id="team" v-model="filter.team" md-dense>
                                 <md-option value="">Команда</md-option>
                                 <template v-for="(team, index) in teams">
-                                    <template v-if="team.discipline === filter.discipline || filter.discipline === ''">
+                                    <template v-if="(team.discipline === filter.discipline || filter.discipline === '') && team.status === 'CONFIRMED'">
                                         <md-option :key="index" :value="team.uid">{{ team.title }}</md-option>
                                     </template>
                                 </template>
@@ -45,16 +44,24 @@
                     </b-row>
                 </b-container>
 
-                <template v-if="games.length === 0">
+                <template v-if="isLoading">
                     <b-container class="text-center">
                         <md-progress-spinner class="main-color" md-mode="indeterminate"></md-progress-spinner>
                     </b-container>
                 </template>
+                <template v-else-if="games.length === 0">
+                    <b-container class="text-center">
+                        <b-col>
+                            <i class="material-icons sad-face">sentiment_dissatisfied</i>
+                            <p class="bigger-text">Игр не найдено</p>
+                        </b-col>
+                    </b-container>
+                </template>
                 <template v-else>
-                    <template>
+                    <template v-if="games.filter(it => it.is_ended === false).length !== 0">
                         <div class="rect">
                             <p class="rect-header">Предстоящие игры</p>
-                            <template v-for="(game, index) in games">
+                            <template v-for="(game, index) in sortedGamesByDate">
                                 <template v-if="!game.is_ended && (filter.team === game.team_first.uid
                                             || filter.team === game.team_second.uid || filter.team === '')
                                             && (filter.discipline === game.discipline || filter.discipline === '')
@@ -71,10 +78,11 @@
                             </template>
                         </div>
                     </template>
+
                     <template v-if="containsEnded">
                         <div class="rect">
                             <p class="rect-header">Прошедшие игры</p>
-                            <template v-for="(game, index) in games">
+                            <template v-for="(game, index) in sortedGamesByDate">
                                 <template v-if="game.is_ended && (filter.team === game.team_first.uid
                                             || filter.team === game.team_second.uid || filter.team === '')
                                             && (filter.discipline === game.discipline || filter.discipline === '')
@@ -91,7 +99,6 @@
                         </div>
                     </template>
                 </template>
-
             </div>
         </div>
     </div>
@@ -119,11 +126,12 @@
                 showGameDialog : false,
                 showDeleteDialog : false,
                 filter: {
-                    discipline : "",
+                    discipline : "CSGO",
                     team: "",
                     date: Number
                 },
-                teams: {}
+                teams: [],
+                isLoading: true
             }
         },
         created() {
@@ -133,21 +141,32 @@
 
             db.collection("games").get().then((response) => {
 
-                response.forEach((doc) => {
-                    let game = doc.data();
+                if (response.docs.length === 0) {
+                    this.isLoading = false;
+                } else {
+                    response.forEach((doc) => {
+                        let game = doc.data();
 
-                    let fRef = game.team_first;
-                    let sRef = game.team_second;
+                        let fRef = game.team_first;
+                        let sRef = game.team_second;
 
-                    fRef.get().then((firstTeam) => {
-                        game.team_first = firstTeam.data();
+                        fRef.get().then((firstTeam) => {
+                            game.team_first = firstTeam.data();
 
-                        sRef.get().then((secondTeam) => {
-                            game.team_second = secondTeam.data();
-                            this.games.push(game);
+                            sRef.get().then((secondTeam) => {
+                                game.team_second = secondTeam.data();
+                                this.games.push(game);
+                                this.isLoading = false;
+
+                                this.games = this.games.sort((a, b) => {
+                                    if (a.datetime.seconds > b.datetime.seconds) return 1;
+                                    else if (a.datetime.seconds < b.datetime.seconds) return -1;
+                                    else return 0;
+                                });
+                            });
                         });
                     });
-                });
+                }
             });
 
             db.collection("teams").get().then((response) => {
@@ -212,6 +231,18 @@
                     }
                 }
                 return false;
+            },
+            sortedGamesByDate: function () {
+                if (typeof(this.games) !== undefined || this.games !== null) {
+                    let games = this.games;
+                    return games.sort((a, b) => {
+                        if (a.datetime.seconds > b.datetime.seconds) return 1;
+                        else if (a.datetime.seconds < b.datetime.seconds) return -1;
+                        else return 0;
+                    });
+                }
+
+                return [];
             }
         }
     }
@@ -239,5 +270,20 @@
         color: #D68956;
         margin-right: 2em;
         width: 20em;
+    }
+
+    .bigger-text {
+        color: #FFFFFF;
+        font-size: 1.5em;
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 2em;
+    }
+
+    .sad-face {
+        color: #FFFFFF;
+        text-align: center;
+        font-size: 5em;
     }
 </style>

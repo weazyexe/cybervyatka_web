@@ -138,7 +138,7 @@
                     is_ended: "false"
                 },
                 isLoading: true,
-                showGames: false
+                showGames: true
             }
         },
         methods: {
@@ -155,7 +155,7 @@
 
                 return date.getTime() === filterDate.getTime();
             },
-            parseDate(date) {
+            parseDate: function(date) {
                 let day = date.getDate();
                 if (day < 10) day = '0' + day;
 
@@ -164,7 +164,13 @@
 
                 let year = date.getFullYear();
 
-                return day + '.' + month + '.' + year;
+                let hours = date.getHours();
+                if (hours < 10) hours = '0' + hours;
+
+                let minutes = date.getMinutes();
+                if (minutes < 10) minutes = '0' + minutes;
+
+                return `${day}.${month}.${year} ${hours}:${minutes}`;
             }
         },
         computed: {
@@ -290,6 +296,22 @@
             padding: 3% 10% 10% 10%;
             min-height: 30em;
         }
+
+        .team-text {
+            color: #FFFFFF;
+            font-size: 1em;
+            margin-top: 0.5em;
+        }
+
+        .game-text {
+            color: rgba(255, 255, 255, 0.1);
+            padding-left: 0.4em;
+            font-size: 0.6em;
+        }
+
+        .game-info {
+            margin-left: -0.3em;
+        }
     }
 
     @media only screen and (min-width: 350px) {
@@ -315,6 +337,22 @@
             margin-top: -27em;
             padding: 3% 10% 10% 10%;
             min-height: 30em;
+        }
+
+        .team-text {
+            color: #FFFFFF;
+            font-size: 1em;
+            margin-top: 0.5em;
+        }
+
+        .game-text {
+            color: rgba(255, 255, 255, 0.1);
+            padding-left: 0.4em;
+            font-size: 0.6em;
+        }
+
+        .game-info {
+            margin-left: -0.3em;
         }
     }
 
@@ -343,6 +381,22 @@
             padding: 3% 10% 10% 10%;
             min-height: 30em;
         }
+
+        .team-text {
+            color: #FFFFFF;
+            font-size: 1.5em;
+            margin-top: 0.5em;
+        }
+
+        .game-text {
+            color: rgba(255, 255, 255, 0.1);
+            padding-left: 0.4em;
+            font-size: 1em;
+        }
+
+        .game-info {
+            margin-left: -0.4em;
+        }
     }
 
     @media only screen and (min-width: 721px) {
@@ -360,6 +414,22 @@
             margin-top: -23em;
             padding: 3% 10% 10% 10%;
             min-height: 30em;
+        }
+
+        .team-text {
+            color: #FFFFFF;
+            font-size: 1.5em;
+            margin-top: 0.5em;
+        }
+
+        .game-text {
+            color: rgba(255, 255, 255, 0.1);
+            padding-left: 0.4em;
+            font-size: 1em;
+        }
+
+        .game-info {
+            margin-left: -0.4em;
         }
     }
 
@@ -453,21 +523,6 @@
 
     .small-team-logo:hover {
         cursor: pointer;
-    }
-
-    .team-text {
-        color: #FFFFFF;
-        font-size: 1.5em;
-    }
-
-    .game-text {
-        color: rgba(255, 255, 255, 0.1);
-        padding-left: 0.4em;
-        font-size: 1em;
-    }
-
-    .game-info {
-        margin-left: -0.4em;
     }
 
     .game-text:hover {

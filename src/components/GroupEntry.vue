@@ -72,8 +72,8 @@
             sortedTeams: function () {
                 let group = this.group;
                 return group.teams.sort((a, b) => {
-                    if (a.wins < b.wins) return 1;
-                    else if (a.wins > b.wins) return -1;
+                    if (a.wins < b.wins && a.loses > b.loses) return 1;
+                    else if (a.wins > b.wins && a.loses < b.loses) return -1;
                     else return 0;
                 });
             }

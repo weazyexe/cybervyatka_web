@@ -57,23 +57,26 @@
             onShow : Function,
             onComplete : Function
         },
-        data: function() {
-            return {
-                parsedDate : ""
+        computed: {
+            parsedDate: function() {
+                let game = this.game;
+
+                let day = game.datetime.toDate().getDate();
+                if (day < 10) day = '0' + day;
+
+                let month = game.datetime.toDate().getMonth() + 1;
+                if (month < 10) month = '0' + month;
+
+                let year = game.datetime.toDate().getFullYear();
+
+                let hours = game.datetime.toDate().getHours();
+                if (hours < 10) hours = '0' + hours;
+
+                let minutes = game.datetime.toDate().getMinutes();
+                if (minutes < 10) minutes = '0' + minutes;
+
+                return `${day}.${month}.${year} ${hours}:${minutes}`;
             }
-        },
-        created() {
-            let game = this.game;
-
-            let day = game.datetime.toDate().getDate();
-            if (day < 10) day = '0' + day;
-
-            let month = game.datetime.toDate().getMonth() + 1;
-            if (month < 10) month = '0' + month;
-
-            let year = game.datetime.toDate().getFullYear();
-
-            this.parsedDate = day + '.' + month + '.' + year;
         }
     }
 </script>

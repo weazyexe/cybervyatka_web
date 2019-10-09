@@ -8,7 +8,7 @@ import VuePageTransition from 'vue-page-transition'
 import VueYandexMetrika from 'vue-yandex-metrika';
 
 import 'vue-material/dist/vue-material.min.css'
-import 'vue-material/dist/theme/default-dark.css' // This line here
+import 'vue-material/dist/theme/default-dark.css'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import 'firebase/auth'

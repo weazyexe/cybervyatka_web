@@ -40,7 +40,7 @@
                     <p class="strong-info-text mt-2">Регистрация</p>
                     <p class="info-text-big"><strong>До 20 октября</strong></p>
                     <p class="strong-info-text mt-5">Групповой этап</p>
-                    <p class="info-text-big"><strong>23 октября - 31 октября</strong></p>
+                    <p class="info-text-big"><strong>23 октября - 30 октября</strong></p>
                     <p class="strong-info-text mt-5">Плей-офф</p>
                     <p class="info-text-big"><strong>1 ноября - 7 ноября</strong></p>
                     <p class="strong-info-text mt-5">Финалы</p>

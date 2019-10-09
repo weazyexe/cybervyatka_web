@@ -338,7 +338,8 @@
                 let team = this.team;
 
                 let db = firebase.firestore();
-                let ref = firebase.storage().ref("logos/" + team.uid + ".png");
+                // FIXME: брать не хардкодом расширение файла
+                let ref = firebase.storage().ref("logos/" + team.uid + ".jpg");
 
                 team.standins.forEach((it) => {
                     if (it.name !== '' && it.nickname !== '' && it.surname !== '') {

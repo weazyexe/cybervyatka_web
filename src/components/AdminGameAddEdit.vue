@@ -95,7 +95,7 @@
                                                     <b-col class="p-0">
                                                         <md-field class="ml-0">
                                                             <label for="map">Карта</label>
-                                                            <md-select name="map" id="map" v-model="results[n - 1].map" md-dense :disabled="sending">
+                                                            <md-select name="map" id="map" v-model="results[n - 1].map" md-dense :disabled="isEndGame">
                                                                 <template v-for="(map, index) in maps">
                                                                     <template v-if="!containsMap(map)" >
                                                                         <md-option :value="map" :key="index">
@@ -165,7 +165,6 @@
                 firstTeam : "",
                 secondTeam : "",
                 maps: rules.maps,
-                results: [],
                 playoff: {},
                 playoffGameId: 0,
                 isAddToPlayoff: false,
@@ -327,8 +326,11 @@
             },
             containsMap(map) {
                 this.results.forEach((it) => {
-                    if (it.map === map) return true;
+                    if (it.map === map) {
+                        return true;
+                    }
                 });
+
                 return false;
             },
             saveGame() {
