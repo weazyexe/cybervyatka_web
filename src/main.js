@@ -6,6 +6,8 @@ import Vuelidate from 'vuelidate'
 import * as firebase from 'firebase';
 import VuePageTransition from 'vue-page-transition'
 import VueYandexMetrika from 'vue-yandex-metrika';
+import VueQrcode from '@chenfengyuan/vue-qrcode';
+import * as config from './js/firebase-config'
 
 import 'vue-material/dist/vue-material.min.css'
 import 'vue-material/dist/theme/default-dark.css'
@@ -34,28 +36,19 @@ import NotFound from "@/components/NotFound";
 import LandingOrgs from "@/components/LandingOrgs";
 import LandingAbout from "@/components/LandingAbout";
 import AdminSettings from "@/components/AdminSettings";
+import LandingBecomeAViewer from "@/components/LandingBecomeAViewer";
 
-Vue.config.productionTip = false;
+Vue.config.productionTip = true;
 
 Vue.use(BootstrapVue);
 Vue.use(VueRouter);
 Vue.use(VueMaterial);
 Vue.use(Vuelidate);
 Vue.use(VuePageTransition);
-
-const firebaseConfig = {
-    apiKey: "AIzaSyBA0i4H8m7xJA4QdjxjS0gfIojm4vnZ6fw",
-    authDomain: "cybervyatka.ru",
-    databaseURL: "https://cybervyatka.firebaseio.com",
-    projectId: "cybervyatka",
-    storageBucket: "cybervyatka.appspot.com",
-    messagingSenderId: "339048167856",
-    appId: "1:339048167856:web:bd592eefdae06bfe99fe75",
-    measurementId: "G-7TRFDM2EK7"
-};
+Vue.use(VueQrcode);
 
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+firebase.initializeApp(config.default);
 
 const routes = [
     {
@@ -98,6 +91,13 @@ const routes = [
         component: LandingParticipate,
         meta: {
             title: 'Участвовать в турнире - CYBERVYATKA'
+        }
+    },
+    {
+        path: '/become_a_viewer',
+        component: LandingBecomeAViewer,
+        meta: {
+            title: 'Стать зрителем - CYBERVYATKA'
         }
     },
     {
@@ -237,7 +237,6 @@ Vue.use(VueYandexMetrika, {
     id: 55660069,
     env: process.env.NODE_ENV
 });
-
 
 router.beforeEach((to, from, next) => {
     let currentUser = firebase.auth().currentUser;

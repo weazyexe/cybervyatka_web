@@ -86,9 +86,10 @@
                         <img src="../assets/dota2-white.png" class="mr-auto dota2-logo" alt="dota2_logo">
                     </b-row>
 
-                    <router-link to="/registration" class="mt-5">
-                        <md-button id="baton-button2" class="md-raised ml-auto mr-auto">Участвовать</md-button>
-                    </router-link>
+                    <div class="mt-5">
+                        <md-button v-if="isOpen" class="md-raised ml-auto mr-auto past-seasons-button" @click="toParticipate">Участвовать</md-button>
+                        <md-button v-else class="md-raised ml-auto mr-auto past-seasons-button" @click="toBecomeAViewer">Хочу на LAN!</md-button>
+                    </div>
                 </b-col>
             </b-container>
         </div>
@@ -145,6 +146,7 @@
     import LandingHeader from "@/components/LandingHeader";
     import LandingFooter from "@/components/LandingFooter";
     import {CountUp} from 'countup.js'
+    import firebase from 'firebase'
 
     export default {
         name: 'Header',
@@ -154,7 +156,8 @@
         },
         data: function () {
             return {
-                isCounterStarted: false
+                isCounterStarted: false,
+                isOpen: false
             }
         },
         methods: {
@@ -174,11 +177,22 @@
                     participantCounter.start();
                     disciplineCounter.start();
                 }
-            }
+            },
+            toParticipate() {
+                this.$router.push('/registration');
+            },
+            toBecomeAViewer() {
+                this.$router.push('/become_a_viewer');
+            },
         },
         created() {
             document.title = this.$route.meta.title;
             window.addEventListener('scroll', this.scrollListener);
+            let db = firebase.firestore();
+
+            db.doc('tournament/settings').get().then((response) => {
+                this.isOpen = response.data().isRegistrationOpen;
+            });
         },
         destroyed() {
             window.removeEventListener('scroll', this.scrollListener);
@@ -345,8 +359,8 @@
             margin-top: 1em;
         }
 
-        #baton-button2 {
-            background-color: #D68956;
+        .past-seasons-button {
+            background-color: #D68956 !important;
             color: #FFFFFF;
             border-radius: 2em;
             padding: 0.5em;
@@ -449,12 +463,12 @@
             margin-top: 1em;
         }
 
-        #baton-button2 {
-            background-color: #D68956;
+        .past-seasons-button {
+            background-color: #D68956 !important;
             color: #FFFFFF;
             border-radius: 2em;
             padding: 0.5em;
-            font-size: 1em;
+            font-size: 2em;
             text-transform: none;
             height: auto;
             margin-top: 1em;

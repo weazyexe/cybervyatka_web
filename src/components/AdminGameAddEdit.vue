@@ -90,7 +90,7 @@
                                     <p class="rect-header">Игры</p>
                                     <b-row class="fields-row">
                                         <template v-for="n in bestOf">
-                                            <div class="field" :key="n">
+                                            <div class="field mr-5" :key="n">
                                                 <template v-if="game.discipline === 'CSGO'">
                                                     <b-col class="p-0">
                                                         <md-field class="ml-0">

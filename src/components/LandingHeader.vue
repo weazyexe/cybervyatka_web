@@ -30,7 +30,8 @@
                     </router-link>
 
                     <div class="text-center">
-                        <md-button id="past-seasons-button" class="md-raised ml-auto mr-auto" @click="toParticipate">Участвовать</md-button>
+                        <md-button v-if="isOpen" class="past-seasons-button md-raised ml-auto mr-auto" @click="toParticipate">Участвовать</md-button>
+                        <md-button v-else class="past-seasons-button md-raised ml-auto mr-auto" @click="toBecomeAViewer">Хочу на LAN!</md-button>
                     </div>
 
                 </b-col>
@@ -40,6 +41,9 @@
 </template>
 
 <script>
+
+    import firebase from 'firebase';
+
     export default {
         name: "LandingHeader",
         props: {
@@ -51,16 +55,28 @@
         },
         data: function() {
             return {
-                isExpanded: false
+                isExpanded: false,
+                isOpen: false
             }
         },
         methods: {
             toParticipate() {
                 this.$router.push('/registration');
             },
+            toBecomeAViewer() {
+               this.$router.push('/become_a_viewer');
+            },
             expandOrCollapseMenu() {
                 this.isExpanded = !this.isExpanded;
             }
+        },
+        created() {
+            document.title = this.$route.meta.title;
+            let db = firebase.firestore();
+
+            db.doc('tournament/settings').get().then((response) => {
+                this.isOpen = response.data().isRegistrationOpen;
+            });
         }
     }
 </script>
@@ -125,8 +141,8 @@
             margin-bottom: 2em;
         }
 
-        #past-seasons-button {
-            background-color: #D68956;
+        .past-seasons-button {
+            background-color: #D68956 !important;
             color: #FFFFFF;
             border-radius: 2em;
             padding: 0.5em;
@@ -173,8 +189,8 @@
             margin-bottom: 2em;
         }
 
-        #past-seasons-button {
-            background-color: #D68956;
+        .past-seasons-button {
+            background-color: #D68956 !important;
             color: #FFFFFF;
             border-radius: 2em;
             padding: 0.5em;
