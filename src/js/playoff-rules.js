@@ -1,4 +1,5 @@
 export default {
+    // TODO: для доты и кс поменять правила
     pushNext(winner, loser, from) {
         let winnerTo = -1, loserTo = -1;
 
