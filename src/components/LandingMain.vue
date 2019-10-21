@@ -27,6 +27,14 @@
                 <p class="info-text ml-auto mr-auto"><strong class="strong-info-text">CYBERVYATKA</strong> - это
                     киберспортивный турнир в городе Кирове,
                     проводящийся с 2018 года в ВятГУ</p>
+                <p class="info-text ml-auto mr-auto">Наши <strong class="strong-info-text">спонсоры</strong>:</p>
+                <b-row>
+                    <div class="ml-auto mr-auto mt-5">
+                        <a href="https://vk.com/krdparen_kirov" target="_blank"><img src="../assets/kp.png" alt="krdprn" class="mx-3 sponsored"></a>
+                        <a href="https://vk.com/pizzaforfriends" target="_blank"><img src="../assets/hleb-and-pizza.png" alt="hleb and pizza" class="mx-3 sponsored"></a>
+                        <a href="https://vk.com/coffeelike43" target="_blank"><img src="../assets/coffeelike.png" alt="coffee like" class="mx-3 sponsored"></a>
+                    </div>
+                </b-row>
             </b-container>
         </div>
 
@@ -88,7 +96,7 @@
 
                     <div class="mt-5">
                         <md-button v-if="isOpen" class="md-raised ml-auto mr-auto past-seasons-button" @click="toParticipate">Участвовать</md-button>
-                        <md-button v-else class="md-raised ml-auto mr-auto past-seasons-button" @click="toBecomeAViewer">Хочу на LAN!</md-button>
+                        <md-button v-else class="md-raised ml-auto mr-auto past-seasons-button" @click="toBecomeAViewer">Стать зрителем на LAN</md-button>
                     </div>
                 </b-col>
             </b-container>
@@ -202,6 +210,10 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+    .sponsored {
+        max-height: 5em;
+    }
 
     .strong-info-text {
         color: #D68956;

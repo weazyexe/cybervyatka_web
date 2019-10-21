@@ -31,7 +31,7 @@
 
                     <div class="text-center">
                         <md-button v-if="isOpen" class="past-seasons-button md-raised ml-auto mr-auto" @click="toParticipate">Участвовать</md-button>
-                        <md-button v-else class="past-seasons-button md-raised ml-auto mr-auto" @click="toBecomeAViewer">Хочу на LAN!</md-button>
+                        <md-button v-else class="past-seasons-button md-raised ml-auto mr-auto" @click="toBecomeAViewer">Стать зрителем на LAN</md-button>
                     </div>
 
                 </b-col>
