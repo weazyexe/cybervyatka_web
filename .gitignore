@@ -4,6 +4,8 @@ node_modules
 .firebaserc
 firebase.json
 /.firebase
+/src/js/firebase-config.js
+/src/js/nodemailer-config.js
 
 # local env files
 .env.local
