@@ -211,10 +211,6 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
-    .sponsored {
-        max-height: 5em;
-    }
-
     .strong-info-text {
         color: #D68956;
         font-weight: bold;
@@ -255,6 +251,15 @@
             background-size: cover;
             min-height: 55em;
             margin-top: -15em;
+        }
+
+        .rectangle {
+            background-color: #101010;
+            min-width: 150%;
+            min-height: 20em;
+            transform: rotate(-3deg);
+            margin-left: -3em;
+            transform-origin: 103%;
         }
     }
 
@@ -345,6 +350,10 @@
             color: #FFFFFF;
             font-size: 4em;
             font-weight: bold;
+        }
+
+        .sponsored {
+            max-height: 5em;
         }
 
         .info-text {
@@ -480,7 +489,7 @@
             color: #FFFFFF;
             border-radius: 2em;
             padding: 0.5em;
-            font-size: 2em;
+            font-size: 1em;
             text-transform: none;
             height: auto;
             margin-top: 1em;
@@ -495,7 +504,7 @@
         .background-info {
             background: url("../assets/players_background.jpg") center no-repeat;
             background-size: cover;
-            height: 25em;
+            height: 36em;
             margin-top: -18em;
         }
 
@@ -520,6 +529,10 @@
             background-size: cover;
             min-height: 55em;
             margin-top: -15em;
+        }
+
+        .sponsored {
+            max-height: 3em;
         }
     }
 
@@ -549,6 +562,110 @@
             background-size: cover;
             min-height: 75em;
             margin-top: -15em;
+        }
+
+        .sponsored {
+            max-height: 2em;
+        }
+
+        .past-seasons-button {
+            background-color: #D68956 !important;
+            color: #FFFFFF;
+            border-radius: 2em;
+            padding: 0.5em;
+            font-size: 0.8em;
+            text-transform: none;
+            height: auto;
+            margin-top: 1em;
+        }
+
+        .rectangle {
+            background-color: #101010;
+            min-width: 150%;
+            min-height: 10em;
+            transform: rotate(-3deg);
+            margin-left: -3em;
+            transform-origin: 103%;
+        }
+    }
+
+    @media only screen and (max-width: 300px) {
+        .biggest-text {
+            color: #FFFFFF;
+            margin-top: 50%;
+            font-size: 1em;
+            letter-spacing: 0.5em;
+            font-weight: bold;
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .bigger-text {
+            color: #FFFFFF;
+            font-size: 0.7em;
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 2em;
+        }
+
+        .background-numbers {
+            background: url("../assets/pc_background.png") center no-repeat;
+            background-size: cover;
+            min-height: 75em;
+            margin-top: -15em;
+        }
+
+        .sponsored {
+            max-height: 2em;
+        }
+
+        .past-seasons-button {
+            background-color: #D68956 !important;
+            color: #FFFFFF;
+            border-radius: 2em;
+            padding: 0.5em;
+            font-size: 0.8em;
+            text-transform: none;
+            height: auto;
+            margin-top: 1em;
+        }
+
+        .background-header {
+            background: url("../assets/main_background.png") center no-repeat;
+            background-size: cover;
+            height: 22em;
+        }
+
+        .background-info {
+            background: url("../assets/players_background.jpg") center no-repeat;
+            background-size: cover;
+            height: 36em;
+            margin-top: -28em;
+        }
+
+        .background-dates {
+            background: url("../assets/napobedy_background.png") center no-repeat;
+            background-size: cover;
+            min-height: 50em;
+            margin-top: -28em;
+            padding-bottom: 5em;
+        }
+
+        .background-video {
+            background: url("../assets/main_background.png") center no-repeat;
+            background-size: cover;
+            min-height: 40em;
+            margin-top: -28em;
+            padding-bottom: 5em;
+        }
+
+        .background-numbers {
+            background: url("../assets/pc_background.png") center no-repeat;
+            background-size: cover;
+            min-height: 60em;
+            margin-top: -28em;
         }
     }
 
