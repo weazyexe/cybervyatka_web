@@ -2,6 +2,11 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 const firestore = require('@google-cloud/firestore');
 const client = new firestore.v1.FirestoreAdminClient();
+const nodemailer = require('nodemailer');
+const nodemailerConfig = require('./nodemailer-config');
+const qrcode = require('qrcode');
+
+let transporter = nodemailer.createTransport(nodemailerConfig.config);
 
 admin.initializeApp();
 const bucket = 'gs://cybervyatka.appspot.com';
@@ -133,4 +138,62 @@ exports.scheduledFirestoreExport = functions.pubsub
                 console.error(err);
                 throw new Error('Export operation failed');
             });
+    });
+
+
+exports.sendQrCodeEmail = functions.firestore
+    .document('viewers/{viewerId}')
+    .onCreate(async (snapshot, context) => {
+
+        let img = await qrcode.toDataURL(snapshot.data().uid, { color: {
+                dark: '#fff',
+                light: '#212121'
+            },
+            width: 800
+        });
+
+        const dest = snapshot.data().email;
+
+        console.log(snapshot.data());
+
+        const mailOptions = {
+            from: `${nodemailerConfig.config.auth.name} <${nodemailerConfig.config.auth.user}>`,
+            to: dest,
+            attachments: [
+                {
+                    filename: 'qr-code.jpg',
+                    content: img.toString().split("base64,")[1],
+                    encoding: 'base64'
+                }
+            ],
+            subject: 'Подтверждение',
+            html: `<div style="background-color: #212121; font-family: 'Roboto', sans-serif; font-size: 1.3em;">
+
+                
+                <div style="margin-left: 20%; margin-right: 20%">
+                    <div style="text-align: center">
+                        <img src="https://cybervyatka.ru/img/logo_clear.2edc8846.png" alt="Cybervyatka Logo" style="width: 8em; height: 8em; margin-left: auto; margin-right: auto; display: inline-block; margin-top: 5em"/>
+                    </div>
+                        
+                    <div style="color: #FAFAFA">
+                        <p style="font-size: 1.5em"><b>Здравствуйте, ${snapshot.data().name}!</b></p>
+                        
+                        <p style="color: #fafafa">Поздравляем! Ваша заявка зрителя <strong style="color: #71de6f">подтверждена</strong>! Если у Вас остались какие-либо вопросы - пишите в сообщения <a href="https://vk.com/cybervyatka" style="text-decoration: none; color: #D68956; font-weight: bold">нашего сообщества ВКонтакте.</a></p>
+                        <p style="color: #fafafa">Ваш QR-код прикреплён к письму файлом.</p>
+                        
+                        
+                        <p style="margin-top: 4em; color: #fafafa">С уважением,</p>
+                        <p style="margin-top: -2em; padding-bottom: 5em; color: #fafafa">команда турнира <b style="color: #D68956">CYBERVYATKA</b>.</p>
+                        
+                    </div>
+                </div>
+
+                
+            </div>`
+        };
+
+        // returning result
+        await transporter.sendMail(mailOptions);
+        qrcode.toDataURL
+        console.log(`message to ${dest} sent`);
     });
