@@ -151,7 +151,8 @@
                     name: this.name,
                     surname: this.surname,
                     patronymic: this.patronymic,
-                    email: this.email
+                    email: this.email,
+                    rank: 'VIEWER'
                 };
 
                 db.doc(`viewers/${viewer.uid}`).set(viewer).then(() => {
