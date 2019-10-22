@@ -209,97 +209,108 @@
             return {
                 team : {},
                 sending: false,
-                logo : {}
+                logo : {},
+
+                user: firebase.auth().currentUser,
+                userRole: "VIEWER"
             }
         },
         created() {
             document.title = this.$route.meta.title;
             let query = this.$route.query;
+            let db = firebase.firestore();
 
-            if (Object.keys(query).length === 0) {
-                this.$router.replace('/admin/teams/add');
+            db.doc(`users/${this.user.uid}`).get().then((response) => {
+                let raw = response.data();
+                this.userRole = raw.role;
 
-                let team = { wins: 0, loses: 0, discipline: "CSGO", status: "REQUESTED" };
-                let standins = [], players = [],  contacts = { email: '', vk: '', phone: '', telegram: ''};
+                if (this.userRole === 'ADMIN') {
+                    if (Object.keys(query).length === 0) {
+                        this.$router.replace('/admin/teams/add');
 
-                let len = 0;
+                        let team = { wins: 0, loses: 0, discipline: "CSGO", status: "REQUESTED" };
+                        let standins = [], players = [],  contacts = { email: '', vk: '', phone: '', telegram: ''};
 
-                while (len !== 3) {
-                    standins.push({ name : '', nickname: '', surname: ''});
-                    len++;
-                }
-
-                len = 0;
-                while (len !== 5) {
-                    players.push({ name : '', nickname: '', surname: ''});
-                    len++;
-                }
-
-                team.standins = standins;
-                team.players = players;
-                team.contacts = contacts;
-                team.isInvited = false;
-
-                let date = Math.round(Date.now() / 1000);
-                team.uid = date.toString(16).toUpperCase();
-
-                this.team = team;
-            } else {
-                let uid = query.uid;
-
-                let db = firebase.firestore();
-
-                db.doc("teams/" + uid).get().then((response) => {
-
-                    let team = response.data();
-
-                    let contacts = { email: '', vk: '', phone: '', telegram: ''};
-
-                    if (!team.contacts) {
-                        team.contacts = contacts;
-                    }
-
-                    if (team.logo === null) {
-                        team.logo = "";
-                    } else {
-                        this.logo = team.logo;
-                    }
-
-                    let players = [];
-                    team.players.forEach((it) => {
-                        let arr = it.split(/ '|' /);
-                        players.push({ name: arr[0], nickname: arr[1], surname: arr[2]});
-                    });
-
-                    team.players = players;
-
-
-                    if (team.standins === null) {
-                        team.standins = ['', '', ''];
-                    } else {
-                        let len = team.standins.length;
+                        let len = 0;
 
                         while (len !== 3) {
-                            team.standins.push('');
+                            standins.push({ name : '', nickname: '', surname: ''});
                             len++;
                         }
-                    }
 
-                    let standins = [];
-                    team.standins.forEach((it) => {
-                        let arr = it.split(/ '|' /);
-                        if (arr.length !== 0) {
-                            standins.push({ name: arr[0], nickname: arr[1], surname: arr[2]});
-                        } else {
-                            standins.push({name: '', nickname: '', surname: ''});
+                        len = 0;
+                        while (len !== 5) {
+                            players.push({ name : '', nickname: '', surname: ''});
+                            len++;
                         }
-                    });
 
-                    team.standins = standins;
+                        team.standins = standins;
+                        team.players = players;
+                        team.contacts = contacts;
+                        team.isInvited = false;
 
-                    this.team = team;
-                });
-            }
+                        let date = Math.round(Date.now() / 1000);
+                        team.uid = date.toString(16).toUpperCase();
+
+                        this.team = team;
+                    } else {
+                        let uid = query.uid;
+
+                        db.doc("teams/" + uid).get().then((response) => {
+
+                            let team = response.data();
+
+                            let contacts = { email: '', vk: '', phone: '', telegram: ''};
+
+                            if (!team.contacts) {
+                                team.contacts = contacts;
+                            }
+
+                            if (team.logo === null) {
+                                team.logo = "";
+                            } else {
+                                this.logo = team.logo;
+                            }
+
+                            let players = [];
+                            team.players.forEach((it) => {
+                                let arr = it.split(/ '|' /);
+                                players.push({ name: arr[0], nickname: arr[1], surname: arr[2]});
+                            });
+
+                            team.players = players;
+
+
+                            if (team.standins === null) {
+                                team.standins = ['', '', ''];
+                            } else {
+                                let len = team.standins.length;
+
+                                while (len !== 3) {
+                                    team.standins.push('');
+                                    len++;
+                                }
+                            }
+
+                            let standins = [];
+                            team.standins.forEach((it) => {
+                                let arr = it.split(/ '|' /);
+                                if (arr.length !== 0) {
+                                    standins.push({ name: arr[0], nickname: arr[1], surname: arr[2]});
+                                } else {
+                                    standins.push({name: '', nickname: '', surname: ''});
+                                }
+                            });
+
+                            team.standins = standins;
+
+                            this.team = team;
+                        });
+                    }
+                } else {
+                    this.$router.push('/404');
+                }
+            });
         },
         methods: {
             onSelectFile() {

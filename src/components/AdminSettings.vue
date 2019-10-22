@@ -7,9 +7,9 @@
                     <div>
                         <h2 class="text">Настройки</h2>
                         <p class="text mb-5">Основные настройки отображения для пользователей</p>
-                        <md-switch class="switch" v-model="registration">Открыть регистрацию</md-switch>
-                        <md-switch class="switch" v-model="playoff">Открыть плей-офф</md-switch>
-                        <md-switch class="switch" v-model="groups">Открыть группы</md-switch>
+                        <md-switch v-if="userRole === 'ADMIN'" class="switch" v-model="registration">Открыть регистрацию</md-switch>
+                        <md-switch v-if="userRole === 'ADMIN'" class="switch" v-model="playoff">Открыть плей-офф</md-switch>
+                        <md-switch v-if="userRole === 'ADMIN'" class="switch" v-model="groups">Открыть группы</md-switch>
                     </div>
                 </b-container>
             </div>
@@ -30,19 +30,31 @@
             return {
                 registration: false,
                 playoff: false,
-                groups: false
+                groups: false,
+
+                user: firebase.auth().currentUser,
+                userRole: "VIEWER"
             }
         },
         created() {
             document.title = this.$route.meta.title;
             let db = firebase.firestore();
 
-            db.doc('tournament/settings').get().then(response => {
-                let data = response.data();
+            db.doc(`users/${this.user.uid}`).get().then((response) => {
+                let raw = response.data();
+                this.userRole = raw.role;
 
-                this.registration = data.isRegistrationOpen;
-                this.playoff = data.isPlayoffOpen;
-                this.groups = data.isGroupsOpen;
+                if (this.userRole === 'ADMIN') {
+                    db.doc('tournament/settings').get().then(response => {
+                        let data = response.data();
+
+                        this.registration = data.isRegistrationOpen;
+                        this.playoff = data.isPlayoffOpen;
+                        this.groups = data.isGroupsOpen;
+                    });
+                } else {
+                    this.$router.replace('/404');
+                }
             });
         },
         watch: {

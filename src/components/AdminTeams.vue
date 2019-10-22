@@ -4,7 +4,7 @@
         <team-dialog :team="currentTeam" :show="showTeamDialog" :show-contacts="true" :on-confirm="onShowConfirm"></team-dialog>
         <admin-delete-dialog :deletee="currentTeam.title" :show-delete-dialog="showDeleteDialog" :on-confirm="onDeleteConfirm" :on-cancel="onDeleteCancel" type="team"></admin-delete-dialog>
 
-        <router-link to="/admin/teams/add">
+        <router-link v-if="userRole === 'ADMIN'" to="/admin/teams/add">
             <md-button class="md-fab md-primary add-fab">
                 <i class="material-icons icon-fab">add</i>
             </md-button>
@@ -50,7 +50,8 @@
                                                           v-bind:on-cancel="cancelTeam"
                                                           v-bind:on-confirm="confirmTeam"
                                                           v-bind:on-show="showInfo"
-                                                          v-bind:team="team">
+                                                          v-bind:team="team"
+                                                          :show-buttons="userRole === 'ADMIN'">
                                         </admin-team-entry>
                                     </div>
                                 </template>
@@ -66,7 +67,8 @@
                                                           v-bind:on-edit="editTeam"
                                                           v-bind:on-delete="deleteTeam"
                                                           v-bind:on-show="showInfo"
-                                                          v-bind:team="team">
+                                                          v-bind:team="team"
+                                                          :show-buttons="userRole === 'ADMIN'">
                                         </admin-team-entry>
                                     </div>
                                 </template>
@@ -82,7 +84,8 @@
                                                           v-bind:on-edit="editTeam"
                                                           v-bind:on-delete="deleteTeam"
                                                           v-bind:on-show="showInfo"
-                                                          v-bind:team="team">
+                                                          v-bind:team="team"
+                                                            :show-buttons="userRole === 'ADMIN'">
                                         </admin-team-entry>
                                     </div>
                                 </template>
@@ -111,9 +114,33 @@
             AdminTeamEntry,
             TeamDialog
         },
+        data: function () {
+            return {
+                teams: [],
+                requestedTeams: [],
+                confirmedTeams: [],
+                cancelledTeams: [],
+                currentTeam: {},
+
+                showTeamDialog:  false,
+                showDeleteDialog:  false,
+
+                filter: {
+                    discipline: ''
+                },
+
+                user: firebase.auth().currentUser,
+                userRole: "VIEWER"
+            }
+        },
         created() {
             document.title = this.$route.meta.title;
             let db = firebase.firestore();
+
+            db.doc(`users/${this.user.uid}`).get().then((response) => {
+                let raw = response.data();
+                this.userRole = raw.role;
+            });
 
             db.collection("teams").get().then((response) => {
 
@@ -135,22 +162,6 @@
                     this.teams.push(team);
                 });
             });
-        },
-        data: function () {
-            return {
-                teams: [],
-                requestedTeams: [],
-                confirmedTeams: [],
-                cancelledTeams: [],
-                currentTeam: {},
-
-                showTeamDialog:  false,
-                showDeleteDialog:  false,
-
-                filter: {
-                    discipline: ''
-                }
-            }
         },
         computed: {
             allTeamsCount() {

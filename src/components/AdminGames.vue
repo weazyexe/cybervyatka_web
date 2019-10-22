@@ -71,7 +71,9 @@
                                                           :on-delete="deleteGame"
                                                           :on-show="showGame"
                                                           :on-complete="endGame"
-                                                          :game="game">
+                                                          :game="game"
+                                                          :show-edit-button="userRole === 'MODERATOR' || userRole === 'ADMIN'"
+                                                          :show-delete-button="userRole === 'ADMIN'">
                                         </admin-game-entry>
                                     </div>
                                 </template>
@@ -131,13 +133,20 @@
                     date: Number
                 },
                 teams: [],
-                isLoading: true
+                isLoading: true,
+                user: firebase.auth().currentUser,
+                userRole: "VIEWER"
             }
         },
         created() {
             document.title = this.$route.meta.title;
             this.$material.locale.dateFormat = "dd.MM.yyyy";
             let db = firebase.firestore();
+
+            db.doc(`users/${this.user.uid}`).get().then((response) => {
+                let raw = response.data();
+                this.userRole = raw.role;
+            });
 
             db.collection("games").get().then((response) => {
 

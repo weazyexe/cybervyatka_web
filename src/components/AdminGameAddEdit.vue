@@ -31,6 +31,7 @@
                                         <template v-if="isEndGame">
                                             <md-field class="field">
                                                 <label for="count-1">Начало матча</label>
+                                                <!--FIXME: господи что это за ужас (оно работает, но надо исправить)-->
                                                 <md-input name="count-1" :disabled="true" v-model="new Date(dateNumber).toString()"/>
                                             </md-field>
                                         </template>
@@ -43,7 +44,7 @@
 
                                         <md-field class="field" >
                                             <label for="discipline">Дисциплина</label>
-                                            <md-select name="discipline" id="discipline" v-model="game.discipline" md-dense :disabled="isEndGame || isAddToPlayoff">
+                                            <md-select name="discipline" id="discipline" v-model="game.discipline" md-dense :disabled="isEndGame || isAddToPlayoff || userRole !== 'ADMIN'">
                                                 <md-option value="CSGO">CS:GO</md-option>
                                                 <md-option value="DOTA2">Dota 2</md-option>
                                             </md-select>
@@ -168,7 +169,9 @@
                 playoff: {},
                 playoffGameId: 0,
                 isAddToPlayoff: false,
-                isEndGame: false
+                isEndGame: false,
+                user: firebase.auth().currentUser,
+                userRole: "VIEWER"
             }
         },
         created() {
@@ -177,139 +180,148 @@
             let query = this.$route.query;
             let db = firebase.firestore();
 
-            // Если в query нет параметров - редирект на добавление команды
-            if (Object.keys(query).length === 0) {
-                this.$router.replace('/admin/games/add');
+            db.doc(`users/${this.user.uid}`).get().then((response) => {
+                let raw = response.data();
+                this.userRole = raw.role;
 
-                let game = {};
+                if (this.userRole === 'ADMIN' || this.userRole === 'MODERATOR') {
+                    // Если в query нет параметров - редирект на добавление команды
+                    if (Object.keys(query).length === 0) {
+                        this.$router.replace('/admin/games/add');
 
-                let date = Math.round(Date.now() / 1000);
-                game.uid = date.toString(16).toUpperCase();
+                        let game = {};
 
-                game.is_ended = false;
-                game.discipline = 'CSGO';
+                        let date = Math.round(Date.now() / 1000);
+                        game.uid = date.toString(16).toUpperCase();
 
-                let results = [];
-                results.push({map: '', firstCount: '0', secondCount: '0'});
-                game.results = results;
-                this.results = results;
+                        game.is_ended = false;
+                        game.discipline = 'CSGO';
 
-                this.game = game;
-            } else if (query.uid && !query.end && !query.isGroups) { // Если нажата кнопка "Редактировать команду"
-                let uid = query.uid;
+                        let results = [];
+                        results.push({map: '', firstCount: '0', secondCount: '0'});
+                        game.results = results;
+                        this.results = results;
 
-                db.doc("games/" + uid).get().then((response) => {
-                    let game = response.data();
+                        this.game = game;
+                    } else if (query.uid && !query.end && !query.isGroups) { // Если нажата кнопка "Редактировать команду"
+                        let uid = query.uid;
 
-                    let fRef = game.team_first;
-                    let sRef = game.team_second;
+                        db.doc("games/" + uid).get().then((response) => {
+                            let game = response.data();
 
-                    let results = [];
+                            let fRef = game.team_first;
+                            let sRef = game.team_second;
 
-                    if (game.results !== null) {
-                        game.results.forEach((it) => {
-                            let counts = it.split(":");
-                            if (game.discipline === 'CSGO') {
-                                results.push({map: counts[0], firstCount: counts[1], secondCount: counts[2]});
+                            let results = [];
+
+                            if (game.results !== null) {
+                                game.results.forEach((it) => {
+                                    let counts = it.split(":");
+                                    if (game.discipline === 'CSGO') {
+                                        results.push({map: counts[0], firstCount: counts[1], secondCount: counts[2]});
+                                    } else {
+                                        results.push({map: '', firstCount: counts[0], secondCount: counts[1]});
+                                    }
+                                });
                             } else {
-                                results.push({map: '', firstCount: counts[0], secondCount: counts[1]});
+                                for (let i = 0; i < game.best_of; i++) {
+                                    results.push({map: '', firstCount: 0, secondCount: 0});
+                                }
                             }
+
+                            game.results = results;
+                            this.results = results;
+
+                            fRef.get().then((firstTeam) => {
+                                this.firstTeam = firstTeam.data().uid;
+
+                                sRef.get().then((secondTeam) => {
+                                    this.secondTeam = secondTeam.data().uid;
+                                    this.bestOf = game.best_of;
+                                    this.dateNumber = game.datetime.seconds * 1000;
+                                    this.game = game;
+                                });
+                            });
                         });
-                    } else {
-                        for (let i = 0; i < game.best_of; i++) {
-                            results.push({map: '', firstCount: 0, secondCount: 0});
-                        }
+                    } else if (query.uid && query.end) { // Если нажата кнопка "Закончить матч"
+                        let uid = query.uid;
+                        this.isEndGame = true;
+
+                        db.doc("games/" + uid).get().then((response) => {
+                            let game = response.data();
+
+                            let fRef = game.team_first;
+                            let sRef = game.team_second;
+
+                            let results = [];
+
+                            if (game.results !== null) {
+                                game.results.forEach((it) => {
+                                    let counts = it.split(":");
+                                    if (game.discipline === 'CSGO') {
+                                        results.push({map: counts[0], firstCount: counts[1], secondCount: counts[2]});
+                                    } else {
+                                        results.push({map: '', firstCount: counts[0], secondCount: counts[1]});
+                                    }
+                                });
+                            } else {
+                                for (let i = 0; i < game.best_of; i++) {
+                                    results.push({map: '', firstCount: 0, secondCount: 0});
+                                }
+                            }
+
+                            game.results = results;
+                            game.is_ended = true;
+                            this.results = results;
+
+                            fRef.get().then((firstTeam) => {
+                                this.firstTeam = firstTeam.data().uid;
+
+                                sRef.get().then((secondTeam) => {
+                                    this.secondTeam = secondTeam.data().uid;
+                                    this.bestOf = game.best_of;
+                                    this.dateNumber = game.datetime.seconds * 1000;
+                                    this.game = game;
+                                });
+                            });
+                        });
+                    } else { // Иначе случай при добавлении команды в плей-офф
+                        let game = {};
+
+                        this.isAddToPlayoff = true;
+
+                        let date = Math.round(Date.now() / 1000);
+                        game.uid = date.toString(16).toUpperCase();
+
+                        game.is_ended = false;
+
+                        let results = [];
+                        results.push({map: '', firstCount: '0', secondCount: '0'});
+                        game.results = results;
+                        this.results = results;
+
+                        this.game = game;
+
+                        let playoffUid = query.playoff;
+                        let gameId = query.playoffGameId;
+                        let db = firebase.firestore();
+
+                        this.playoffGameId = gameId;
+
+                        db.doc(`playoff/${playoffUid}`).get().then((response) => {
+                            this.playoff = response.data();
+                            this.game.discipline = this.playoff.discipline;
+                        });
                     }
 
-                    game.results = results;
-                    this.results = results;
-
-                    fRef.get().then((firstTeam) => {
-                        this.firstTeam = firstTeam.data().uid;
-
-                        sRef.get().then((secondTeam) => {
-                            this.secondTeam = secondTeam.data().uid;
-                            this.bestOf = game.best_of;
-                            this.dateNumber = game.datetime.seconds * 1000;
-                            this.game = game;
+                    db.collection("teams").get().then((response) => {
+                        response.forEach((it) => {
+                            this.teams.push(it.data());
                         });
                     });
-                });
-            } else if (query.uid && query.end) { // Если нажата кнопка "Закончить матч"
-                let uid = query.uid;
-                this.isEndGame = true;
-
-                db.doc("games/" + uid).get().then((response) => {
-                    let game = response.data();
-
-                    let fRef = game.team_first;
-                    let sRef = game.team_second;
-
-                    let results = [];
-
-                    if (game.results !== null) {
-                        game.results.forEach((it) => {
-                            let counts = it.split(":");
-                            if (game.discipline === 'CSGO') {
-                                results.push({map: counts[0], firstCount: counts[1], secondCount: counts[2]});
-                            } else {
-                                results.push({map: '', firstCount: counts[0], secondCount: counts[1]});
-                            }
-                        });
-                    } else {
-                        for (let i = 0; i < game.best_of; i++) {
-                            results.push({map: '', firstCount: 0, secondCount: 0});
-                        }
-                    }
-
-                    game.results = results;
-                    game.is_ended = true;
-                    this.results = results;
-
-                    fRef.get().then((firstTeam) => {
-                        this.firstTeam = firstTeam.data().uid;
-
-                        sRef.get().then((secondTeam) => {
-                            this.secondTeam = secondTeam.data().uid;
-                            this.bestOf = game.best_of;
-                            this.dateNumber = game.datetime.seconds * 1000;
-                            this.game = game;
-                        });
-                    });
-                });
-            } else { // Иначе случай при добавлении команды в плей-офф
-                let game = {};
-
-                this.isAddToPlayoff = true;
-
-                let date = Math.round(Date.now() / 1000);
-                game.uid = date.toString(16).toUpperCase();
-
-                game.is_ended = false;
-
-                let results = [];
-                results.push({map: '', firstCount: '0', secondCount: '0'});
-                game.results = results;
-                this.results = results;
-
-                this.game = game;
-
-                let playoffUid = query.playoff;
-                let gameId = query.playoffGameId;
-                let db = firebase.firestore();
-
-                this.playoffGameId = gameId;
-
-                db.doc(`playoff/${playoffUid}`).get().then((response) => {
-                    this.playoff = response.data();
-                    this.game.discipline = this.playoff.discipline;
-                });
-            }
-
-            db.collection("teams").get().then((response) => {
-                response.forEach((it) => {
-                    this.teams.push(it.data());
-                });
+                } else {
+                    this.$router.push('/404');
+                }
             });
         },
         methods: {

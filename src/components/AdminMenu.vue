@@ -22,7 +22,7 @@
             <router-link to="/admin/playoff">
                 <admin-menu-button button-text="Плей-офф" image="call_split" :is-active="isPlayoffActive"></admin-menu-button>
             </router-link>
-            <router-link to="/admin/settings">
+            <router-link v-if="userRole === 'ADMIN'" to="/admin/settings">
                 <admin-menu-button button-text="Настройки" image="tune" :is-active="isSettingsActive"></admin-menu-button>
             </router-link>
 
@@ -52,8 +52,17 @@
         },
         data: function () {
             return {
-                user: firebase.auth().currentUser
+                user: firebase.auth().currentUser,
+                userRole: "VIEWER"
             }
+        },
+        created() {
+            let db = firebase.firestore();
+
+            db.doc(`users/${this.user.uid}`).get().then((response) => {
+                let raw = response.data();
+                this.userRole = raw.role;
+            });
         },
         methods: {
             logOut() {

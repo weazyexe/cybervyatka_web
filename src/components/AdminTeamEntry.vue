@@ -22,7 +22,7 @@
             </template>
 
         </b-col>
-        <template v-if="isRequested">
+        <template v-if="isRequested && showButtons">
             <b-col @click="onConfirm(team)" md="1" class="vertical-center text-center">
                 <i class="material-icons done-button">done</i>
             </b-col>
@@ -36,7 +36,7 @@
                 <i class="material-icons team-text">delete</i>
             </b-col>
         </template>
-        <template v-else>
+        <template v-else-if="showButtons">
             <b-col @click="onEdit(team)" md="2" class="vertical-center text-center">
                 <i class="material-icons team-text">edit</i>
             </b-col>
@@ -59,7 +59,8 @@
             onConfirm : Function,
             onCancel : Function,
             onShow : Function,
-            isRequested : Boolean
+            isRequested : Boolean,
+            showButtons: Boolean
         }
     }
 </script>

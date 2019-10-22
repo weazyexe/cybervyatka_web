@@ -33,13 +33,13 @@
                 </b-row>
             </b-col>
         </b-col>
-        <b-col @click="onComplete(game)" md="2" class="vertical-center text-center">
+        <b-col v-if="showEditButton" @click="onComplete(game)" md="2" class="vertical-center text-center">
             <md-button v-if="!game.is_ended" class="md-accent">Закончить игру</md-button>
         </b-col>
-        <b-col @click="onEdit(game)" md="1" class="vertical-center text-center">
+        <b-col v-if="showEditButton" @click="onEdit(game)" md="1" class="vertical-center text-center">
             <i class="material-icons team-text">edit</i>
         </b-col>
-        <b-col @click="onDelete(game)" md="1" class="vertical-center text-center">
+        <b-col v-if="showDeleteButton" @click="onDelete(game)" md="1" class="vertical-center text-center">
             <i class="material-icons team-text">delete</i>
         </b-col>
 
@@ -55,7 +55,9 @@
             onEdit : Function,
             onDelete : Function,
             onShow : Function,
-            onComplete : Function
+            onComplete : Function,
+            showDeleteButton: Boolean,
+            showEditButton: Boolean
         },
         computed: {
             parsedDate: function() {

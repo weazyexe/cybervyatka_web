@@ -3,8 +3,7 @@
 
         <admin-delete-dialog :deletee="currentGroup.title" :show-delete-dialog="showDeleteDialog" :on-confirm="onConfirmDelete" :on-cancel="onCancelDelete" type="group"></admin-delete-dialog>
 
-
-        <router-link to="/admin/groups/add">
+        <router-link v-if="userRole === 'ADMIN'" to="/admin/groups/add">
             <md-button class="md-fab md-primary add-fab">
                 <i class="material-icons icon-fab">add</i>
             </md-button>
@@ -17,7 +16,7 @@
                     <b-row>
                         <template v-for="(group, index) in groups">
                             <b-row class="mx-0" :key="index">
-                                <group-entry :group="group" :hide-buttons="false" :on-edit="editGroup" :on-delete="deleteGroup"></group-entry>
+                                <group-entry :group="group" :hide-buttons="userRole !== 'ADMIN'" :on-edit="editGroup" :on-delete="deleteGroup"></group-entry>
                             </b-row>
                         </template>
                     </b-row>
@@ -45,12 +44,20 @@
             return {
                 groups : [],
                 currentGroup: {},
-                showDeleteDialog : false
+                showDeleteDialog : false,
+
+                user: firebase.auth().currentUser,
+                userRole: "VIEWER"
             }
         },
         created() {
             document.title = this.$route.meta.title;
             let db = firebase.firestore();
+
+            db.doc(`users/${this.user.uid}`).get().then((response) => {
+                let raw = response.data();
+                this.userRole = raw.role;
+            });
 
             db.collection("groups").get().then((response) => {
                 response.forEach((rawGroup) => {
