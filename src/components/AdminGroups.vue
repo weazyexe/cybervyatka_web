@@ -14,6 +14,19 @@
             <div class="content">
                 <b-container>
                     <b-row>
+                        <router-link to="/post_groups?discipline=CSGO">
+                            <md-button class="md-primary" >
+                                Пост групп CS:GO
+                            </md-button>
+                        </router-link>
+
+                        <router-link to="/post_groups?discipline=DOTA2">
+                            <md-button class="md-primary" >
+                                Пост групп Dota 2
+                            </md-button>
+                        </router-link>
+                    </b-row>
+                    <b-row>
                         <template v-for="(group, index) in groups">
                             <b-row class="mx-0" :key="index">
                                 <group-entry :group="group" :hide-buttons="userRole !== 'ADMIN'" :on-edit="editGroup" :on-delete="deleteGroup"></group-entry>

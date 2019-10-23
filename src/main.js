@@ -37,6 +37,7 @@ import LandingOrgs from "@/components/LandingOrgs";
 import LandingAbout from "@/components/LandingAbout";
 import AdminSettings from "@/components/AdminSettings";
 import LandingBecomeAViewer from "@/components/LandingBecomeAViewer";
+import AdminGroupsForPost from "@/components/AdminGroupsForPost";
 
 Vue.config.productionTip = true;
 
@@ -112,6 +113,13 @@ const routes = [
         component: LandingAbout,
         meta: {
             title: 'О турнире - CYBERVYATKA'
+        }
+    },
+    {
+        path: '/post_groups',
+        component: AdminGroupsForPost,
+        meta: {
+            title: 'Красивый пост)))'
         }
     },
 
