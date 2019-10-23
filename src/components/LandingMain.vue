@@ -27,7 +27,7 @@
                 <p class="info-text ml-auto mr-auto"><strong class="strong-info-text">CYBERVYATKA</strong> - это
                     киберспортивный турнир в городе Кирове,
                     проводящийся с 2018 года в ВятГУ</p>
-                <p class="info-text ml-auto mr-auto">Наши <strong class="strong-info-text">спонсоры</strong>:</p>
+                <p class="info-text ml-auto mr-auto">Наши <strong class="strong-info-text">партнёры</strong>:</p>
                 <b-row>
                     <div class="ml-auto mr-auto mt-5">
                         <a href="https://vk.com/krdparen_kirov" target="_blank"><img src="../assets/kp.png" alt="krdprn" class="mx-3 sponsored"></a>
