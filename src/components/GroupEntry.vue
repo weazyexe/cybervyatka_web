@@ -82,15 +82,6 @@
 </script>
 
 <style scoped>
-    .group-rect {
-        max-width: 28em;
-        min-width: 10em;
-        border-radius: 1em;
-        background: rgba(20, 20, 20, 0.6);
-        overflow: hidden;
-        box-shadow: 0 0.2em 1em rgba(0, 0, 0, 0.18);
-        margin: 1em;
-    }
 
     .light-team-back {
         padding: 1em;
@@ -145,11 +136,31 @@
             font-size: 0.7em;
             margin-top: 0.3em;
         }
+
+        .group-rect {
+            max-width: 28em;
+            min-width: 10em;
+            border-radius: 1em;
+            background: rgba(20, 20, 20, 0.6);
+            overflow: hidden;
+            box-shadow: 0 0.2em 1em rgba(0, 0, 0, 0.18);
+            margin: 1em;
+        }
     }
 
     @media only screen and (min-width: 400px) {
         .small-text {
 
+        }
+
+        .group-rect {
+            max-width: 35em;
+            min-width: 20em;
+            border-radius: 1em;
+            background: rgba(20, 20, 20, 0.6);
+            overflow: hidden;
+            box-shadow: 0 0.2em 1em rgba(0, 0, 0, 0.18);
+            margin: 1em;
         }
     }
 

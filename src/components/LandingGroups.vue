@@ -37,7 +37,7 @@
                             <b-row class="text-center">
                                 <template v-for="(group, index) in groups">
                                     <template v-if="group.discipline === discipline">
-                                        <group-entry class="mlr-auto" :key="index" :group="group" :hide-buttons="true"></group-entry>
+                                        <group-entry class="ml-auto mr-auto" :key="index" :group="group" :hide-buttons="true"></group-entry>
                                     </template>
                                 </template>
                             </b-row>
