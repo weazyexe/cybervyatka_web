@@ -26,6 +26,15 @@
                         </md-field>
 
                         <md-field class="field">
+                            <md-icon>games</md-icon>
+                            <label for="is-ended">Статус матча</label>
+                            <md-select name="is-ended" id="is-ended" v-model="filter.is_ended" md-dense>
+                                <md-option value="false">Предстоящие матчи</md-option>
+                                <md-option value="true">Оконченные матчи</md-option>
+                            </md-select>
+                        </md-field>
+
+                        <md-field class="field">
                             <md-icon>people</md-icon>
                             <label for="team">Команда</label>
                             <md-select name="team" id="team" v-model="filter.team" md-dense>
@@ -58,48 +67,43 @@
                     </b-container>
                 </template>
                 <template v-else>
-                    <template v-if="games.filter(it => it.is_ended === false).length !== 0">
-                        <div class="rect">
-                            <p class="rect-header">Предстоящие игры</p>
-                            <template v-for="(game, index) in sortedGamesByDate">
-                                <template v-if="!game.is_ended && (filter.team === game.team_first.uid
+                    <div class="rect">
+                        <p v-if="filter.is_ended === 'false'" class="rect-header">Предстоящие игры</p>
+                        <p v-else class="rect-header">Оконченные игры</p>
+
+                        <template v-for="(game, index) in games">
+                            <template v-if="(filter.team === game.team_first.uid
                                             || filter.team === game.team_second.uid || filter.team === '')
                                             && (filter.discipline === game.discipline || filter.discipline === '')
-                                            && (isDatesEquals(game) || !(filter.date instanceof Date))">
-                                    <div class="team" v-bind:key="index">
+                                            && ((isDatesEquals(game) || !(filter.date instanceof Date))
+                                            && (filter.is_ended === game.is_ended.toString()))">
+                                <div class="team" :key="index">
+                                    <template v-if="filter.is_ended === 'false'">
                                         <admin-game-entry :on-edit="editGame"
                                                           :on-delete="deleteGame"
                                                           :on-show="showGame"
                                                           :on-complete="endGame"
                                                           :game="game"
                                                           :show-edit-button="userRole === 'MODERATOR' || userRole === 'ADMIN'"
+                                                          :show-end-button="userRole === 'MODERATOR' || userRole === 'ADMIN'"
                                                           :show-delete-button="userRole === 'ADMIN'">
                                         </admin-game-entry>
-                                    </div>
-                                </template>
-                            </template>
-                        </div>
-                    </template>
-
-                    <template v-if="containsEnded">
-                        <div class="rect">
-                            <p class="rect-header">Прошедшие игры</p>
-                            <template v-for="(game, index) in sortedGamesByDate">
-                                <template v-if="game.is_ended && (filter.team === game.team_first.uid
-                                            || filter.team === game.team_second.uid || filter.team === '')
-                                            && (filter.discipline === game.discipline || filter.discipline === '')
-                                            && (isDatesEquals(game) || !(filter.date instanceof Date))">
-                                    <div class="team" v-bind:key="index">
+                                    </template>
+                                    <template v-else>
                                         <admin-game-entry :on-edit="editGame"
                                                           :on-delete="deleteGame"
                                                           :on-show="showGame"
-                                                          :game="game">
+                                                          :on-complete="endGame"
+                                                          :game="game"
+                                                          :show-edit-button="userRole === 'MODERATOR' || userRole === 'ADMIN'"
+                                                          :show-end-button="false"
+                                                          :show-delete-button="userRole === 'ADMIN'">
                                         </admin-game-entry>
-                                    </div>
-                                </template>
+                                    </template>
+                                </div>
                             </template>
-                        </div>
-                    </template>
+                        </template>
+                    </div>
                 </template>
             </div>
         </div>
@@ -130,7 +134,8 @@
                 filter: {
                     discipline : "CSGO",
                     team: "",
-                    date: Number
+                    date: Number,
+                    is_ended: "false"
                 },
                 teams: [],
                 isLoading: true,
@@ -231,17 +236,7 @@
             }
         },
         computed: {
-            containsEnded: function () {
-                if (typeof(this.games) !== undefined || this.games !== null) {
-                    for (let i = 0; i < this.games.length; i++) {
-                        if (this.games[i].is_ended) {
-                            return true;
-                        }
-                    }
-                }
-                return false;
-            },
-            sortedGamesByDate: function () {
+            /*sortedGamesByDate: function () {
                 if (typeof(this.games) !== undefined || this.games !== null) {
                     let games = this.games;
                     return games.sort((a, b) => {
@@ -252,7 +247,7 @@
                 }
 
                 return [];
-            }
+            }*/
         }
     }
 </script>
@@ -278,7 +273,7 @@
     .field {
         color: #D68956;
         margin-right: 2em;
-        width: 20em;
+        width: 15em;
     }
 
     .bigger-text {

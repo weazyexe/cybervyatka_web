@@ -33,7 +33,7 @@
                 </b-row>
             </b-col>
         </b-col>
-        <b-col v-if="showEditButton" @click="onComplete(game)" md="2" class="vertical-center text-center">
+        <b-col v-if="showEndButton" @click="onComplete(game)" md="2" class="vertical-center text-center">
             <md-button v-if="!game.is_ended" class="md-accent">Закончить игру</md-button>
         </b-col>
         <b-col v-if="showEditButton" @click="onEdit(game)" md="1" class="vertical-center text-center">
@@ -57,7 +57,8 @@
             onShow : Function,
             onComplete : Function,
             showDeleteButton: Boolean,
-            showEditButton: Boolean
+            showEditButton: Boolean,
+            showEndButton: Boolean
         },
         computed: {
             parsedDate: function() {
