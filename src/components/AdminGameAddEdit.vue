@@ -96,7 +96,7 @@
                                                     <b-col class="p-0">
                                                         <md-field class="ml-0">
                                                             <label for="map">Карта</label>
-                                                            <md-select name="map" id="map" v-model="results[n - 1].map" md-dense :disabled="isEndGame">
+                                                            <md-select name="map" id="map" v-model="results[n - 1].map" md-dense>
                                                                 <template v-for="(map, index) in maps">
                                                                     <template v-if="!containsMap(map)" >
                                                                         <md-option :value="map" :key="index">
@@ -393,7 +393,7 @@
 
                         db.doc(`playoff/${playoff.uid}`).set(playoff);
                     }
-                } else if (game.results !== null) {
+                } else if (game.results !== null && this.isEndGame) {
                     let result = rules.whoWin(game);
 
                     // FIXME: Опять трешовый код
