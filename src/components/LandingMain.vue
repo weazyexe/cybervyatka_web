@@ -32,6 +32,7 @@
                     <div class="ml-auto mr-auto mt-5">
                         <a href="https://vk.com/krdparen_kirov" target="_blank"><img src="../assets/kp.png" alt="krdprn" class="mx-3 sponsored"></a>
                         <a href="https://vk.com/pizzaforfriends" target="_blank"><img src="../assets/hleb-and-pizza.png" alt="hleb and pizza" class="mx-3 sponsored"></a>
+                        <a href="https://vk.com/clubadrenalin43" target="_blank"><img src="../assets/adrenalin43.png" alt="adrenalin43" class="mx-3 sponsored"></a>
                         <a href="https://vk.com/coffeelike43" target="_blank"><img src="../assets/coffeelike.png" alt="coffee like" class="mx-3 sponsored"></a>
                     </div>
                 </b-row>

@@ -14,13 +14,13 @@
             <div class="content">
                 <b-container>
                     <b-row>
-                        <router-link to="/post_groups?discipline=CSGO">
+                        <router-link to="/post_groups?discipline=CSGO" target="_blank">
                             <md-button class="md-primary" >
                                 Пост групп CS:GO
                             </md-button>
                         </router-link>
 
-                        <router-link to="/post_groups?discipline=DOTA2">
+                        <router-link to="/post_groups?discipline=DOTA2" target="_blank">
                             <md-button class="md-primary" >
                                 Пост групп Dota 2
                             </md-button>
