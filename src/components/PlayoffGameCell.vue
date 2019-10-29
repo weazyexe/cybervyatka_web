@@ -8,7 +8,7 @@
             <p v-else-if="game" class="table-header-text">BO{{ game.best_of }}</p>
             <div class="ml-auto buttons">
                 <b-row class="mx-0">
-                    <i class="material-icons rule-button" @click="onShow(game)">info</i>
+                    <i v-if="showInfoButton" class="material-icons rule-button" @click="onShow(game)">info</i>
                     <template v-if="!hideButtons">
                         <i class="material-icons rule-button" v-if="onAdd" @click="onAdd(playoff, gameId)">add</i>
                         <i class="material-icons rule-button" @click="onEdit(game)">edit</i>
@@ -22,7 +22,8 @@
                 <b-row class="dark-team-back mx-0">
                     <template v-if="game">
                         <b-col md="2" sm="2" cols="2" class="mx-0 mt-auto mb-auto px-0">
-                            <img :src="game.team_first.logo" alt="first team logo" class="logo rounded-circle" :class="isFinal ? 'big-logo' : ''"/>
+                            <img v-if="game.team_first.logo !== null && game.team_first.logo !== ''" :src="game.team_first.logo" alt="first team logo" class="logo rounded-circle" :class="isFinal ? 'big-logo' : ''"/>
+                            <img v-else src="../assets/logo_placeholder.png" alt="first team logo" class="logo rounded-circle" :class="isFinal ? 'big-logo' : ''"/>
                         </b-col>
                         <b-col md="8" sm="8" cols="8" class="mx-0 mt-auto mb-auto">
                             <p class="table-team-text" :class="isFinal ? 'big-text' : ''">{{ game.team_first.title }}</p>
@@ -46,7 +47,8 @@
                 <b-row class="light-team-back mx-0">
                     <template v-if="game">
                         <b-col md="2" sm="2" cols="2" class="mx-0 mt-auto mb-auto px-0">
-                            <img :src="game.team_second.logo" alt="second team logo" class="logo rounded-circle" :class="isFinal ? 'big-logo' : ''"/>
+                            <img v-if="game.team_second.logo !== null && game.team_second.logo !== ''" :src="game.team_second.logo" alt="second team logo" class="logo rounded-circle" :class="isFinal ? 'big-logo' : ''"/>
+                            <img v-else src="../assets/logo_placeholder.png" alt="second team logo" class="logo rounded-circle" :class="isFinal ? 'big-logo' : ''"/>
                         </b-col>
                         <b-col md="8" sm="8" cols="8" class="mx-0 mt-auto mb-auto">
                             <p class="table-team-text" :class="isFinal ? 'big-text' : ''">{{ game.team_second.title }}</p>
@@ -90,7 +92,8 @@
             onEdit: Function,
             playoff: Object,
             onAdd: Function,
-            gameId: Number
+            gameId: Number,
+            showInfoButton: Boolean
         },
         data: function () {
             return {

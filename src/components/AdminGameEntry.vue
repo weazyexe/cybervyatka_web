@@ -34,7 +34,7 @@
             </b-col>
         </b-col>
         <b-col v-if="showEndButton" @click="onComplete(game)" md="2" class="vertical-center text-center">
-            <md-button v-if="!game.is_ended" class="md-accent">Закончить игру</md-button>
+            <md-button v-if="!game.is_ended && !game.isPlayoff" class="md-accent">Закончить игру</md-button>
         </b-col>
         <b-col v-if="showEditButton" @click="onEdit(game)" md="1" class="vertical-center text-center">
             <i class="material-icons team-text">edit</i>

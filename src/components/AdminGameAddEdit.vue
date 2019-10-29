@@ -243,9 +243,14 @@
                                 });
                             });
                         });
-                    } else if (query.uid && query.end) { // Если нажата кнопка "Закончить матч"
-                        let uid = query.uid;
+                    } else if (query.uid && query.end || query.playoff && query.playoffGameId && query.end) { // Если нажата кнопка "Закончить матч"
+                        let uid = query.uid ? query.uid : query.playoffGameId;
                         this.isEndGame = true;
+
+                        db.doc(`playoff/${query.playoff}`).get().then((response) => {
+                            this.playoff = response.data();
+                            this.game.discipline = this.playoff.discipline;
+                        });
 
                         db.doc("games/" + uid).get().then((response) => {
                             let game = response.data();
@@ -383,9 +388,9 @@
                 }
 
                 let query = this.$route.query;
-                if (query.playoff && query.playoffGameId) {
+                if (query.playoff && query.playoffGameId && this.isAddToPlayoff) {
                     let id = query.playoffGameId;
-
+                    game.isPlayoff = true;
                     // FIXME: Лютый хардкод. Добавлять матчи можно только в первые матчи в сетке
                     if (id === 8 || id === 9 || id === 3 || id === 4) {
                         let playoff = this.playoff;
@@ -393,6 +398,87 @@
 
                         db.doc(`playoff/${playoff.uid}`).set(playoff);
                     }
+                } else if (query.playoff && query.playoffGameId && query.end && !this.isAddToPlayoff) {
+                    /*neNadoZapisivatIgruBlyad = true;
+                    let result = rules.whoWin(game);
+                    let winner = {}, loser = {};
+
+                    console.log(this.game);
+                    console.log(this.playoff);
+
+                    switch (result) {
+                        case "FIRST_TEAM": {
+                            winner = this.game.team_first;
+                            loser = this.game.team_second;
+                            break;
+                        }
+                        case "SECOND_TEAM": {
+                            winner = this.game.team_second;
+                            loser = this.game.team_first;
+                            break;
+                        }
+                        default: break;
+                    }
+
+                    // Находим индекс игры в плей-офф сетке
+                    let from = -1;
+                    let games = this.playoff.games;
+
+                    for (let i = 0; i < games.length; i++) {
+                        if (games[i] !== null && games[i].id === this.game.uid) from = i;
+                    }
+
+                    // Пушим команду вверх по сетке
+                    let indexes = rules.pushNext(from, this.game.discipline);
+
+                    console.log(indexes);
+
+                    let gameWinner = this.playoff.games[indexes.winnerTo];
+                    let gameLoser = this.playoff.games[indexes.loserTo];
+
+                    console.log(gameWinner);
+                    console.log(gameLoser);
+
+                    // Если победитель есть, то проверяем есть ли уже команда в БД. Если есть - дополняем, если нет - создаём
+                    if (indexes.winnerTo !== -1) {
+                        if (gameWinner !== null) {
+                            /!*gameWinner.team_second = db.doc(`teams/${winner.uid}`);
+                            gameWinner.team_first = db.doc(`teams/${gameWinner.team_first.uid}`);*!/
+                            gameWinner.team_second = winner;
+                            gameWinner.team_first = db.doc(`teams/${gameWinner.team_first.uid}`);
+                        } else {
+                            gameWinner = this.makeGame(winner, 0);
+                        }
+
+                        //db.doc(`games/${gameWinner.uid}`).set(gameWinner);
+                    }
+
+                    // Если проигравший есть, то проверяем есть ли уже команда в БД. Если есть - дополняем, если нет - создаём
+                    if (indexes.loserTo !== -1) {
+                        if (gameLoser !== null) {
+                            gameLoser.team_second = loser;
+                            gameLoser.team_first = db.doc(`teams/${gameLoser.team_first.uid}`);
+                        } else  {
+                            gameLoser = this.makeGame(loser, 2);
+                        }
+
+                        //db.doc(`games/${gameLoser.uid}`).set(gameLoser);
+                    }
+
+                    this.playoff.games[indexes.winnerTo] = gameWinner;
+                    this.playoff.games[indexes.loserTo] = gameLoser;
+
+                    //console.log(this.playoff);
+                    console.log(gameWinner);
+                    console.log(gameLoser);
+                    console.log(this.game);*/
+
+                    /*let playoff = this.preparePlayoff();
+                    this.writeGame(true);
+
+                    db.doc(`playoff/${playoff.uid}`).set(playoff).then(() => {
+                        this.$router.push('/admin/playoff');
+                    });*/
                 } else if (game.results !== null && this.isEndGame) {
                     let result = rules.whoWin(game);
 
@@ -497,7 +583,59 @@
                     this.sending = true;
                     this.saveGame();
                 }
-            }
+            },
+            preparePlayoff: function() {
+                let db = firebase.firestore();
+                let playoff = this.playoff;
+
+                for (let i = 0; i < playoff.games.length; i++) {
+                    if (playoff.games[i] !== null) {
+                        playoff.games[i] = db.doc(`games/${playoff.games[i].id}`);
+                    }
+                }
+
+                return playoff;
+            },
+            writeGame: function (isEnded) {
+                let db = firebase.firestore();
+
+                this.game.is_ended = isEnded;
+                let results = [];
+                this.results.forEach((it) => {
+                    if (this.game.discipline === 'CSGO') {
+                        results.push(`${it.map}:${it.firstCount}:${it.secondCount}`);
+                    } else {
+                        results.push(`${it.firstCount}:${it.secondCount}`);
+                    }
+                });
+
+                if (results.length === 0) results = null;
+
+                this.game.results = results;
+                this.game.team_first = db.doc(`teams/${this.game.team_first.id}`);
+                this.game.team_second = db.doc(`teams/${this.game.team_second.id}`);
+
+
+                db.doc(`games/${this.game.uid}`).set(this.game);
+            },
+            makeGame: function(team, addon) {
+                // addon - штучка, чтобы ID разные были. Т.к. программа быстро выполняется
+                // и двум новым матчам генерируется одинаковый ID.
+                let date = Math.round((Date.now() + addon * 1000) / 1000);
+                let uid = date.toString(16).toUpperCase();
+                let db = firebase.firestore();
+
+                return {
+                    uid: uid,
+                    best_of: 1,
+                    results: null,
+                    discipline: team.discipline,
+                    is_ended: false,
+                    datetime: new firebase.firestore.Timestamp(Math.round((Date.now() + 86400000) / 1000)),
+                    team_first: team,
+                    team_second: db.doc(`teams/${this.game.discipline === 'CSGO' ? '5D825287' : '5D825289'}`),
+                };
+            },
         },
         watch: {
             bestOf: function (val) {

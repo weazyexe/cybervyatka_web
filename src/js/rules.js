@@ -3,7 +3,7 @@ export default {
         "CSGO", "DOTA2"
     ],
     maps: [
-        "Dust II", "Inferno", "Nuke", "Mirage", "Train", "Overpass", "Cache"
+        "Dust II", "Inferno", "Nuke", "Mirage", "Train", "Overpass", "Vertigo"
     ],
     whoWin: function(game) {
         let results = [];
@@ -81,5 +81,68 @@ export default {
                 return "TIE";
             }
         }
+    },
+
+    pushNext(from, discipline) {
+        let winnerTo = -1, loserTo = -1;
+
+        switch (from) {
+            case 1: {
+                winnerTo = 0;
+                loserTo = 2;
+                break;
+            }
+            case 2: {
+                winnerTo = 0;
+                break;
+            }
+            case 3: {
+                winnerTo = 1;
+
+                if (discipline === 'CSGO') {
+                    loserTo = 7;
+                } else {
+                    loserTo = 6;
+                }
+
+                break;
+            }
+            case 4: {
+                winnerTo = 1;
+
+                if (discipline === 'CSGO') {
+                    loserTo = 6;
+                } else {
+                    loserTo = 7;
+                }
+
+                break;
+            }
+            case 5: {
+                winnerTo = 2;
+                break;
+            }
+            case 6: {
+                winnerTo = 5;
+                break;
+            }
+            case 7: {
+                winnerTo = 5;
+                break;
+            }
+            case 8: {
+                winnerTo = 6;
+                break;
+            }
+            case 9: {
+                winnerTo = 7;
+                break;
+            }
+        }
+
+        return {
+            winnerTo: winnerTo,
+            loserTo: loserTo
+        };
     }
 }

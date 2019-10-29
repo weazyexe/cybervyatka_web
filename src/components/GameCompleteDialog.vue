@@ -72,7 +72,7 @@
 <script>
     import TeamDialog from "@/components/TeamDialog";
     import firebase from 'firebase';
-    import rules from '../js/playoff-rules';
+    import rules from '../js/rules';
 
     export default {
         name: "GameCompleteDialog",
@@ -169,7 +169,7 @@
                     }
 
                     // Пушим команду вверх по сетке
-                    let indexes = rules.pushNext(winner, loser, from);
+                    let indexes = rules.pushNext(from, this.game.discipline);
 
                     let gameWinner = this.playoff.games[indexes.winnerTo];
                     let gameLoser = this.playoff.games[indexes.loserTo];

@@ -6,6 +6,19 @@
 
         <admin-menu :is-playoff-active="true"></admin-menu>
         <div class="content">
+            <b-row>
+                <router-link to="/post_playoff?discipline=CSGO" target="_blank">
+                    <md-button class="md-primary" >
+                        Пост сетки CS:GO
+                    </md-button>
+                </router-link>
+
+                <router-link to="/post_playoff?discipline=DOTA2" target="_blank">
+                    <md-button class="md-primary" >
+                        Пост сетки Dota 2
+                    </md-button>
+                </router-link>
+            </b-row>
             <template v-for="(playoff, index) in playoffs">
                 <b-col :key="index">
                     <p class="table-header-text text-center" :key="index">Сетка {{ playoff.discipline === 'CSGO' ? 'CS:GO' : 'Dota 2' }}</p>
@@ -100,6 +113,8 @@
                 this.currentGame = game;
                 this.currentPlayoff = playoff;
                 this.showPushDialog = true;
+
+                //this.$router.push({ path: '/admin/games/edit', query: { playoff: playoff.uid, playoffGameId: game.uid, end: true } });
             },
             onConfirmPush() {
                 this.showPushDialog = false;
@@ -135,10 +150,7 @@
 
                                         games[i] = game;
 
-                                        this.playoffs[j].games = games;
-
-                                        // Без этого не все команды выводит))))
-                                        this.currentGame = game;
+                                        this.playoffs[j].games = Array.from(games);
                                     });
                                 });
                             });
@@ -161,12 +173,6 @@
         overflow-y: hidden;
     }
 
-    .table-team-text {
-        margin-bottom: 0;
-        color: #FFFFFF;
-        text-align: start;
-    }
-
     .games-line {
         display: inline-block;
         vertical-align: middle;
@@ -183,28 +189,5 @@
         font-size: 2em;
         padding-top: 2em;
         padding-bottom: 1em;
-    }
-
-    .add-fab {
-        position: fixed;
-        bottom: 3em;
-        right: 3em;
-        background-color: #D68956;
-        color: #FFFFFF;
-    }
-
-    .rect {
-        margin: 2em;
-    }
-
-    .icon-fab {
-        color: #FFFFFF;
-        margin-top: 0.2em;
-    }
-
-    .field {
-        color: #D68956;
-        margin-right: 2em;
-        width: 20em;
     }
 </style>

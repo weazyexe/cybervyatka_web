@@ -38,6 +38,7 @@ import LandingAbout from "@/components/LandingAbout";
 import AdminSettings from "@/components/AdminSettings";
 import LandingBecomeAViewer from "@/components/LandingBecomeAViewer";
 import AdminGroupsForPost from "@/components/AdminGroupsForPost";
+import AdminPlayoffForPost from "@/components/AdminPlayoffForPost";
 
 Vue.config.productionTip = true;
 
@@ -118,6 +119,13 @@ const routes = [
     {
         path: '/post_groups',
         component: AdminGroupsForPost,
+        meta: {
+            title: 'Красивый пост)))'
+        }
+    },
+    {
+        path: '/post_playoff',
+        component: AdminPlayoffForPost,
         meta: {
             title: 'Красивый пост)))'
         }
