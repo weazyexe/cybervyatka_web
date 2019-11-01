@@ -7,6 +7,10 @@
                 </router-link>
             </b-row>
 
+            <router-link to="/admin/info">
+                <admin-menu-button button-text="Информация" image="dashboard" :is-active="isInfoActive"></admin-menu-button>
+            </router-link>
+
             <router-link to="/admin/teams">
                 <admin-menu-button button-text="Команды" image="people" :is-active="isTeamsActive"></admin-menu-button>
             </router-link>
@@ -44,6 +48,7 @@
             AdminMenuButton
         },
         props: {
+            isInfoActive : Boolean,
             isTeamsActive : Boolean,
             isGamesActive : Boolean,
             isGroupsActive : Boolean,

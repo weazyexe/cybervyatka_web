@@ -39,6 +39,8 @@ import AdminSettings from "@/components/AdminSettings";
 import LandingBecomeAViewer from "@/components/LandingBecomeAViewer";
 import AdminGroupsForPost from "@/components/AdminGroupsForPost";
 import AdminPlayoffForPost from "@/components/AdminPlayoffForPost";
+import AdminInfo from "@/components/AdminInfo";
+import AdminGamesPost from "@/components/AdminGamesPost";
 
 Vue.config.productionTip = true;
 
@@ -116,6 +118,7 @@ const routes = [
             title: 'О турнире - CYBERVYATKA'
         }
     },
+
     {
         path: '/post_groups',
         component: AdminGroupsForPost,
@@ -130,6 +133,13 @@ const routes = [
             title: 'Красивый пост)))'
         }
     },
+    {
+        path: '/post_games',
+        component: AdminGamesPost,
+        meta: {
+            title: 'Красивый пост)))'
+        }
+    },
 
     {
         path: '/404',
@@ -140,6 +150,14 @@ const routes = [
     },
     { path: '*', redirect: '/404' },
 
+    {
+        path: '/admin/info',
+        component: AdminInfo,
+        meta: {
+            requiresAuth: true,
+            title: "Информация - CV.Admin"
+        }
+    },
     {
         path: '/admin/teams',
         component: AdminTeams,
@@ -238,7 +256,7 @@ const routes = [
         component: AdminAuth,
         title: "Авторизация - CV.Admin"
     },
-    { path: '/admin', redirect: '/admin/teams' }
+    { path: '/admin', redirect: '/admin/info' }
 
 
 ];

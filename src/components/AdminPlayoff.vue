@@ -6,19 +6,6 @@
 
         <admin-menu :is-playoff-active="true"></admin-menu>
         <div class="content">
-            <b-row>
-                <router-link to="/post_playoff?discipline=CSGO" target="_blank">
-                    <md-button class="md-primary" >
-                        Пост сетки CS:GO
-                    </md-button>
-                </router-link>
-
-                <router-link to="/post_playoff?discipline=DOTA2" target="_blank">
-                    <md-button class="md-primary" >
-                        Пост сетки Dota 2
-                    </md-button>
-                </router-link>
-            </b-row>
             <template v-for="(playoff, index) in playoffs">
                 <b-col :key="index">
                     <p class="table-header-text text-center" :key="index">Сетка {{ playoff.discipline === 'CSGO' ? 'CS:GO' : 'Dota 2' }}</p>
