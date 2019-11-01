@@ -28,6 +28,11 @@
                     киберспортивный турнир в городе Кирове,
                     проводящийся с 2018 года в ВятГУ</p>
                 <p class="info-text ml-auto mr-auto">Наши <strong class="strong-info-text">партнёры</strong>:</p>
+
+                <b-row>
+                    <img src="../assets/vyatsu.png" alt="vyatsu" class="sponsored ml-auto mr-auto  mt-3">
+                </b-row>
+                <p class="info-text-small ml-auto mr-auto mt-3">Вятский Государственный Университет</p>
                 <b-row>
                     <div class="ml-auto mr-auto mt-5">
                         <a href="https://vk.com/krdparen_kirov" target="_blank"><img src="../assets/kp.png" alt="krdprn" class="mx-3 sponsored"></a>
@@ -363,6 +368,11 @@
             font-size: 2em;
         }
 
+        .info-text-small {
+            color: #FFFFFF;
+            text-align: center;
+        }
+
         .info-text-big {
             font-size: 2.5em;
             color: #FFFFFF;
@@ -401,7 +411,7 @@
         .background-info {
             background: url("../assets/players_background.jpg") center no-repeat;
             background-size: cover;
-            height: 45em;
+            height: 60em;
             margin-top: -15em;
         }
 
@@ -467,6 +477,12 @@
             font-size: 1em;
         }
 
+        .info-text-small {
+            color: #FFFFFF;
+            text-align: center;
+            font-size: 0.7em;
+        }
+
         .info-text-big {
             font-size: 1.5em;
             color: #FFFFFF;
@@ -505,7 +521,7 @@
         .background-info {
             background: url("../assets/players_background.jpg") center no-repeat;
             background-size: cover;
-            height: 36em;
+            height: 46em;
             margin-top: -18em;
         }
 
@@ -588,6 +604,13 @@
             margin-left: -3em;
             transform-origin: 103%;
         }
+
+        .background-info {
+            background: url("../assets/players_background.jpg") center no-repeat;
+            background-size: cover;
+            height: 40em;
+            margin-top: -28em;
+        }
     }
 
     @media only screen and (max-width: 300px) {
@@ -642,7 +665,7 @@
         .background-info {
             background: url("../assets/players_background.jpg") center no-repeat;
             background-size: cover;
-            height: 36em;
+            height: 40em;
             margin-top: -28em;
         }
 
