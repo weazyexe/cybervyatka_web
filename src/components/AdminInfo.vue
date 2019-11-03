@@ -71,6 +71,18 @@
                         <p class="stat-text mr-3">Кол-во персонала: <strong class="bold-colored">{{ countOfStaff }}</strong></p>
                         <p class="stat-text mr-3">Кол-во организаторов: <strong class="bold-colored">{{ countOfOrgs }}</strong></p>
                     </b-row>
+                    <b-col>
+                        <p class="stat-text mt-5">Кто посетил сегодня LAN:</p>
+                        <b-row class="mt-5 ml-1">
+                            <template v-for="(visit, index) in visits">
+                                <b-col :key="index" class="mb-5 p-0 visitor">
+                                    <p class="stat-text-small mb-0">{{ `${visit.viewer.surname} ${visit.viewer.name} ${visit.viewer.patronymic}` }}</p>
+<!--                                    <p class="gray-text mb-0">{{ visit.viewer.email }}</p>-->
+                                    <p class="gray-text">{{ `${visit.viewer.rank} | ${parseTime(visit.date)}` }}</p>
+                                </b-col>
+                            </template>
+                        </b-row>
+                    </b-col>
                 </b-container>
             </div>
         </div>
@@ -87,7 +99,8 @@
         components: {AdminMenu},
         data: function() {
             return {
-                viewers: []
+                viewers: [],
+                visits: []
             }
         },
         computed: {
@@ -169,7 +182,30 @@
                     let data = snapshot.data();
                     this.viewers.push(data);
                 });
+
+                db.doc(`visits/${this.now.getDate()}.${this.now.getMonth() + 1}`).get().then(visitsResponse => {
+                    let data = visitsResponse.data();
+
+                    let visits = data.visits;
+
+                    visits.forEach(visit => {
+                        visit.viewer.get().then(viewerResponse => {
+                            this.visits.push({ viewer: viewerResponse.data(), date: visit.timestamp.toDate()});
+                        });
+                    });
+                });
             });
+        },
+        methods: {
+            parseTime: function(date) {
+                let hours = date.getHours();
+                if (hours < 10) hours = '0' + hours;
+
+                let minutes = date.getMinutes();
+                if (minutes < 10) minutes = '0' + minutes;
+
+                return `${hours}:${minutes}`;
+            },
         }
     }
 </script>
@@ -180,8 +216,22 @@
         font-size: 1.5em;
     }
 
+    .stat-text-small {
+        font-size: 1.1em;
+        font-weight: bold;
+        color: white;
+    }
+
+    .gray-text {
+        color: #898989;
+    }
+
     .bold-colored {
         color: #D68956;
         font-weight: bold;
+    }
+
+    .visitor {
+        min-width: 20em;
     }
 </style>

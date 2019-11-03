@@ -1,19 +1,21 @@
 <template>
     <b-container fluid class="text-center">
-        <b-col class="form">
-            <img class="admin-menu-logo" src="../assets/logo_clear.png" alt="Logo">
-            <md-field>
-                <label for="login">Логин</label>
-                <md-input name="login" id="login" v-model="login" md-dense :disabled="sending"/>
-            </md-field>
-            <md-field>
-                <label for="password">Пароль</label>
-                <md-input type="password" name="password" id="password" v-model="password" md-dense :disabled="sending"/>
-            </md-field>
+        <form novalidate @submit.prevent="logIn">
+            <b-col class="form">
+                <img class="admin-menu-logo" src="../assets/logo_clear.png" alt="Logo">
+                <md-field>
+                    <label for="login">Логин</label>
+                    <md-input name="login" id="login" v-model="login" md-dense :disabled="sending"/>
+                </md-field>
+                <md-field>
+                    <label for="password">Пароль</label>
+                    <md-input type="password" name="password" id="password" v-model="password" md-dense :disabled="sending"/>
+                </md-field>
 
-            <md-button id="login-button" class="md-raised" @click="logIn">Войти</md-button>
-            <p id="main-button" @click="onMain">На главную</p>
-        </b-col>
+                <md-button id="login-button" class="md-raised" type="submit">Войти</md-button>
+                <p id="main-button" @click="onMain">На главную</p>
+            </b-col>
+        </form>
     </b-container>
 </template>
 

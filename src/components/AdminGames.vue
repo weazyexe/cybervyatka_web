@@ -5,7 +5,7 @@
         <admin-delete-dialog type="game" deletee=""
                              :show-delete-dialog="showDeleteDialog" :on-confirm="onDeleteConfirm" :on-cancel="onDeleteCancel"></admin-delete-dialog>
 
-        <router-link to="/admin/games/add">
+        <router-link to="/admin/games/add" v-if="userRole === 'ADMIN' || userRole === 'MODERATOR'">
             <md-button class="md-fab md-primary add-fab">
                 <i class="material-icons icon-fab">add</i>
             </md-button>

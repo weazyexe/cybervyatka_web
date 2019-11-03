@@ -228,6 +228,7 @@
                     results: null,
                     discipline: team.discipline,
                     is_ended: false,
+                    isPlayoff: true,
                     datetime: new firebase.firestore.Timestamp(Math.round((Date.now() + 86400000) / 1000)),
                     team_first: db.doc(`teams/${team.uid}`),
                     team_second: db.doc(`teams/${team.discipline === 'CSGO' ? '5D825287' : '5D825289'}`),

@@ -254,7 +254,10 @@ const routes = [
     {
         path: '/auth',
         component: AdminAuth,
-        title: "Авторизация - CV.Admin"
+        meta: {
+            title: "Авторизация - CV.Admin"
+        }
+
     },
     { path: '/admin', redirect: '/admin/info' }
 
